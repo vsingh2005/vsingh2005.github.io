@@ -190,50 +190,7 @@ body {
   animation: orbSpin2 45s linear infinite;
 }
 
-/* Technical HUD Corner Crosshairs */
-.hud-corner-tl {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(0, 242, 254, 0.4);
-  pointer-events: none;
-  user-select: none;
-}
 
-.hud-corner-tr {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(0, 242, 254, 0.4);
-  pointer-events: none;
-  user-select: none;
-}
-
-.hud-corner-bl {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(0, 242, 254, 0.4);
-  pointer-events: none;
-  user-select: none;
-}
-
-.hud-corner-br {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(0, 242, 254, 0.4);
-  pointer-events: none;
-  user-select: none;
-}
 
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

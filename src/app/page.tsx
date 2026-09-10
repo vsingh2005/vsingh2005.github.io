@@ -6,17 +6,17 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   Cpu,
-  BrainCircuit,
   Cloud,
   FileDown,
   ChevronRight,
-  Award
+  Boxes,
+  Binary
 } from "lucide-react";
-import { PERSONAL_INFO, PROJECTS, TESTIMONIALS_AND_HONORS } from "@/data/portfolioData";
+import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { TerminalCard } from "@/components/ui/TerminalCard";
-import { HeroInteractiveHub } from "@/components/visuals/HeroInteractiveHub";
-import { PhobosTelemetryBanner } from "@/components/visuals/PhobosTelemetryBanner";
+import { PhobosHeroVisual } from "@/components/visuals/PhobosHeroVisual";
+import { SpinningBadge } from "@/components/visuals/SpinningBadge";
 
 export default function HomePage() {
   const featuredProjects = PROJECTS.filter((p) => p.featured);
@@ -24,57 +24,46 @@ export default function HomePage() {
   return (
     <div className="space-y-24 sm:space-y-32 pb-24 overflow-hidden">
       {/* HERO SECTION */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Hero Text & CTAs */}
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Editorial Typography & Human Voice */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7 space-y-6"
           >
             {/* Status Pill */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-accent-blue/10 border border-accent-blue/30 text-xs font-mono text-cyan-300">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              <span>BS Computer Engineering &apos;26 | MS Business Analytics &apos;27</span>
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-[#EDDFEE]">
+              <span className="w-2 h-2 rounded-full bg-[#CD8DBD] animate-pulse" />
+              <span>BS Computer Engineering &apos;26 • MS Business Analytics &apos;27</span>
             </div>
 
-            {/* Main Headline */}
-            <div className="space-y-2">
-              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display font-black tracking-tight text-white leading-[1.05]">
-                Hi, I&apos;m{" "}
-                <span className="text-gradient-purple">
-                  {PERSONAL_INFO.name}
-                </span>
-                .
+            {/* Main Editorial Headline */}
+            <div className="space-y-3">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-semibold tracking-tight text-white leading-[1.08]">
+                Engineering systems from physical hardware to cloud scale.
               </h1>
-              <p className="text-xl sm:text-2xl font-display font-medium text-text-secondary leading-snug">
-                Computer engineer building <span className="text-accent-cyan font-semibold">Quantum ML</span>, scalable{" "}
-                <span className="text-accent-blue font-semibold">Cloud Infrastructure</span>, and{" "}
-                <span className="text-accent-violet font-semibold">Embedded Systems</span>.
+              <p className="text-lg sm:text-xl font-normal text-text-secondary leading-relaxed max-w-2xl">
+                I am Vansh Singh, a computer engineer at UMass Amherst. I build automated cloud infrastructure with Terraform, design embedded mechatronics, and explore applied computational models.
               </p>
             </div>
 
-            {/* Brief Intro */}
-            <p className="text-text-secondary text-base sm:text-lg max-w-2xl leading-relaxed font-normal">
-              Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. I write Terraform modules for AWS cloud environments, model circuits and robotics telemetry in hardware, and train hybrid quantum variational circuits.
-            </p>
-
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-gradient-to-r from-accent-blue via-accent-violet to-accent-magenta shadow-lg shadow-accent-blue/25 hover:shadow-accent-blue/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.15] hover:border-white/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
               >
-                <span>View My Work</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Explore Work</span>
+                <ArrowRight className="w-4 h-4 text-[#CD8DBD]" />
               </Link>
 
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-text-primary bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-text-secondary hover:text-white bg-transparent hover:bg-white/[0.04] border border-transparent hover:border-white/10 transition-all"
               >
-                <span>About Me</span>
+                <span>About Background</span>
                 <ChevronRight className="w-4 h-4 text-text-muted" />
               </Link>
 
@@ -82,24 +71,24 @@ export default function HomePage() {
                 href="/Vansh_Singh_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-mono text-xs text-text-secondary hover:text-white bg-transparent hover:bg-white/[0.04] transition-all"
+                className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-mono text-xs text-text-muted hover:text-white transition-colors"
               >
-                <FileDown className="w-4 h-4 text-accent-cyan" />
+                <FileDown className="w-3.5 h-3.5 text-[#CD8DBD]" />
                 <span>Resume (PDF)</span>
               </a>
             </div>
 
-            {/* Quick Stats Grid */}
+            {/* Grounded Engineering Impact Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/[0.08]">
               {PERSONAL_INFO.stats.map((stat, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition-colors">
+                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                   <div className="text-xl sm:text-2xl font-bold font-display text-white">
                     {stat.value}
                   </div>
                   <div className="text-xs font-medium text-text-secondary mt-0.5">
                     {stat.label}
                   </div>
-                  <div className="text-[10px] font-mono text-accent-cyan/80 mt-0.5 truncate">
+                  <div className="text-[10px] font-mono text-text-muted mt-0.5 truncate">
                     {stat.change}
                   </div>
                 </div>
@@ -107,106 +96,117 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* Right Column: Hero Interactive Hub (Orbital Core, Oscilloscope, Shell) */}
+          {/* Right Column: Architectural Visual Centerpiece (Pure Phobos Aesthetic) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-5"
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 flex items-center justify-center"
           >
-            <div className="relative">
-              <div className="absolute -top-10 -right-10 w-48 h-48 bg-accent-blue/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-accent-magenta/20 rounded-full blur-3xl pointer-events-none" />
-              <HeroInteractiveHub />
+            <div className="relative w-full max-w-[460px] aspect-square rounded-3xl bg-white/[0.015] border border-white/[0.06] backdrop-blur-md p-4 flex items-center justify-center">
+              <PhobosHeroVisual />
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* PHOBOS-INSPIRED VECTOR & TELEMETRY BANNER */}
+      {/* EDITORIAL THESIS & ROTATING BADGE SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <PhobosTelemetryBanner />
+        <div className="p-8 sm:p-10 rounded-3xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Thesis Statement */}
+            <div className="lg:col-span-5 space-y-2">
+              <span className="text-xs font-mono text-[#CD8DBD] uppercase tracking-wider">
+                Engineering Philosophy
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display font-semibold text-white tracking-tight leading-snug">
+                Grounded in physical computing, built for cloud scale.
+              </h2>
+            </div>
+
+            {/* Narrative Explanation */}
+            <div className="lg:col-span-5 text-sm text-text-secondary leading-relaxed font-normal">
+              Reliable software stems from understanding how physical systems actually operate.
+              Whether writing embedded C for autonomous rovers, simulating transient power circuits in LTSpice, or automating cloud infrastructure across AWS with Terraform, I design architectures built for stability, observability, and real-world execution.
+            </div>
+
+            {/* Understated Spinning Vector Badge */}
+            <div className="lg:col-span-2 flex items-center justify-center lg:justify-end">
+              <SpinningBadge size={130} />
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* CORE EXPERTISE PILLARS */}
+      {/* CORE DISCIPLINES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-          <span className="text-xs font-mono uppercase tracking-widest text-accent-cyan font-semibold">
-            What I Focus On
+        <div className="max-w-2xl mb-12 space-y-2">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#CD8DBD] font-semibold">
+            Areas of Focus
           </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-white tracking-tight">
-            Hardware, Cloud & Quantum Machine Learning
+          <h2 className="text-3xl sm:text-4xl font-display font-semibold text-white tracking-tight">
+            Core Disciplines &amp; Applied Work
           </h2>
           <p className="text-text-secondary text-sm">
-            Practical engineering from bare-metal circuits to cloud automation and quantum algorithms.
+            Disciplined engineering across cloud orchestration, physical mechatronics, and computational systems.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <div className="relative p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300 group">
-            <div className="hud-corner-tl p-2">+</div>
-            <div className="hud-corner-tr p-2">+</div>
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-6 text-cyan-400 group-hover:scale-110 transition-transform">
-              <BrainCircuit className="w-6 h-6" />
+          {/* Card 1: Cloud & IaC */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/15 transition-all duration-300">
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white">
+              <Cloud className="w-5 h-5 text-[#CD8DBD]" />
             </div>
-            <h3 className="text-lg font-display font-bold text-white mb-2">
-              Quantum Machine Learning
+            <h3 className="text-lg font-display font-semibold text-white mb-2">
+              Cloud &amp; Infrastructure as Code
             </h3>
             <p className="text-text-secondary text-sm leading-relaxed mb-4">
-              Building hybrid neural networks that connect PyTorch models with PennyLane quantum variational circuits on AWS Braket for parameter-efficient learning.
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PennyLane</span>
-              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">AWS Braket</span>
-              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PyTorch</span>
-            </div>
-            <div className="hud-corner-bl p-2">+</div>
-            <div className="hud-corner-br p-2">+</div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="relative p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-blue-500/30 transition-all duration-300 group">
-            <div className="hud-corner-tl p-2">+</div>
-            <div className="hud-corner-tr p-2">+</div>
-            <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform">
-              <Cloud className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg font-display font-bold text-white mb-2">
-              Cloud & IaC Automation
-            </h3>
-            <p className="text-text-secondary text-sm leading-relaxed mb-4">
-              Writing Terraform configurations and Docker microservices for AWS, cutting server provisioning times by 40% with automated health monitoring.
+              Designing modular Terraform configurations and Docker microservices on AWS, reducing manual provisioning times by 40% with self-healing monitoring scripts.
             </p>
             <div className="flex flex-wrap gap-1.5">
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Terraform</span>
-              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">AWS EC2/S3</span>
-              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Docker & CI/CD</span>
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">AWS (EC2/S3/IAM)</span>
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Docker &amp; CI/CD</span>
             </div>
-            <div className="hud-corner-bl p-2">+</div>
-            <div className="hud-corner-br p-2">+</div>
           </div>
 
-          {/* Card 3 */}
-          <div className="relative p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-violet-500/30 transition-all duration-300 group">
-            <div className="hud-corner-tl p-2">+</div>
-            <div className="hud-corner-tr p-2">+</div>
-            <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-6 text-violet-400 group-hover:scale-110 transition-transform">
-              <Cpu className="w-6 h-6" />
+          {/* Card 2: Embedded Systems & Mechatronics */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/15 transition-all duration-300">
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white">
+              <Cpu className="w-5 h-5 text-[#EDDFEE]" />
             </div>
-            <h3 className="text-lg font-display font-bold text-white mb-2">
-              Embedded Robotics & Power
+            <h3 className="text-lg font-display font-semibold text-white mb-2">
+              Embedded Systems &amp; Robotics
             </h3>
             <p className="text-text-secondary text-sm leading-relaxed mb-4">
-              Leading electrical teams for payload drones, offshore wind turbine power circuits in LTSpice, and ARM Cortex / ESP32 firmware development.
+              Electrical and prototyping lead for global competition drone and rover systems (2nd Place ASME IAM3D) and 24V turbine power regulation circuits for the U.S. DOE.
             </p>
             <div className="flex flex-wrap gap-1.5">
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Embedded C</span>
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">ARM Cortex</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">LTSpice</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">SolidWorks</span>
             </div>
-            <div className="hud-corner-bl p-2">+</div>
-            <div className="hud-corner-br p-2">+</div>
+          </div>
+
+          {/* Card 3: Applied Analytics & Computational Models */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/15 transition-all duration-300">
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white">
+              <Binary className="w-5 h-5 text-[#CD8DBD]" />
+            </div>
+            <h3 className="text-lg font-display font-semibold text-white mb-2">
+              Applied Analytics &amp; ML Models
+            </h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-4">
+              Quantitative data modeling and business analytics through Isenberg coursework, alongside exploratory research in hybrid quantum variational circuits with PennyLane.
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Python</span>
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Data Analytics</span>
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PyTorch</span>
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PennyLane</span>
+            </div>
           </div>
         </div>
       </section>
@@ -215,108 +215,85 @@ export default function HomePage() {
       <section id="featured-work" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-violet/10 border border-accent-violet/20 text-xs font-mono text-accent-violet">
-              <Award className="w-3.5 h-3.5" />
-              <span>Selected Work</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-display font-black text-white tracking-tight">
-              Featured Case Studies
+            <span className="text-xs font-mono uppercase tracking-widest text-[#CD8DBD] font-semibold">
+              Selected Projects
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold text-white tracking-tight">
+              Hardware, Cloud, and Research Case Studies
             </h2>
-            <p className="text-text-secondary text-sm max-w-xl">
-              Technical breakdowns of quantum neural networks, autonomous drone telemetry, and power electronics.
+            <p className="text-text-secondary text-sm">
+              In-depth architecture breakdowns, metrics, and implementation notes.
             </p>
           </div>
 
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-accent-cyan/40 transition-all self-start md:self-auto"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#EDDFEE] hover:text-white transition-colors"
           >
-            <span>All ({PROJECTS.length}) Projects</span>
-            <ArrowRight className="w-4 h-4 text-accent-cyan" />
+            <span>View all projects</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </section>
 
-      {/* LEADERSHIP & TESTIMONIAL HIGHLIGHTS */}
+      {/* INTERACTIVE DEVELOPER CONSOLE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl glass-panel-glow border border-white/10 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-accent-blue/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5 space-y-4">
-              <span className="text-xs font-mono uppercase tracking-widest text-accent-cyan font-semibold">
-                Highlights
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white leading-tight">
-                Team Leadership & Applied Engineering
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                From mentoring 150+ students in microcontrollers to competing internationally and automating university cloud systems.
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/experience"
-                  className="inline-flex items-center gap-2 text-sm font-mono text-accent-cyan hover:underline"
-                >
-                  <span>View Experience Timeline</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-5 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-[#EDDFEE]">
+              <Boxes className="w-3.5 h-3.5 text-[#CD8DBD]" />
+              <span>Interactive Playground</span>
             </div>
+            <h2 className="text-2xl sm:text-3xl font-display font-semibold text-white tracking-tight">
+              Developer Shell &amp; Quick Commands
+            </h2>
+            <p className="text-text-secondary text-sm leading-relaxed">
+              Explore projects, view skills, or copy quick SSH links directly through this simulated in-browser terminal session. Type <code className="text-white font-mono bg-white/[0.06] px-1.5 py-0.5 rounded text-xs">help</code> to see available commands.
+            </p>
+          </div>
 
-            <div className="lg:col-span-7 space-y-4">
-              {TESTIMONIALS_AND_HONORS.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.05] space-y-2 hover:border-white/10 transition-colors"
-                >
-                  <p className="text-text-primary text-sm italic leading-relaxed">
-                    &quot;{item.quote}&quot;
-                  </p>
-                  <div className="flex items-center justify-between text-xs font-mono pt-1">
-                    <span className="text-accent-cyan font-semibold">{item.author}</span>
-                    <span className="text-text-muted">{item.title}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="lg:col-span-7">
+            <TerminalCard />
           </div>
         </div>
       </section>
 
-      {/* BOTTOM CTA BANNER */}
+      {/* RESUME & REPOSITORY BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl p-8 sm:p-12 bg-gradient-to-r from-accent-blue/20 via-accent-violet/20 to-accent-magenta/20 border border-white/15 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-          <div className="space-y-2 max-w-xl">
-            <h2 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
-              Looking for a software or systems engineer?
-            </h2>
-            <p className="text-text-secondary text-sm sm:text-base">
-              Feel free to reach out for engineering roles, internships, or technical discussions.
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1 text-center md:text-left">
+            <h3 className="text-xl sm:text-2xl font-display font-semibold text-white">
+              Looking for a systems, cloud, or embedded engineer?
+            </h3>
+            <p className="text-text-secondary text-sm">
+              Open to full-time engineering and internship roles across software, cloud, and hardware.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/contact"
-              className="px-6 py-3.5 rounded-xl font-medium text-sm text-black bg-white hover:bg-white/90 hover:scale-[1.02] transition-all"
-            >
-              Get In Touch
-            </Link>
+          <div className="flex flex-wrap items-center gap-3">
             <a
               href="/Vansh_Singh_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-white/10 hover:bg-white/15 border border-white/10 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 transition-all"
             >
-              View Resume
+              <FileDown className="w-4 h-4 text-[#CD8DBD]" />
+              <span>Download Resume</span>
             </a>
+
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm text-[#0B0B0F] bg-[#EDDFEE] hover:bg-white font-semibold transition-all"
+            >
+              <span>Get in Touch</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

@@ -1,193 +1,118 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React from "react";
 
 interface OrbitalVectorRingsProps {
   className?: string;
   size?: number;
 }
 
-export function OrbitalVectorRings({ className = "", size = 600 }: OrbitalVectorRingsProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
+export function OrbitalVectorRings({ className = "", size = 500 }: OrbitalVectorRingsProps) {
   return (
-    <div 
+    <div
       className={`relative flex items-center justify-center select-none pointer-events-none ${className}`}
       style={{ width: "100%", maxWidth: size, aspectRatio: "1/1" }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <svg
         viewBox="0 0 800 800"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full overflow-visible"
+        className="w-full h-full overflow-visible opacity-90"
       >
         <defs>
-          <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#00F2FE" stopOpacity="0.12" />
-            <stop offset="70%" stopColor="#7000FF" stopOpacity="0.04" />
+          <radialGradient id="artisticGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#CD8DBD" stopOpacity="0.08" />
+            <stop offset="60%" stopColor="#7000FF" stopOpacity="0.03" />
             <stop offset="100%" stopColor="#000000" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id="cyanVioletGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00F2FE" stopOpacity="0.9" />
-            <stop offset="50%" stopColor="#7000FF" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#FF007A" stopOpacity="0.6" />
-          </linearGradient>
-          <linearGradient id="radarSweep" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00F2FE" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#00F2FE" stopOpacity="0" />
-          </linearGradient>
         </defs>
 
-        {/* Ambient Center Glow */}
-        <circle cx="400" cy="400" r="380" fill="url(#ringGlow)" />
+        {/* Soft, warm background glow */}
+        <circle cx="400" cy="400" r="380" fill="url(#artisticGlow)" />
 
-        {/* --- OUTER RING (orbRing0 - Counter-Clockwise) --- */}
+        {/* Outer Ring: Delicate technical dashes (120s counter-clockwise) */}
         <g className="origin-center animate-[spin_120s_linear_infinite_reverse]">
           <circle
             cx="400"
             cy="400"
             r="380"
-            stroke="rgba(255, 255, 255, 0.12)"
-            strokeWidth="1.2"
-            strokeDasharray="2 12"
-            style={{ vectorEffect: "non-scaling-stroke" }}
-          />
-          <circle
-            cx="400"
-            cy="400"
-            r="380"
-            stroke="rgba(0, 242, 254, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="40 180"
+            stroke="rgba(237, 223, 238, 0.18)"
+            strokeWidth="1"
+            strokeDasharray="1.5 10"
             style={{ vectorEffect: "non-scaling-stroke" }}
           />
 
-          {/* Coordinate Ticks on Outer Ring */}
-          {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-            <g key={`tick-${deg}`} transform={`rotate(${deg} 400 400)`}>
-              <line x1="400" y1="12" x2="400" y2="28" stroke="rgba(0, 242, 254, 0.6)" strokeWidth="1.5" />
-              <circle cx="400" cy="32" r="1.5" fill="#00F2FE" />
-              <text
-                x="400"
-                y="8"
-                fill="rgba(255, 255, 255, 0.35)"
-                fontSize="9"
-                fontFamily="JetBrains Mono, monospace"
-                textAnchor="middle"
-                className="tracking-widest select-none"
-              >
-                {deg.toString().padStart(3, "0")}°
-              </text>
+          {/* Minimal cardinal tick markers */}
+          {[0, 90, 180, 270].map((deg) => (
+            <g key={`deg-${deg}`} transform={`rotate(${deg} 400 400)`}>
+              <line x1="400" y1="14" x2="400" y2="26" stroke="#CD8DBD" strokeWidth="1.5" />
+              <circle cx="400" cy="30" r="1.5" fill="#EDDFEE" />
             </g>
           ))}
         </g>
 
-        {/* --- MIDDLE RING (orbRing1 - Clockwise) --- */}
+        {/* Middle Ring: Blueprint arcs (80s clockwise) */}
         <g className="origin-center animate-[spin_80s_linear_infinite]">
           <circle
             cx="400"
             cy="400"
             r="290"
-            stroke="rgba(255, 255, 255, 0.18)"
-            strokeWidth="1.5"
-            strokeDasharray="4 8"
+            stroke="rgba(255, 255, 255, 0.14)"
+            strokeWidth="1.2"
+            strokeDasharray="2 8"
             style={{ vectorEffect: "non-scaling-stroke" }}
           />
-          {/* Accent Arc Segments */}
+          {/* Subtle blush accent arcs */}
           <circle
             cx="400"
             cy="400"
             r="290"
-            stroke="url(#cyanVioletGrad)"
-            strokeWidth="2.5"
-            strokeDasharray="90 320"
+            stroke="#CD8DBD"
+            strokeWidth="1.8"
+            strokeDasharray="60 340"
+            strokeOpacity="0.65"
             style={{ vectorEffect: "non-scaling-stroke" }}
           />
-
-          {/* Telemetry Labels around middle ring */}
-          <text
-            x="400"
-            y="102"
-            fill="rgba(0, 242, 254, 0.7)"
-            fontSize="10"
-            fontFamily="JetBrains Mono, monospace"
-            textAnchor="middle"
-            letterSpacing="0.2em"
-          >
-            SYS.QUANTUM // |Ψ⟩ = α|0⟩ + β|1⟩
-          </text>
-          <text
-            x="400"
-            y="706"
-            fill="rgba(255, 255, 255, 0.4)"
-            fontSize="10"
-            fontFamily="JetBrains Mono, monospace"
-            textAnchor="middle"
-            letterSpacing="0.2em"
-          >
-            FREQ: 4.80GHz • LAT: 42.3868°N
-          </text>
-
-          {/* Crosshair marks */}
-          <line x1="100" y1="400" x2="120" y2="400" stroke="#7000FF" strokeWidth="2" />
-          <line x1="680" y1="400" x2="700" y2="400" stroke="#7000FF" strokeWidth="2" />
-          <line x1="400" y1="100" x2="400" y2="120" stroke="#7000FF" strokeWidth="2" />
-          <line x1="400" y1="680" x2="400" y2="700" stroke="#7000FF" strokeWidth="2" />
+          <circle
+            cx="400"
+            cy="400"
+            r="290"
+            stroke="#EDDFEE"
+            strokeWidth="1.5"
+            strokeDasharray="30 370"
+            strokeDashoffset="180"
+            strokeOpacity="0.5"
+            style={{ vectorEffect: "non-scaling-stroke" }}
+          />
         </g>
 
-        {/* --- INNER RING (orbRing2 - Counter-Clockwise Fast) --- */}
+        {/* Inner Ring: Fine orbital boundary (50s counter-clockwise) */}
         <g className="origin-center animate-[spin_50s_linear_infinite_reverse]">
           <circle
             cx="400"
             cy="400"
-            r="200"
-            stroke="rgba(255, 255, 255, 0.25)"
-            strokeWidth="1.2"
-            strokeDasharray="1.5 6"
+            r="210"
+            stroke="rgba(237, 223, 238, 0.2)"
+            strokeWidth="1"
+            strokeDasharray="1 6"
             style={{ vectorEffect: "non-scaling-stroke" }}
           />
-          <circle
-            cx="400"
-            cy="400"
-            r="200"
-            stroke="#00F2FE"
-            strokeWidth="2"
-            strokeDasharray="30 120"
-            style={{ vectorEffect: "non-scaling-stroke" }}
-          />
-
-          {/* Inner Tri-Point Satellite Nodes */}
-          {[0, 120, 240].map((angle) => (
-            <g key={`sat-${angle}`} transform={`rotate(${angle} 400 400)`}>
-              <circle cx="400" cy="200" r="4" fill="#00F2FE" />
-              <circle cx="400" cy="200" r="8" stroke="rgba(0, 242, 254, 0.4)" strokeWidth="1" />
-              <line x1="400" y1="185" x2="400" y2="215" stroke="rgba(0, 242, 254, 0.5)" strokeWidth="1" />
+          {/* Tri-point satellite dots */}
+          {[0, 120, 240].map((deg) => (
+            <g key={`sat-${deg}`} transform={`rotate(${deg} 400 400)`}>
+              <circle cx="400" cy="190" r="2.5" fill="#CD8DBD" />
+              <circle cx="400" cy="190" r="6" stroke="rgba(205, 141, 189, 0.3)" strokeWidth="1" />
             </g>
           ))}
         </g>
 
-        {/* --- RADAR SWEEP LINE (Smooth Rotation) --- */}
-        <g className="origin-center animate-[spin_12s_linear_infinite]">
-          <line
-            x1="400"
-            y1="400"
-            x2="400"
-            y2="30"
-            stroke="url(#radarSweep)"
-            strokeWidth="2"
-          />
-          <circle cx="400" cy="30" r="3" fill="#00F2FE" filter="drop-shadow(0 0 6px #00F2FE)" />
-        </g>
-
-        {/* --- CENTER TARGET RETICLE --- */}
-        <g>
-          <circle cx="400" cy="400" r="6" fill="#00F2FE" fillOpacity="0.8" />
-          <circle cx="400" cy="400" r="14" stroke="rgba(0, 242, 254, 0.5)" strokeWidth="1" strokeDasharray="3 3" />
-          <line x1="380" y1="400" x2="420" y2="400" stroke="rgba(0, 242, 254, 0.6)" strokeWidth="1" />
-          <line x1="400" y1="380" x2="400" y2="420" stroke="rgba(0, 242, 254, 0.6)" strokeWidth="1" />
+        {/* Static center crosshairs */}
+        <g stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1">
+          <line x1="370" y1="400" x2="390" y2="400" />
+          <line x1="410" y1="400" x2="430" y2="400" />
+          <line x1="400" y1="370" x2="400" y2="390" />
+          <line x1="400" y1="410" x2="400" y2="430" />
+          <circle cx="400" cy="400" r="3" fill="rgba(237, 223, 238, 0.4)" />
         </g>
       </svg>
     </div>

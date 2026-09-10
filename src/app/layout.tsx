@@ -34,19 +34,18 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vsingh2005.github.io"),
-  title: "ringularity0 | Computer Engineer, Cloud & Quantum Systems",
-  description: "Portfolio of ringularity0 (Vansh Singh - UMass Amherst Computer Engineering & Business Analytics). Cloud automation, quantum machine learning, and embedded mechatronics.",
+  title: "ringularity0 | Computer Engineer, Cloud & Embedded Systems",
+  description: "Portfolio of Vansh Singh (ringularity0) — UMass Amherst Computer Engineering & Business Analytics. Cloud automation with Terraform/AWS, embedded mechatronics, and applied data systems.",
   keywords: [
     "ringularity0",
     "Vansh Singh",
     "UMass Amherst",
     "Computer Engineering",
     "Business Analytics",
-    "Quantum Machine Learning",
-    "PennyLane",
-    "AWS Braket",
     "Terraform",
+    "AWS",
     "Embedded Systems",
+    "Robotics",
     "Mechatronics",
     "ASME IAM3D"
   ],
@@ -59,7 +58,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://vsingh2005.github.io",
-    title: "ringularity0 | Computer Engineer & Cloud / Quantum Systems",
+    title: "ringularity0 | Computer Engineer, Cloud & Embedded Systems",
     description: PERSONAL_INFO.tagline,
     siteName: "ringularity0 Portfolio",
     images: [{ url: "/avatar.jpg" }],

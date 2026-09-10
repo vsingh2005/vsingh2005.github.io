@@ -30,7 +30,7 @@ export default function AboutPage() {
           <span className="text-gradient-purple">Applied Systems</span>
         </h1>
         <p className="text-text-secondary text-base sm:text-lg leading-relaxed">
-          I hold a B.S. in Computer Engineering and am currently pursuing my Master of Science in Business Analytics (MSBA) at the University of Massachusetts Amherst. I work across cloud infrastructure, embedded hardware, and quantum machine learning.
+          I hold a B.S. in Computer Engineering and am currently pursuing my Master of Science in Business Analytics (MSBA) at the University of Massachusetts Amherst. I work across cloud infrastructure, embedded mechatronics, and applied data systems.
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
                 At <strong className="text-white">UMass Amherst IT</strong>, I applied this systems approach to cloud infrastructure. Using Terraform and Docker, I automated infrastructure deployments across AWS, cutting provisioning time by 40% while building self-healing monitoring scripts in Python and Bash.
               </p>
               <p>
-                I also research <strong className="text-accent-cyan">Quantum Machine Learning</strong>. By pairing classical convolutional neural networks with parameterized variational quantum circuits on AWS Braket, I explore parameter-efficient learning on high-dimensional quantum states.
+                In academic research, I explored <strong className="text-white">hybrid quantum-classical neural networks</strong>. Pairing convolutional feature extractors with parameterized variational quantum circuits on AWS Braket using PennyLane, I evaluated parameter efficiency on high-dimensional quantum states.
               </p>
             </div>
           </div>

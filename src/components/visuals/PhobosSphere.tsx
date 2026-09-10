@@ -17,7 +17,7 @@ interface SpherePoint {
 
 export function PhobosSphere({
   className = "",
-  size = 420,
+  size = 380,
   interactive = true,
 }: PhobosSphereProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -39,58 +39,58 @@ export function PhobosSphere({
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
 
-    const radius = size * 0.36;
-    const pointCount = 1400;
+    const radius = size * 0.35;
+    const pointCount = 1200;
     const points: SpherePoint[] = [];
 
-    // Generate Fibonacci sphere points with topological quantum crater variations
+    // Fibonacci sphere distribution with subtle organic surface variance
     for (let i = 0; i < pointCount; i++) {
-      const y = 1 - (i / (pointCount - 1)) * 2; // -1 to 1
+      const y = 1 - (i / (pointCount - 1)) * 2;
       const radiusAtY = Math.sqrt(1 - y * y);
       const theta = ((1 + Math.sqrt(5)) / 2) * i * 2 * Math.PI;
 
       const x = Math.cos(theta) * radiusAtY;
       const z = Math.sin(theta) * radiusAtY;
 
-      // Noise crater simulation
-      const craterNoise =
-        Math.sin(x * 5) * Math.cos(y * 5) * 0.12 +
-        Math.sin(z * 8 + x * 4) * 0.08;
+      // Soft topographical variation inspired by Phobos moon surface
+      const noise =
+        Math.sin(x * 4.5) * Math.cos(y * 4.5) * 0.08 +
+        Math.sin(z * 6 + x * 3) * 0.05;
 
       points.push({
         baseX: x,
         baseY: y,
         baseZ: z,
-        craterFactor: 1 + craterNoise,
+        craterFactor: 1 + noise,
       });
     }
 
-    // Atmospheric spiral particles
-    const nebulaParticleCount = 180;
-    const nebulaParticles: { angle: number; dist: number; speed: number; yOffset: number; size: number }[] = [];
-    for (let i = 0; i < nebulaParticleCount; i++) {
-      nebulaParticles.push({
+    // Delicate atmospheric dust particles
+    const dustCount = 90;
+    const dustParticles: { angle: number; dist: number; speed: number; yOffset: number; size: number }[] = [];
+    for (let i = 0; i < dustCount; i++) {
+      dustParticles.push({
         angle: Math.random() * Math.PI * 2,
-        dist: radius * (1.15 + Math.random() * 0.8),
-        speed: (Math.random() * 0.004 + 0.002) * (Math.random() > 0.5 ? 1 : -1),
-        yOffset: (Math.random() - 0.5) * radius * 0.7,
-        size: Math.random() * 1.6 + 0.8,
+        dist: radius * (1.1 + Math.random() * 0.6),
+        speed: (Math.random() * 0.003 + 0.001) * (Math.random() > 0.5 ? 1 : -1),
+        yOffset: (Math.random() - 0.5) * radius * 0.6,
+        size: Math.random() * 1.2 + 0.6,
       });
     }
 
-    // Rotation angles and velocities
+    // Rotation & velocity
     let rotX = 0.35;
-    let rotY = 0.1;
-    let velX = 0.002;
-    let velY = 0.004;
+    let rotY = 0.15;
+    let velX = 0.001;
+    let velY = 0.003;
 
-    // Drag state
+    // Drag tracking
     let dragging = false;
     let lastMouseX = 0;
     let lastMouseY = 0;
 
-    // Light source coordinates (front-top-left)
-    const light = { x: -0.6, y: -0.7, z: 0.8 };
+    // Directional light from upper-left
+    const light = { x: -0.55, y: -0.65, z: 0.75 };
     const lightMag = Math.sqrt(light.x * light.x + light.y * light.y + light.z * light.z);
     light.x /= lightMag;
     light.y /= lightMag;
@@ -115,8 +115,8 @@ export function PhobosSphere({
       const deltaX = clientX - lastMouseX;
       const deltaY = clientY - lastMouseY;
 
-      velY = deltaX * 0.007;
-      velX = -deltaY * 0.007;
+      velY = deltaX * 0.006;
+      velX = -deltaY * 0.006;
 
       rotY += velY;
       rotX += velX;
@@ -140,11 +140,10 @@ export function PhobosSphere({
     window.addEventListener("touchend", onPointerUp);
 
     const render = () => {
-      // Natural inertia & ambient rotation
       if (!dragging) {
         velY *= 0.95;
         velX *= 0.95;
-        rotY += velY + 0.003;
+        rotY += velY + 0.0025;
         rotX += velX + 0.0005;
       }
 
@@ -153,48 +152,45 @@ export function PhobosSphere({
       const cx = width / 2;
       const cy = height / 2;
 
-      // Atmospheric Glow Behind Sphere
-      const glowGrad = ctx.createRadialGradient(cx, cy, radius * 0.4, cx, cy, radius * 1.5);
-      glowGrad.addColorStop(0, "rgba(0, 242, 254, 0.15)");
-      glowGrad.addColorStop(0.5, "rgba(112, 0, 255, 0.08)");
+      // Subtle atmospheric halo (warm blush/lavender)
+      const glowGrad = ctx.createRadialGradient(cx, cy, radius * 0.3, cx, cy, radius * 1.3);
+      glowGrad.addColorStop(0, "rgba(205, 141, 189, 0.08)");
+      glowGrad.addColorStop(0.6, "rgba(112, 0, 255, 0.03)");
       glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = glowGrad;
       ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.5, 0, Math.PI * 2);
+      ctx.arc(cx, cy, radius * 1.3, 0, Math.PI * 2);
       ctx.fill();
 
-      // Precalculate rotation matrix
       const cosX = Math.cos(rotX);
       const sinX = Math.sin(rotX);
       const cosY = Math.cos(rotY);
       const sinY = Math.sin(rotY);
 
-      // Render Nebula Particles (Background & Orbit)
-      for (let i = 0; i < nebulaParticles.length; i++) {
-        const np = nebulaParticles[i];
-        np.angle += np.speed;
+      // Dust particles
+      for (let i = 0; i < dustParticles.length; i++) {
+        const dp = dustParticles[i];
+        dp.angle += dp.speed;
 
-        const nx = Math.cos(np.angle) * np.dist;
-        const nz = Math.sin(np.angle) * np.dist;
+        const nx = Math.cos(dp.angle) * dp.dist;
+        const nz = Math.sin(dp.angle) * dp.dist;
 
-        // Rotate nebula with Y
         const rx = nx * cosY - nz * sinY;
         const rz = nx * sinY + nz * cosY;
-        const ry = np.yOffset * cosX - rz * sinX;
+        const ry = dp.yOffset * cosX - rz * sinX;
 
-        // Depth perspective
-        const scale = 380 / (380 + rz);
+        const scale = 360 / (360 + rz);
         const px = cx + rx * scale;
         const py = cy + ry * scale;
 
-        const alpha = Math.max(0.1, Math.min(0.7, (rz + radius) / (radius * 2)));
-        ctx.fillStyle = rz > 0 ? `rgba(0, 242, 254, ${alpha})` : `rgba(180, 100, 255, ${alpha * 0.5})`;
+        const alpha = Math.max(0.1, Math.min(0.5, (rz + radius) / (radius * 2)));
+        ctx.fillStyle = rz > 0 ? `rgba(237, 223, 238, ${alpha})` : `rgba(205, 141, 189, ${alpha * 0.6})`;
         ctx.beginPath();
-        ctx.arc(px, py, np.size * scale, 0, Math.PI * 2);
+        ctx.arc(px, py, dp.size * scale, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Transform, sort, and project sphere points
+      // Project sphere points
       const projected: {
         x: number;
         y: number;
@@ -207,32 +203,27 @@ export function PhobosSphere({
         const p = points[i];
         const r = radius * p.craterFactor;
 
-        // Base 3D vector
         const bx = p.baseX * r;
         const by = p.baseY * r;
         const bz = p.baseZ * r;
 
-        // Rotate Y
         const x1 = bx * cosY - bz * sinY;
         const z1 = bx * sinY + bz * cosY;
 
-        // Rotate X
         const y2 = by * cosX - z1 * sinX;
         const z2 = by * sinX + z1 * cosX;
 
-        // Normal vector after rotation for lighting
         const nx = p.baseX * cosY - p.baseZ * sinY;
         const nz_temp = p.baseX * sinY + p.baseZ * cosY;
         const ny = p.baseY * cosX - nz_temp * sinX;
         const nz = p.baseY * sinX + nz_temp * cosX;
 
-        // Directional Lambertian diffuse lighting with ambient fill
+        // Diffuse Lambertian illumination
         const dotLight = nx * light.x + ny * light.y + nz * light.z;
-        const intensity = Math.max(0.08, dotLight * 0.9 + 0.25);
+        const intensity = Math.max(0.06, dotLight * 0.95 + 0.2);
 
-        // Perspective projection
-        const focalLength = 400;
-        const scale = focalLength / (focalLength + z2);
+        const focal = 380;
+        const scale = focal / (focal + z2);
         const px = cx + x1 * scale;
         const py = cy + y2 * scale;
 
@@ -241,31 +232,23 @@ export function PhobosSphere({
           y: py,
           z: z2,
           intensity,
-          dotSize: Math.max(0.6, (1.6 + intensity * 1.4) * scale),
+          dotSize: Math.max(0.7, (1.5 + intensity * 1.3) * scale),
         });
       }
 
-      // Sort by Z (painter's algorithm)
       projected.sort((a, b) => b.z - a.z);
 
-      // Render dots
+      // Render dots in Phobos moon palette (#EDDFEE to #CD8DBD to deep charcoal)
       for (let i = 0; i < projected.length; i++) {
         const dot = projected[i];
 
-        // Cyan highlight towards light, deep violet/blue in shadows
-        let rVal = Math.floor(dot.intensity * 100 + 40);
-        let gVal = Math.floor(dot.intensity * 242);
-        let bVal = Math.floor(dot.intensity * 100 + 155);
+        // Interpolate between deep plum/charcoal (shadow) and pale warm bone (highlight)
+        const r = Math.floor(65 + dot.intensity * 172); // 65 -> 237 (#ED)
+        const g = Math.floor(55 + dot.intensity * 168); // 55 -> 223 (#DF)
+        const b = Math.floor(75 + dot.intensity * 163); // 75 -> 238 (#EE)
 
-        if (dot.intensity > 0.7) {
-          // Specular white-cyan glint
-          rVal = Math.min(255, 180 + Math.floor(dot.intensity * 75));
-          gVal = Math.min(255, 240 + Math.floor(dot.intensity * 15));
-          bVal = 255;
-        }
-
-        const alpha = Math.min(1, Math.max(0.15, dot.intensity * 1.1));
-        ctx.fillStyle = `rgba(${rVal}, ${gVal}, ${bVal}, ${alpha})`;
+        const alpha = Math.min(1, Math.max(0.12, dot.intensity * 1.05));
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
 
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dot.dotSize, 0, Math.PI * 2);
@@ -299,13 +282,6 @@ export function PhobosSphere({
         className="w-full h-full block"
         style={{ touchAction: "none" }}
       />
-      {interactive && (
-        <div className="absolute bottom-2 text-center pointer-events-none opacity-40 hover:opacity-80 transition-opacity">
-          <span className="text-[10px] font-mono text-cyan-300 tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-cyan-950/40 border border-cyan-500/20">
-            {isDragging ? "Rotating Core" : "Drag to Tumble Sphere"}
-          </span>
-        </div>
-      )}
     </div>
   );
 }

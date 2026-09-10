@@ -72,9 +72,9 @@ export interface SkillCategory {
 export const PERSONAL_INFO = {
   name: "Vansh",
   fullName: "Vansh Singh",
-  title: "Computer Engineer | Cloud, Quantum ML & Embedded Systems",
-  tagline: "B.S. in Computer Engineering | Pursuing MSBA at UMass Amherst. Building quantum variational algorithms, automated cloud infrastructure, and embedded hardware.",
-  bio: "Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. Experienced in cloud automation with Terraform/AWS, embedded mechatronics, and quantum machine learning.",
+  title: "Computer Engineer | Cloud Infrastructure, Mechatronics & Systems",
+  tagline: "B.S. in Computer Engineering & M.S. in Business Analytics at UMass Amherst. Engineering automated cloud environments with Terraform, embedded robotics, and data analytics systems.",
+  bio: "Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. Experienced in cloud automation with Terraform/AWS, embedded mechatronics, and applied systems engineering.",
   email: "vanshsingh@umass.edu",
   github: "https://github.com/vsingh2005",
   githubHandle: "vsingh2005",
@@ -84,9 +84,9 @@ export const PERSONAL_INFO = {
   status: "Open to Software, Cloud & Systems Roles",
   stats: [
     { value: "2nd Place", label: "Global ASME Mechatronics", change: "40+ universities" },
-    { value: "40%", label: "Cloud Provisioning Boost", change: "Terraform & IaC" },
-    { value: "150+", label: "Students & Engineers Taught", change: "Embedded & IoT" },
-    { value: "28%", label: "Quantum Convergence Speedup", change: "PennyLane + Braket" },
+    { value: "40%", label: "Cloud Provisioning Boost", change: "Terraform & AWS IaC" },
+    { value: "150+", label: "Engineers & Students Taught", change: "Embedded & Robotics" },
+    { value: "6 Engineers", label: "Electrical Subteam Lead", change: "U.S. DOE Collegiate Wind" },
   ]
 };
 
