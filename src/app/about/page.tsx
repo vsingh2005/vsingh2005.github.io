@@ -30,7 +30,7 @@ export default function AboutPage() {
           <span className="text-gradient-purple">Applied Systems</span>
         </h1>
         <p className="text-text-secondary text-base sm:text-lg leading-relaxed">
-          I am a dual-degree student at the University of Massachusetts Amherst studying Computer Engineering and Business Analytics. I work across cloud infrastructure, embedded hardware, and quantum machine learning.
+          I hold a B.S. in Computer Engineering and am currently pursuing my Master of Science in Business Analytics (MSBA) at the University of Massachusetts Amherst. I work across cloud infrastructure, embedded hardware, and quantum machine learning.
         </p>
       </div>
 

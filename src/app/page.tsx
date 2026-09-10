@@ -55,7 +55,7 @@ export default function HomePage() {
 
             {/* Brief Intro */}
             <p className="text-text-secondary text-base sm:text-lg max-w-2xl leading-relaxed font-normal">
-              Dual-degree student at UMass Amherst. I write Terraform modules for AWS cloud environments, model circuits and robotics telemetry in hardware, and train hybrid quantum variational circuits.
+              Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. I write Terraform modules for AWS cloud environments, model circuits and robotics telemetry in hardware, and train hybrid quantum variational circuits.
             </p>
 
             {/* CTAs */}

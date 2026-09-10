@@ -73,8 +73,8 @@ export const PERSONAL_INFO = {
   name: "Vansh",
   fullName: "Vansh Singh",
   title: "Computer Engineer | Cloud, Quantum ML & Embedded Systems",
-  tagline: "Computer Engineering & Business Analytics student at UMass Amherst. Building quantum variational algorithms, automated cloud infrastructure, and embedded hardware.",
-  bio: "Dual-degree student at UMass Amherst studying Computer Engineering and Business Analytics. Experienced in cloud automation with Terraform/AWS, embedded mechatronics, and quantum machine learning.",
+  tagline: "B.S. in Computer Engineering | Pursuing MSBA at UMass Amherst. Building quantum variational algorithms, automated cloud infrastructure, and embedded hardware.",
+  bio: "Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. Experienced in cloud automation with Terraform/AWS, embedded mechatronics, and quantum machine learning.",
   email: "vanshsingh@umass.edu",
   github: "https://github.com/vsingh2005",
   githubHandle: "vsingh2005",
@@ -93,11 +93,30 @@ export const PERSONAL_INFO = {
 export const EDUCATIONS: Education[] = [
   {
     school: "University of Massachusetts Amherst",
+    college: "Isenberg School of Management",
+    degree: "Master of Science",
+    field: "Business Analytics (MSBA)",
+    location: "Amherst, MA",
+    graduation: "Currently Pursuing (2026 - 2027)",
+    highlights: [
+      "Quantitative data modeling, high-volume processing, and enterprise optimization.",
+      "Combining technical engineering systems with scalable business intelligence."
+    ],
+    courses: [
+      "High-Volume Data Processing",
+      "Predictive Modeling & AI",
+      "Enterprise Data Architecture",
+      "Quantitative Business Analytics",
+      "Cloud Strategy & Optimization"
+    ]
+  },
+  {
+    school: "University of Massachusetts Amherst",
     college: "Riccio College of Engineering",
     degree: "Bachelor of Science",
     field: "Computer Engineering",
     location: "Amherst, MA",
-    graduation: "May 2026",
+    graduation: "BS Completed",
     highlights: [
       "Focused on computer systems, microarchitectures, and cloud infrastructure.",
       "Electrical subteam lead for ASME IAM3D and U.S. DOE Collegiate Wind teams.",
@@ -110,25 +129,6 @@ export const EDUCATIONS: Education[] = [
       "Data Structures & Algorithms",
       "Signals & Systems",
       "Power Electronics & Circuit Simulation"
-    ]
-  },
-  {
-    school: "University of Massachusetts Amherst",
-    college: "Isenberg School of Management",
-    degree: "Master of Science",
-    field: "Business Analytics",
-    location: "Amherst, MA",
-    graduation: "May 2027",
-    highlights: [
-      "Quantitative data modeling, high-volume processing, and enterprise optimization.",
-      "Combining technical engineering systems with scalable business intelligence."
-    ],
-    courses: [
-      "High-Volume Data Processing",
-      "Predictive Modeling & AI",
-      "Enterprise Data Architecture",
-      "Quantitative Business Analytics",
-      "Cloud Strategy & Optimization"
     ]
   }
 ];

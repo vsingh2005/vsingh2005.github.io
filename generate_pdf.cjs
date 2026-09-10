@@ -428,7 +428,7 @@ const htmlContent = `<!DOCTYPE html>
           <div class="name">Vansh Singh</div>
           <div class="tagline-main">Computer Engineer | Cloud, Quantum ML & Embedded Systems</div>
           <div class="bio-text">
-            Dual-degree student at UMass Amherst (BS Computer Engineering '26 & MS Business Analytics '27). Experienced in automated cloud infrastructure (Terraform/AWS), embedded mechatronics, and quantum variational machine learning algorithms.
+            Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. Experienced in automated cloud infrastructure (Terraform/AWS), embedded mechatronics, and quantum variational machine learning algorithms.
           </div>
         </div>
         <div class="header-right">
