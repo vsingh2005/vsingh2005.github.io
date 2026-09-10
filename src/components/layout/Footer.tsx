@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUp, Github, Mail, FileDown, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
@@ -49,11 +50,17 @@ export function Footer() {
           {/* Brand & Summary */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500/20 via-blue-600/30 to-violet-600/30 border border-cyan-400/40 flex items-center justify-center font-display font-bold text-cyan-300 shadow-inner">
-                V
+              <div className="w-10 h-10 rounded-xl bg-yellow-400 border border-yellow-300/60 overflow-hidden shadow-inner flex items-center justify-center">
+                <Image
+                  src="/avatar.jpg"
+                  alt="ringo2005"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-display font-bold text-lg text-white uppercase tracking-wider">
-                {PERSONAL_INFO.name}
+                ringo2005
               </span>
             </div>
             <p className="text-text-secondary text-sm max-w-md leading-relaxed">

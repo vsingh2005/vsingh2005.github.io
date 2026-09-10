@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -57,23 +58,22 @@ export function Navbar() {
             href="/"
             className="group flex items-center gap-3.5 py-1 px-1 rounded-xl transition-all"
           >
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 via-blue-600/30 to-violet-600/30 border border-cyan-400/40 group-hover:border-cyan-300 group-hover:shadow-[0_0_20px_rgba(0,242,254,0.4)] transition-all duration-300 overflow-hidden">
-              {/* Subtle animated inner glow */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/10 to-violet-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Futuristic Vector Monogram */}
-              <svg className="w-5 h-5 text-cyan-300 group-hover:text-white transition-colors duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4l8 16 8-16" />
-                <path d="M9 14l3 6 3-6" strokeWidth="2" strokeOpacity="0.6" />
-              </svg>
-
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-yellow-400 border border-yellow-300/60 group-hover:border-yellow-200 group-hover:shadow-[0_0_20px_rgba(250,204,21,0.5)] transition-all duration-300 overflow-hidden">
+              <Image
+                src="/avatar.jpg"
+                alt="ringo2005"
+                width={40}
+                height={40}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                priority
+              />
               <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00F2FE] animate-pulse" />
             </div>
 
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
                 <span className="font-display font-bold text-base tracking-wider text-white group-hover:text-cyan-300 transition-colors uppercase">
-                  {PERSONAL_INFO.name}
+                  ringo2005
                 </span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#10B981]" />
               </div>

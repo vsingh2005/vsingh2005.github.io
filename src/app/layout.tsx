@@ -33,10 +33,12 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: `${PERSONAL_INFO.name} | Computer Engineer, Cloud & Quantum Systems`,
-  description: `Portfolio of ${PERSONAL_INFO.name} (UMass Amherst Computer Engineering & Business Analytics). Cloud automation, quantum machine learning, and embedded mechatronics.`,
+  metadataBase: new URL("https://vsingh2005.github.io"),
+  title: "ringo2005 | Computer Engineer, Cloud & Quantum Systems",
+  description: "Portfolio of ringo2005 (Vansh Singh - UMass Amherst Computer Engineering & Business Analytics). Cloud automation, quantum machine learning, and embedded mechatronics.",
   keywords: [
-    "Vansh",
+    "ringo2005",
+    "Vansh Singh",
     "UMass Amherst",
     "Computer Engineering",
     "Business Analytics",
@@ -48,20 +50,25 @@ export const metadata: Metadata = {
     "Mechatronics",
     "ASME IAM3D"
   ],
-  authors: [{ name: PERSONAL_INFO.name, url: PERSONAL_INFO.github }],
-  creator: PERSONAL_INFO.name,
+  authors: [{ name: "ringo2005", url: PERSONAL_INFO.github }],
+  creator: "ringo2005",
+  icons: {
+    icon: "/avatar.jpg",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://vanshsingh.dev",
-    title: `${PERSONAL_INFO.name} | Computer Engineer & Cloud / Quantum Systems`,
+    url: "https://vsingh2005.github.io",
+    title: "ringo2005 | Computer Engineer & Cloud / Quantum Systems",
     description: PERSONAL_INFO.tagline,
-    siteName: `${PERSONAL_INFO.name} Portfolio`,
+    siteName: "ringo2005 Portfolio",
+    images: [{ url: "/avatar.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${PERSONAL_INFO.name} | Engineering Portfolio`,
+    title: "ringo2005 | Engineering Portfolio",
     description: PERSONAL_INFO.tagline,
+    images: ["/avatar.jpg"],
   },
 };
 
