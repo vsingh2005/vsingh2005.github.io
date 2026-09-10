@@ -40,8 +40,8 @@ export default function HomePage() {
             </div>
 
             {/* Main Editorial Headline */}
-            <div className="space-y-3">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-semibold tracking-tight text-white leading-[1.08]">
+            <div className="space-y-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold tracking-tight text-white leading-[1.12]">
                 Engineering systems from physical hardware to cloud scale.
               </h1>
               <p className="text-base sm:text-lg font-normal text-text-secondary leading-relaxed max-w-xl">
@@ -50,7 +50,7 @@ export default function HomePage() {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/projects"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
@@ -77,23 +77,6 @@ export default function HomePage() {
                 <span>Resume (PDF)</span>
               </a>
             </div>
-
-            {/* Grounded Engineering Impact Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/[0.08]">
-              {PERSONAL_INFO.stats.map((stat, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition-colors">
-                  <div className="text-xl sm:text-2xl font-bold font-display text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs font-medium text-text-secondary mt-0.5">
-                    {stat.label}
-                  </div>
-                  <div className="text-[10px] font-mono text-text-muted mt-0.5 truncate">
-                    {stat.change}
-                  </div>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
           {/* Right Column: Terminal Card in Linearity-Style Multicolored Aura Frame */}
@@ -113,6 +96,33 @@ export default function HomePage() {
             </div>
           </motion.div>
         </div>
+
+        {/* Dedicated Full-Width Grounded Engineering Impact Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="mt-14 sm:mt-16 pt-8 border-t border-white/[0.08]"
+        >
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {PERSONAL_INFO.stats.map((stat, i) => (
+              <div
+                key={i}
+                className="group relative p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-white/20 transition-all backdrop-blur-md overflow-hidden min-w-0"
+              >
+                <div className="text-3xl sm:text-4xl font-bold font-display text-white tracking-tight">
+                  {stat.value}
+                </div>
+                <div className="text-sm font-semibold text-text-primary mt-2 leading-snug">
+                  {stat.label}
+                </div>
+                <div className="text-xs font-mono text-[#CD8DBD] mt-1">
+                  {stat.change}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </section>
 
       {/* EDITORIAL THESIS & ROTATING BADGE SECTION (Scroll Reveal) */}

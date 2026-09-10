@@ -21,7 +21,7 @@ export function TerminalCard() {
             ⚡ Welcome to Vansh&apos;s interactive developer terminal!
           </p>
           <p className="text-text-muted">
-            Type <span className="text-accent-violet font-mono font-bold">help</span> to view commands, or explore quantum circuits, cloud pipelines, and robotics.
+            Type <span className="text-accent-violet font-mono font-bold">help</span> to view commands, or explore cloud pipelines, embedded mechatronics, and analytics.
           </p>
         </div>
       ),
@@ -238,7 +238,7 @@ Backend: AWS Braket StateVector | Convergence: 28% Faster`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-text-muted/40 text-xs"
-            placeholder="Type 'help', 'quantum', 'whoami', 'skills'..."
+            placeholder="Type 'help', 'whoami', 'projects', 'skills'..."
             autoComplete="off"
             spellCheck="false"
           />

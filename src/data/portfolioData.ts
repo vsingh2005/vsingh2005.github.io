@@ -83,10 +83,10 @@ export const PERSONAL_INFO = {
   portfolioPdf: "/Vansh_Singh_Portfolio.pdf",
   status: "Open to Software, Cloud & Systems Roles",
   stats: [
-    { value: "2nd Place", label: "Global ASME Mechatronics", change: "40+ universities" },
+    { value: "2nd", label: "Global ASME Mechatronics", change: "40+ Universities" },
     { value: "40%", label: "Cloud Provisioning Boost", change: "Terraform & AWS IaC" },
     { value: "150+", label: "Engineers & Students Taught", change: "Embedded & Robotics" },
-    { value: "6 Engineers", label: "Electrical Subteam Lead", change: "U.S. DOE Collegiate Wind" },
+    { value: "6", label: "Engineers Led", change: "U.S. DOE Collegiate Wind" },
   ]
 };
 
