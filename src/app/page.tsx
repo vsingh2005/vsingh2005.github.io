@@ -9,32 +9,32 @@ import {
   Cloud,
   FileDown,
   ChevronRight,
-  Boxes,
-  Binary
+  Binary,
+  Layers,
+  Sparkles
 } from "lucide-react";
 import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { TerminalCard } from "@/components/ui/TerminalCard";
-import { PhobosHeroVisual } from "@/components/visuals/PhobosHeroVisual";
 import { SpinningBadge } from "@/components/visuals/SpinningBadge";
 
 export default function HomePage() {
   const featuredProjects = PROJECTS.filter((p) => p.featured);
 
   return (
-    <div className="space-y-24 sm:space-y-32 pb-24 overflow-hidden">
+    <div className="space-y-24 sm:space-y-36 pb-24 overflow-hidden">
       {/* HERO SECTION */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Column: Editorial Typography & Human Voice */}
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+          {/* Left Column: Human Voice & Editorial Typography */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 space-y-6"
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 space-y-6"
           >
-            {/* Status Pill */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-[#EDDFEE]">
+            {/* Status Pill with Subtle Shimmer */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md text-xs font-mono text-[#EDDFEE]">
               <span className="w-2 h-2 rounded-full bg-[#CD8DBD] animate-pulse" />
               <span>BS Computer Engineering &apos;26 • MS Business Analytics &apos;27</span>
             </div>
@@ -44,8 +44,8 @@ export default function HomePage() {
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-semibold tracking-tight text-white leading-[1.08]">
                 Engineering systems from physical hardware to cloud scale.
               </h1>
-              <p className="text-lg sm:text-xl font-normal text-text-secondary leading-relaxed max-w-2xl">
-                I am Vansh Singh, a computer engineer at UMass Amherst. I build automated cloud infrastructure with Terraform, design embedded mechatronics, and explore applied computational models.
+              <p className="text-base sm:text-lg font-normal text-text-secondary leading-relaxed max-w-xl">
+                I am Vansh Singh, a computer engineer at UMass Amherst. I build automated cloud environments with Terraform, design embedded mechatronics, and explore applied computational models.
               </p>
             </div>
 
@@ -53,15 +53,15 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.15] hover:border-white/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <span>Explore Work</span>
-                <ArrowRight className="w-4 h-4 text-[#CD8DBD]" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
 
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-text-secondary hover:text-white bg-transparent hover:bg-white/[0.04] border border-transparent hover:border-white/10 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-text-primary bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all"
               >
                 <span>About Background</span>
                 <ChevronRight className="w-4 h-4 text-text-muted" />
@@ -81,7 +81,7 @@ export default function HomePage() {
             {/* Grounded Engineering Impact Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/[0.08]">
               {PERSONAL_INFO.stats.map((stat, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition-colors">
                   <div className="text-xl sm:text-2xl font-bold font-display text-white">
                     {stat.value}
                   </div>
@@ -96,24 +96,38 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* Right Column: Architectural Visual Centerpiece (Pure Phobos Aesthetic) */}
+          {/* Right Column: Terminal Card in Linearity-Style Multicolored Aura Frame */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex items-center justify-center"
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6"
           >
-            <div className="relative w-full max-w-[460px] aspect-square rounded-3xl bg-white/[0.015] border border-white/[0.06] backdrop-blur-md p-4 flex items-center justify-center">
-              <PhobosHeroVisual />
+            <div className="relative">
+              {/* Multicolored Background Aurora Glow Behind Terminal */}
+              <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full bg-gradient-to-tr from-fuchsia-500/30 to-violet-600/30 blur-[90px] pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 rounded-full bg-gradient-to-tr from-cyan-400/25 to-emerald-500/20 blur-[90px] pointer-events-none" />
+              
+              {/* Terminal Component */}
+              <TerminalCard />
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* EDITORIAL THESIS & ROTATING BADGE SECTION */}
+      {/* EDITORIAL THESIS & ROTATING BADGE SECTION (Scroll Reveal) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative p-8 sm:p-12 rounded-3xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl overflow-hidden shadow-2xl"
+        >
+          {/* Subtle multicolored ambient blur in corner */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-violet-600/15 via-fuchsia-500/10 to-transparent blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Thesis Statement */}
             <div className="lg:col-span-5 space-y-2">
               <span className="text-xs font-mono text-[#CD8DBD] uppercase tracking-wider">
@@ -132,15 +146,21 @@ export default function HomePage() {
 
             {/* Understated Spinning Vector Badge */}
             <div className="lg:col-span-2 flex items-center justify-center lg:justify-end">
-              <SpinningBadge size={130} />
+              <SpinningBadge size={135} />
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* CORE DISCIPLINES */}
+      {/* CORE DISCIPLINES (Scroll Staggered Reveal) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mb-12 space-y-2">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5 }}
+          className="max-w-2xl mb-12 space-y-2"
+        >
           <span className="text-xs font-mono uppercase tracking-widest text-[#CD8DBD] font-semibold">
             Areas of Focus
           </span>
@@ -150,13 +170,20 @@ export default function HomePage() {
           <p className="text-text-secondary text-sm">
             Disciplined engineering across cloud orchestration, physical mechatronics, and computational systems.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1: Cloud & IaC */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/15 transition-all duration-300">
-            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white">
-              <Cloud className="w-5 h-5 text-[#CD8DBD]" />
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="group relative p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white group-hover:border-cyan-400/40 transition-colors">
+              <Cloud className="w-5 h-5 text-cyan-400" />
             </div>
             <h3 className="text-lg font-display font-semibold text-white mb-2">
               Cloud &amp; Infrastructure as Code
@@ -169,12 +196,19 @@ export default function HomePage() {
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">AWS (EC2/S3/IAM)</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Docker &amp; CI/CD</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Card 2: Embedded Systems & Mechatronics */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/15 transition-all duration-300">
-            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white">
-              <Cpu className="w-5 h-5 text-[#EDDFEE]" />
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="group relative p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-violet-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-36 h-36 bg-violet-500/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white group-hover:border-violet-400/40 transition-colors">
+              <Cpu className="w-5 h-5 text-violet-400" />
             </div>
             <h3 className="text-lg font-display font-semibold text-white mb-2">
               Embedded Systems &amp; Robotics
@@ -188,12 +222,19 @@ export default function HomePage() {
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">LTSpice</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">SolidWorks</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Card 3: Applied Analytics & Computational Models */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/15 transition-all duration-300">
-            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white">
-              <Binary className="w-5 h-5 text-[#CD8DBD]" />
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="group relative p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-pink-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-36 h-36 bg-pink-500/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-6 text-white group-hover:border-pink-400/40 transition-colors">
+              <Binary className="w-5 h-5 text-pink-400" />
             </div>
             <h3 className="text-lg font-display font-semibold text-white mb-2">
               Applied Analytics &amp; ML Models
@@ -207,19 +248,25 @@ export default function HomePage() {
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PyTorch</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PennyLane</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* FEATURED CASE STUDIES */}
+      {/* FEATURED CASE STUDIES (Scroll Staggered Reveal) */}
       <section id="featured-work" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4"
+        >
           <div className="space-y-2">
             <span className="text-xs font-mono uppercase tracking-widest text-[#CD8DBD] font-semibold">
               Selected Projects
             </span>
             <h2 className="text-3xl sm:text-4xl font-display font-semibold text-white tracking-tight">
-              Hardware, Cloud, and Research Case Studies
+              Hardware, Cloud, and Systems Case Studies
             </h2>
             <p className="text-text-secondary text-sm">
               In-depth architecture breakdowns, metrics, and implementation notes.
@@ -233,50 +280,46 @@ export default function HomePage() {
             <span>View all projects</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {featuredProjects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+            >
+              <ProjectCard project={project} />
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* INTERACTIVE DEVELOPER CONSOLE */}
+      {/* RESUME & CONTACT BANNER (Linearity Multicolored Gradient Frame) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-5 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-[#EDDFEE]">
-              <Boxes className="w-3.5 h-3.5 text-[#CD8DBD]" />
-              <span>Interactive Playground</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-display font-semibold text-white tracking-tight">
-              Developer Shell &amp; Quick Commands
-            </h2>
-            <p className="text-text-secondary text-sm leading-relaxed">
-              Explore projects, view skills, or copy quick SSH links directly through this simulated in-browser terminal session. Type <code className="text-white font-mono bg-white/[0.06] px-1.5 py-0.5 rounded text-xs">help</code> to see available commands.
-            </p>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative p-8 sm:p-12 rounded-3xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl"
+        >
+          {/* Multicolored Gradient Aura Backlight */}
+          <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-gradient-to-br from-violet-600/30 to-fuchsia-500/20 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-gradient-to-tl from-cyan-400/30 to-emerald-500/20 blur-3xl pointer-events-none" />
 
-          <div className="lg:col-span-7">
-            <TerminalCard />
-          </div>
-        </div>
-      </section>
-
-      {/* RESUME & REPOSITORY BANNER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-1 text-center md:text-left">
+          <div className="relative z-10 space-y-1 text-center md:text-left">
             <h3 className="text-xl sm:text-2xl font-display font-semibold text-white">
               Looking for a systems, cloud, or embedded engineer?
             </h3>
             <p className="text-text-secondary text-sm">
-              Open to full-time engineering and internship roles across software, cloud, and hardware.
+              Open to full-time engineering and internship roles across software, cloud infrastructure, and hardware.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="relative z-10 flex flex-wrap items-center gap-3">
             <a
               href="/Vansh_Singh_Resume.pdf"
               target="_blank"
@@ -289,13 +332,13 @@ export default function HomePage() {
 
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm text-[#0B0B0F] bg-[#EDDFEE] hover:bg-white font-semibold transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm text-[#0B0B0F] bg-gradient-to-r from-white via-slate-100 to-[#EDDFEE] hover:opacity-95 font-semibold shadow-lg shadow-white/10 transition-all"
             >
               <span>Get in Touch</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
