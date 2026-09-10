@@ -1,0 +1,901 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vansh Singh - Engineering Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: letter;
+      margin: 8mm 11mm 8mm 11mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.35;
+      font-size: 8.8pt;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    a {
+      color: #0284c7;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .page {
+      height: 262mm;
+      max-height: 262mm;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      box-sizing: border-box;
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+    }
+
+    .header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .header-left {
+      max-width: 62%;
+    }
+
+    .name {
+      font-size: 21pt;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #090d16;
+      line-height: 1.05;
+      margin-bottom: 2px;
+    }
+
+    .tagline-main {
+      font-size: 9.8pt;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 3px;
+      letter-spacing: -0.01em;
+    }
+
+    .bio-text {
+      font-size: 8.2pt;
+      color: #334155;
+      line-height: 1.32;
+    }
+
+    .header-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5px;
+      align-items: flex-end;
+    }
+
+    .contact-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f1f5f9;
+      padding: 2.5px 7px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+    }
+
+    .contact-badge.primary {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    .contact-badge.primary a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .contact-badge a {
+      color: inherit;
+    }
+
+    /* STATS BANNER */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 3px solid #0284c7;
+      padding: 5px 7px;
+      border-radius: 4px;
+    }
+
+    .stat-val {
+      font-size: 10.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-lbl {
+      font-size: 6.8pt;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 1px;
+    }
+
+    .stat-sub {
+      font-size: 6.8pt;
+      color: #64748b;
+    }
+
+    /* SECTION STYLING */
+    .section {
+      margin-bottom: 9px;
+    }
+
+    .section-title {
+      font-size: 9.5pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #0f172a;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title span {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 6.2pt;
+      font-weight: 700;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    /* EXPERIENCE & EDUCATION */
+    .item-card {
+      margin-bottom: 7px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+
+    .item-role {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .item-company {
+      font-size: 8.8pt;
+      font-weight: 600;
+      color: #0284c7;
+    }
+
+    .item-meta {
+      font-size: 7.2pt;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+    }
+
+    .item-bullets {
+      margin-left: 13px;
+      margin-top: 1.5px;
+    }
+
+    .item-bullets li {
+      font-size: 8pt;
+      color: #334155;
+      margin-bottom: 1.5px;
+      line-height: 1.28;
+    }
+
+    .item-bullets li strong {
+      color: #0f172a;
+    }
+
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 2.5px;
+    }
+
+    .tech-pill {
+      font-size: 6.2pt;
+      font-family: 'JetBrains Mono', monospace;
+      background: #f1f5f9;
+      color: #334155;
+      padding: 1px 4.5px;
+      border-radius: 2.5px;
+      border: 1px solid #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* SKILLS GRID */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+    }
+
+    .skill-cat-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 3.5px;
+      padding: 4.5px 7px;
+    }
+
+    .skill-cat-title {
+      font-size: 7.6pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .skill-list-text {
+      font-size: 7.2pt;
+      color: #334155;
+      line-height: 1.3;
+    }
+
+    /* PROJECT CARDS */
+    .project-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .project-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 7px 9px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .project-card.featured {
+      border-left: 3px solid #0284c7;
+      background: #fafcff;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2px;
+    }
+
+    .project-title-box {
+      max-width: 76%;
+    }
+
+    .project-title {
+      font-size: 9.3pt;
+      font-weight: 700;
+      color: #090d16;
+    }
+
+    .project-subtitle {
+      font-size: 7.2pt;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .github-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: #0f172a;
+      color: #ffffff !important;
+      font-size: 6.8pt;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+      text-decoration: none !important;
+      border: 1px solid #0f172a;
+    }
+
+    .award-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      font-size: 6.2pt;
+      font-weight: 700;
+      padding: 1px 4.5px;
+      border-radius: 2.5px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .project-summary {
+      font-size: 7.8pt;
+      color: #334155;
+      line-height: 1.28;
+      margin-bottom: 3.5px;
+    }
+
+    .project-metrics-row {
+      display: flex;
+      gap: 6px;
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      padding: 3.5px 6px;
+      border-radius: 3px;
+      margin-bottom: 3.5px;
+    }
+
+    .project-metric-item {
+      flex: 1;
+    }
+
+    .project-metric-val {
+      font-size: 8.2pt;
+      font-weight: 700;
+      color: #0284c7;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.1;
+    }
+
+    .project-metric-lbl {
+      font-size: 6.2pt;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .footer-note {
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 6.8pt;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="page">
+    <div>
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-left">
+          <div class="name">Vansh Singh</div>
+          <div class="tagline-main">Computer Engineer | Cloud, Quantum ML & Embedded Systems</div>
+          <div class="bio-text">
+            Dual-degree student at UMass Amherst (BS Computer Engineering '26 & MS Business Analytics '27). Experienced in automated cloud infrastructure (Terraform/AWS), embedded mechatronics, and quantum variational machine learning algorithms.
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="contact-badge primary">
+            <span>GitHub:</span>
+            <a href="https://github.com/vsingh2005" target="_blank">github.com/vsingh2005 ↗</a>
+          </div>
+          <div class="contact-badge">
+            <span>Email:</span>
+            <a href="mailto:vanshsingh@umass.edu">vanshsingh@umass.edu</a>
+          </div>
+          <div class="contact-badge">
+            <span>Location:</span>
+            <span>Amherst, MA & Chicago, IL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS BAR -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val">2nd Place</div>
+          <div class="stat-lbl">Global ASME IAM3D</div>
+          <div class="stat-sub">40+ Int'l Universities</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">40%</div>
+          <div class="stat-lbl">Provisioning Boost</div>
+          <div class="stat-sub">Terraform & AWS IaC</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">150+</div>
+          <div class="stat-lbl">Students Taught</div>
+          <div class="stat-sub">Embedded & Firmware Labs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">28%</div>
+          <div class="stat-lbl">Convergence Speedup</div>
+          <div class="stat-sub">PennyLane + AWS Braket</div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="section">
+        <div class="section-title">
+          Professional Experience
+          <span>INDUSTRY & LEADERSHIP</span>
+        </div>
+
+        <!-- Job 1 -->
+        <div class="item-card">
+          <div class="item-header">
+            <div>
+              <span class="item-role">Cloud Infrastructure Engineering Intern</span>
+              <span style="color: #64748b;"> • </span>
+              <span class="item-company">University of Massachusetts Amherst IT</span>
+            </div>
+            <div class="item-meta">Sept 2025 – Present | Amherst, MA</div>
+          </div>
+          <ul class="item-bullets">
+            <li>Architect and deploy automated cloud infrastructure and CI/CD pipelines across AWS using <strong>Terraform</strong>, reducing environment provisioning turnaround by <strong>40%</strong> and eliminating manual configuration drift.</li>
+            <li>Develop telemetry, health-check, and monitoring services in <strong>Python and Bash</strong> to isolate platform faults and improve service uptime across university IT platforms.</li>
+            <li>Write reusable Terraform modules and containerized microservices in <strong>Docker</strong> to standardize deployment setups across 6 engineering teams.</li>
+          </ul>
+          <div class="tech-pills">
+            <span class="tech-pill">AWS (EC2, S3, Lambda, IAM)</span>
+            <span class="tech-pill">Terraform</span>
+            <span class="tech-pill">Docker</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Bash</span>
+            <span class="tech-pill">CI/CD</span>
+            <span class="tech-pill">Linux/Unix</span>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="item-card">
+          <div class="item-header">
+            <div>
+              <span class="item-role">Systems & Embedded Engineering Lead / Instructor</span>
+              <span style="color: #64748b;"> • </span>
+              <span class="item-company">Stem Studio</span>
+            </div>
+            <div class="item-meta">May 2023 – Present | Chicago, IL</div>
+          </div>
+          <ul class="item-bullets">
+            <li>Led emergency incident remediation for a server-side cloaking exploit and backdoor on production servers, restoring full system stability and uptime with zero data loss.</li>
+            <li>Created and taught hands-on embedded computing curricula (microcontrollers, circuit design, sensor interfacing, and robotics) for <strong>150+ students</strong>, raising project pass rates by <strong>35%</strong>.</li>
+            <li>Authored reproducible laboratory guides, hardware documentation, and sample firmware repositories.</li>
+          </ul>
+          <div class="tech-pills">
+            <span class="tech-pill">Embedded C</span>
+            <span class="tech-pill">ARM Cortex</span>
+            <span class="tech-pill">ESP32 / Arduino</span>
+            <span class="tech-pill">I2C / SPI / UART</span>
+            <span class="tech-pill">Linux Hardening</span>
+            <span class="tech-pill">Incident Response</span>
+          </div>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="item-card">
+          <div class="item-header">
+            <div>
+              <span class="item-role">Technical Mentor & Lead Instructor</span>
+              <span style="color: #64748b;"> • </span>
+              <span class="item-company">CodeDay</span>
+            </div>
+            <div class="item-meta">Aug 2020 – Aug 2023 | Global Initiative</div>
+          </div>
+          <ul class="item-bullets">
+            <li>Mentored <strong>20+ student engineering teams</strong> through complete project lifecycles, covering data structures, API integrations, algorithms, and Git collaboration.</li>
+            <li>Conducted regular code reviews, debugging walkthroughs, and architecture reviews to help teams deploy functional software.</li>
+          </ul>
+          <div class="tech-pills">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">REST APIs</span>
+            <span class="tech-pill">Git / GitHub</span>
+            <span class="tech-pill">Data Structures</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="section">
+        <div class="section-title">
+          Education & Academic Leadership
+          <span>UMASS AMHERST</span>
+        </div>
+
+        <div class="item-card">
+          <div class="item-header">
+            <div>
+              <span class="item-role">Bachelor of Science in Computer Engineering</span>
+              <span style="color: #64748b;"> • </span>
+              <span class="item-company">University of Massachusetts Amherst</span>
+            </div>
+            <div class="item-meta">Graduation: May 2026 | Amherst, MA</div>
+          </div>
+          <div style="font-size: 7.6pt; color: #334155; margin-top: 1px;">
+            <strong>College:</strong> Riccio College of Engineering | <strong>Subteam Lead:</strong> ASME IAM3D Mechatronics & U.S. DOE Collegiate Wind
+          </div>
+          <div style="font-size: 7.2pt; color: #475569; margin-top: 1px;">
+            <strong>Key Courses:</strong> Computer Architecture, Embedded Systems Design, SystemVerilog & Digital Logic, Data Structures & Algorithms, Signals & Systems, Power Electronics.
+          </div>
+        </div>
+
+        <div class="item-card" style="margin-bottom: 0;">
+          <div class="item-header">
+            <div>
+              <span class="item-role">Master of Science in Business Analytics (MSBA)</span>
+              <span style="color: #64748b;"> • </span>
+              <span class="item-company">University of Massachusetts Amherst</span>
+            </div>
+            <div class="item-meta">Graduation: May 2027 | Amherst, MA</div>
+          </div>
+          <div style="font-size: 7.6pt; color: #334155; margin-top: 1px;">
+            <strong>School:</strong> Isenberg School of Management | Focus on quantitative modeling, high-volume processing, and enterprise data architectures.
+          </div>
+        </div>
+      </div>
+
+      <!-- TECHNICAL SKILLS -->
+      <div class="section" style="margin-top: 8px; margin-bottom: 0;">
+        <div class="section-title">
+          Technical Competencies
+          <span>CORE SKILLS MATRIX</span>
+        </div>
+        <div class="skills-container">
+          <div class="skill-cat-card">
+            <div class="skill-cat-title">Programming & Systems</div>
+            <div class="skill-list-text">
+              <strong>Languages:</strong> Python, JavaScript (ES6+), SystemVerilog, SQL, Java, Bash/Shell, C/C++<br>
+              <strong>Quantum:</strong> Qiskit, PennyLane, Circuit Optimization, State-Vector Simulation
+            </div>
+          </div>
+          <div class="skill-cat-card">
+            <div class="skill-cat-title">Embedded & Hardware</div>
+            <div class="skill-list-text">
+              <strong>Firmware & MCUs:</strong> Embedded C, ARM Cortex, ESP32, Arduino, I2C / SPI / UART<br>
+              <strong>EDA & Prototyping:</strong> LTSpice Simulation, SolidWorks CAD, CNC Machining, 3D Printing
+            </div>
+          </div>
+          <div class="skill-cat-card">
+            <div class="skill-cat-title">Cloud & Infrastructure</div>
+            <div class="skill-list-text">
+              <strong>Cloud Platforms:</strong> AWS (EC2, S3, Lambda, IAM, Braket), Google Cloud (GCP)<br>
+              <strong>DevOps & Tools:</strong> Terraform (IaC), Docker, CI/CD Pipelines, Linux/Unix Internals
+            </div>
+          </div>
+          <div class="skill-cat-card">
+            <div class="skill-cat-title">AI, ML & Analytics</div>
+            <div class="skill-list-text">
+              <strong>Deep Learning:</strong> PyTorch, Variational Quantum Circuits (QNN), CNNs, NumPy<br>
+              <strong>Analytics:</strong> High-Volume Processing, Predictive Modeling, REST APIs
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>Vansh Singh • Engineering Portfolio</span>
+      <span>Live GitHub: <a href="https://github.com/vsingh2005" target="_blank">https://github.com/vsingh2005</a></span>
+      <span>Page 1 of 2</span>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    <div>
+      <!-- HEADER -->
+      <div class="header" style="margin-bottom: 9px; padding-bottom: 7px;">
+        <div class="header-left">
+          <div class="name" style="font-size: 16pt;">Engineering Case Studies & Repositories</div>
+          <div class="tagline-main" style="font-size: 8.8pt;">Architectural Overviews, Hardware Prototypes & Live GitHub Repositories</div>
+        </div>
+        <div class="header-right">
+          <div class="contact-badge primary">
+            <span>GitHub Hub:</span>
+            <a href="https://github.com/vsingh2005" target="_blank">github.com/vsingh2005 ↗</a>
+          </div>
+          <div style="font-size: 6.8pt; color: #64748b; font-family: 'JetBrains Mono', monospace;">
+            Click any badge to view code repositories
+          </div>
+        </div>
+      </div>
+
+      <div class="project-grid">
+
+        <!-- Project 1: Quantum Hybrid NN -->
+        <div class="project-card featured">
+          <div class="project-header">
+            <div class="project-title-box">
+              <div class="project-title">Quantum-Classical Hybrid Neural Network</div>
+              <div class="project-subtitle">Variational Quantum Circuits on AWS Braket with PennyLane • Lead Architect & Developer</div>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/vsingh2005" target="_blank" class="github-btn">
+                <span>GitHub Code</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-summary">
+            Designed and implemented a hybrid neural network integrating classical convolutional layers with parameterized variational quantum circuits executed on AWS Braket state-vector simulators, achieving 28% faster epoch convergence and 3.4x parameter efficiency.
+          </div>
+          <div class="project-metrics-row">
+            <div class="project-metric-item">
+              <div class="project-metric-val">28% Faster</div>
+              <div class="project-metric-lbl">Epoch Convergence vs Classical CNN</div>
+            </div>
+            <div class="project-metric-item">
+              <div class="project-metric-val">3.4x</div>
+              <div class="project-metric-lbl">Parameter Efficiency in Hilbert Space</div>
+            </div>
+            <div class="project-metric-item">
+              <div class="project-metric-val">AWS Braket</div>
+              <div class="project-metric-lbl">Distributed Quantum Simulation</div>
+            </div>
+          </div>
+          <div style="font-size: 7.2pt; color: #334155; margin-bottom: 2.5px;">
+            <strong>Key Highlights:</strong> Custom PennyLane QNode integrated with PyTorch <code>nn.Module</code> forward loops; angle embedding with multi-qubit entanglement (CNOT + LCU); parameter-shift gradient computation; gate depth optimization.
+          </div>
+          <div class="tech-pills">
+            <span class="tech-pill">PyTorch</span>
+            <span class="tech-pill">PennyLane</span>
+            <span class="tech-pill">AWS Braket</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Qiskit</span>
+            <span class="tech-pill">NumPy</span>
+          </div>
+        </div>
+
+        <!-- Project 2: ASME Mechatronics -->
+        <div class="project-card featured">
+          <div class="award-tag">🏆 2nd Place Globally • ASME IAM3D Competition (40+ Universities)</div>
+          <div class="project-header">
+            <div class="project-title-box">
+              <div class="project-title">Autonomous Payload Drone & Off-Terrain Rover</div>
+              <div class="project-subtitle">ASME UMass Amherst Mechatronics Team • Electrical & Prototyping Subteam Lead</div>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/vsingh2005" target="_blank" class="github-btn">
+                <span>GitHub Code</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-summary">
+            Led electrical and prototyping subteam to engineer an articulated payload drone and off-terrain rover. Modeled custom CNC aluminum 6061 frame in SolidWorks, programmed ARM Cortex motor telemetry, and secured 2nd Place globally among 40+ international teams.
+          </div>
+          <div class="project-metrics-row">
+            <div class="project-metric-item">
+              <div class="project-metric-val">2nd Place</div>
+              <div class="project-metric-lbl">Global ASME IAM3D Finish</div>
+            </div>
+            <div class="project-metric-item">
+              <div class="project-metric-val">4.5 kg</div>
+              <div class="project-metric-lbl">Payload Capacity with FEA Tuning</div>
+            </div>
+            <div class="project-metric-item">
+              <div class="project-metric-val">50 Hz</div>
+              <div class="project-metric-lbl">Real-time Telemetry over SPI/I2C</div>
+            </div>
+          </div>
+          <div class="tech-pills">
+            <span class="tech-pill">SolidWorks</span>
+            <span class="tech-pill">CNC Machining</span>
+            <span class="tech-pill">ARM Cortex</span>
+            <span class="tech-pill">Embedded C</span>
+            <span class="tech-pill">3D Printing</span>
+            <span class="tech-pill">I2C/SPI/UART</span>
+            <span class="tech-pill">Motor Drivers</span>
+          </div>
+        </div>
+
+        <!-- Project 3: DOE Wind Turbine -->
+        <div class="project-card">
+          <div class="award-tag" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd;">⚡ 100% DOE Electrical Safety Compliance</div>
+          <div class="project-header">
+            <div class="project-title-box">
+              <div class="project-title">Offshore Wind Turbine 24V Power & Telemetry System</div>
+              <div class="project-subtitle">U.S. Department of Energy Collegiate Wind Competition • Electrical Subteam Lead (6 Engineers)</div>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/vsingh2005" target="_blank" class="github-btn">
+                <span>GitHub Code</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-summary">
+            Led a 6-engineer subteam in modeling, simulating, and validating a 24V synchronous DC-DC power regulation circuit and sensor telemetry platform for dynamic wind-load conditions, achieving 100% safety and specification compliance.
+          </div>
+          <div class="project-metrics-row">
+            <div class="project-metric-item">
+              <div class="project-metric-val">24V ±0.5%</div>
+              <div class="project-metric-lbl">Voltage Regulation Stability</div>
+            </div>
+            <div class="project-metric-item">
+              <div class="project-metric-val">100%</div>
+              <div class="project-metric-lbl">DOE Benchmark Compliance</div>
+            </div>
+            <div class="project-metric-item">
+              <div class="project-metric-val">6 Engineers</div>
+              <div class="project-metric-lbl">Led Schematic & Assembly</div>
+            </div>
+          </div>
+          <div class="tech-pills">
+            <span class="tech-pill">LTSpice</span>
+            <span class="tech-pill">Power Electronics</span>
+            <span class="tech-pill">24V DC-DC</span>
+            <span class="tech-pill">PCB Simulation</span>
+            <span class="tech-pill">Embedded C</span>
+            <span class="tech-pill">Telemetry</span>
+          </div>
+        </div>
+
+        <!-- Project 4: Cloud IaC -->
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-title-box">
+              <div class="project-title">Multi-Tenant Cloud Infrastructure & Terraform Automation</div>
+              <div class="project-subtitle">UMass Amherst IT • Cloud Infrastructure Engineering Intern</div>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/vsingh2005" target="_blank" class="github-btn">
+                <span>GitHub Code</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-summary">
+            Built modular Terraform blueprints and automated CI/CD pipelines on AWS, accelerating developer onboarding and cloud environment provisioning by 40% with zero configuration drift across 6 engineering teams.
+          </div>
+          <div class="tech-pills">
+            <span class="tech-pill">AWS (EC2, S3, Lambda, IAM)</span>
+            <span class="tech-pill">Terraform</span>
+            <span class="tech-pill">Docker</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Bash</span>
+            <span class="tech-pill">CI/CD</span>
+          </div>
+        </div>
+
+        <!-- Project 5 & 6 Mini Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <!-- Project 5 -->
+          <div class="project-card" style="padding: 6px 8px;">
+            <div class="project-header">
+              <div>
+                <div class="project-title" style="font-size: 8.5pt;">Embedded IoT Learning Platform</div>
+                <div class="project-subtitle">Stem Studio • Systems Lead</div>
+              </div>
+              <a href="https://github.com/vsingh2005" target="_blank" class="github-btn" style="font-size: 6.2pt; padding: 1px 4.5px;">
+                <span>GitHub ↗</span>
+              </a>
+            </div>
+            <div class="project-summary" style="font-size: 7.2pt; margin-bottom: 2.5px;">
+              Created hands-on embedded firmware lab curriculum (ESP32, ARM Cortex, I2C/SPI) for 150+ students, raising project pass rates by 35%.
+            </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Embedded C</span>
+              <span class="tech-pill">ARM</span>
+              <span class="tech-pill">ESP32</span>
+              <span class="tech-pill">IoT</span>
+            </div>
+          </div>
+
+          <!-- Project 6 -->
+          <div class="project-card" style="padding: 6px 8px;">
+            <div class="project-header">
+              <div>
+                <div class="project-title" style="font-size: 8.5pt;">Malware Remediation & Hardening</div>
+                <div class="project-subtitle">Production Incident Response</div>
+              </div>
+              <a href="https://github.com/vsingh2005" target="_blank" class="github-btn" style="font-size: 6.2pt; padding: 1px 4.5px;">
+                <span>GitHub ↗</span>
+              </a>
+            </div>
+            <div class="project-summary" style="font-size: 7.2pt; margin-bottom: 2.5px;">
+              Neutralized obfuscated PHP cloaking malware, restored WSOD failures, and implemented fail2ban and WAF security locks.
+            </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Linux Hardening</span>
+              <span class="tech-pill">PHP</span>
+              <span class="tech-pill">Nginx</span>
+              <span class="tech-pill">Bash</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>Vansh Singh • Engineering Portfolio</span>
+      <span>GitHub Profile & Repos: <a href="https://github.com/vsingh2005" target="_blank">https://github.com/vsingh2005</a></span>
+      <span>Page 2 of 2</span>
+    </div>
+  </div>
+
+</body>
+</html>
+`;
+
+fs.writeFileSync('portfolio_export.html', htmlContent, 'utf-8');
+console.log('HTML written to portfolio_export.html');
+
+const htmlPath = path.resolve('portfolio_export.html');
+const pdfPath = path.resolve('Vansh_Singh_Portfolio.pdf');
+const publicPdfPath = path.resolve('public', 'Vansh_Singh_Portfolio.pdf');
+
+const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const edgePath = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+const browserPath = fs.existsSync(chromePath) ? chromePath : edgePath;
+
+const fileUri = 'file:///' + htmlPath.replace(/\\/g, '/');
+const cmd = '"' + browserPath + '" --headless=new --disable-gpu --no-pdf-header-footer --print-to-pdf="' + pdfPath + '" "' + fileUri + '"';
+
+console.log('Running:', cmd);
+execSync(cmd);
+console.log('Generated PDF at:', pdfPath);
+
+if (fs.existsSync('public')) {
+  fs.copyFileSync(pdfPath, publicPdfPath);
+  console.log('Copied PDF to:', publicPdfPath);
+}
