@@ -15,6 +15,8 @@ import {
 import { PERSONAL_INFO, PROJECTS, TESTIMONIALS_AND_HONORS } from "@/data/portfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { TerminalCard } from "@/components/ui/TerminalCard";
+import { HeroInteractiveHub } from "@/components/visuals/HeroInteractiveHub";
+import { PhobosTelemetryBanner } from "@/components/visuals/PhobosTelemetryBanner";
 
 export default function HomePage() {
   const featuredProjects = PROJECTS.filter((p) => p.featured);
@@ -105,7 +107,7 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* Right Column: Live Terminal */}
+          {/* Right Column: Hero Interactive Hub (Orbital Core, Oscilloscope, Shell) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -115,10 +117,15 @@ export default function HomePage() {
             <div className="relative">
               <div className="absolute -top-10 -right-10 w-48 h-48 bg-accent-blue/20 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-accent-magenta/20 rounded-full blur-3xl pointer-events-none" />
-              <TerminalCard />
+              <HeroInteractiveHub />
             </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* PHOBOS-INSPIRED VECTOR & TELEMETRY BANNER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <PhobosTelemetryBanner />
       </section>
 
       {/* CORE EXPERTISE PILLARS */}
@@ -137,7 +144,9 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300 group">
+          <div className="relative p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300 group">
+            <div className="hud-corner-tl p-2">+</div>
+            <div className="hud-corner-tr p-2">+</div>
             <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-6 text-cyan-400 group-hover:scale-110 transition-transform">
               <BrainCircuit className="w-6 h-6" />
             </div>
@@ -152,10 +161,14 @@ export default function HomePage() {
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">AWS Braket</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">PyTorch</span>
             </div>
+            <div className="hud-corner-bl p-2">+</div>
+            <div className="hud-corner-br p-2">+</div>
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-blue-500/30 transition-all duration-300 group">
+          <div className="relative p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-blue-500/30 transition-all duration-300 group">
+            <div className="hud-corner-tl p-2">+</div>
+            <div className="hud-corner-tr p-2">+</div>
             <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform">
               <Cloud className="w-6 h-6" />
             </div>
@@ -170,10 +183,14 @@ export default function HomePage() {
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">AWS EC2/S3</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">Docker & CI/CD</span>
             </div>
+            <div className="hud-corner-bl p-2">+</div>
+            <div className="hud-corner-br p-2">+</div>
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-violet-500/30 transition-all duration-300 group">
+          <div className="relative p-6 sm:p-8 rounded-2xl glass-panel border border-white/[0.08] hover:border-violet-500/30 transition-all duration-300 group">
+            <div className="hud-corner-tl p-2">+</div>
+            <div className="hud-corner-tr p-2">+</div>
             <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-6 text-violet-400 group-hover:scale-110 transition-transform">
               <Cpu className="w-6 h-6" />
             </div>
@@ -188,6 +205,8 @@ export default function HomePage() {
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">LTSpice</span>
               <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-text-muted">SolidWorks</span>
             </div>
+            <div className="hud-corner-bl p-2">+</div>
+            <div className="hud-corner-br p-2">+</div>
           </div>
         </div>
       </section>
