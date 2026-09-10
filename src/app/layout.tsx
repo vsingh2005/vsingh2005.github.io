@@ -34,10 +34,10 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vsingh2005.github.io"),
-  title: "ringo2005 | Computer Engineer, Cloud & Quantum Systems",
-  description: "Portfolio of ringo2005 (Vansh Singh - UMass Amherst Computer Engineering & Business Analytics). Cloud automation, quantum machine learning, and embedded mechatronics.",
+  title: "ringularity0 | Computer Engineer, Cloud & Quantum Systems",
+  description: "Portfolio of ringularity0 (Vansh Singh - UMass Amherst Computer Engineering & Business Analytics). Cloud automation, quantum machine learning, and embedded mechatronics.",
   keywords: [
-    "ringo2005",
+    "ringularity0",
     "Vansh Singh",
     "UMass Amherst",
     "Computer Engineering",
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     "Mechatronics",
     "ASME IAM3D"
   ],
-  authors: [{ name: "ringo2005", url: PERSONAL_INFO.github }],
-  creator: "ringo2005",
+  authors: [{ name: "ringularity0", url: PERSONAL_INFO.github }],
+  creator: "ringularity0",
   icons: {
     icon: "/avatar.jpg",
   },
@@ -59,14 +59,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://vsingh2005.github.io",
-    title: "ringo2005 | Computer Engineer & Cloud / Quantum Systems",
+    title: "ringularity0 | Computer Engineer & Cloud / Quantum Systems",
     description: PERSONAL_INFO.tagline,
-    siteName: "ringo2005 Portfolio",
+    siteName: "ringularity0 Portfolio",
     images: [{ url: "/avatar.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ringo2005 | Engineering Portfolio",
+    title: "ringularity0 | Engineering Portfolio",
     description: PERSONAL_INFO.tagline,
     images: ["/avatar.jpg"],
   },

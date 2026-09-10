@@ -191,7 +191,7 @@ Backend: AWS Braket StateVector | Convergence: 28% Faster`}
           <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
           <span className="ml-2 text-xs font-mono text-text-muted flex items-center gap-1">
             <TerminalIcon className="w-3.5 h-3.5 text-accent-cyan" />
-            <span>ringo2005@umass-box: ~</span>
+            <span>ringularity0@umass-box: ~</span>
           </span>
         </div>
 
@@ -216,7 +216,7 @@ Backend: AWS Braket StateVector | Convergence: 28% Faster`}
         {history.map((item, index) => (
           <div key={index} className="space-y-1">
             <div className="flex items-center gap-2 text-xs text-text-muted">
-              <span className="text-accent-cyan">ringo2005@portfolio</span>
+              <span className="text-accent-cyan">ringularity0@portfolio</span>
               <span className="text-white/40">:</span>
               <span className="text-accent-violet">~</span>
               <span className="text-white/40">$</span>
@@ -228,7 +228,7 @@ Backend: AWS Braket StateVector | Convergence: 28% Faster`}
 
         {/* Input prompt */}
         <form onSubmit={onSubmit} className="flex items-center gap-2 text-xs pt-1">
-          <span className="text-accent-cyan">ringo2005@portfolio</span>
+          <span className="text-accent-cyan">ringularity0@portfolio</span>
           <span className="text-white/40">:</span>
           <span className="text-accent-violet">~</span>
           <span className="text-white/40">$</span>

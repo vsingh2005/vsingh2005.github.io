@@ -53,14 +53,14 @@ export function Footer() {
               <div className="w-10 h-10 rounded-xl bg-yellow-400 border border-yellow-300/60 overflow-hidden shadow-inner flex items-center justify-center">
                 <Image
                   src="/avatar.jpg"
-                  alt="ringo2005"
+                  alt="ringularity0"
                   width={40}
                   height={40}
                   className="w-full h-full object-cover"
                 />
               </div>
               <span className="font-display font-bold text-lg text-white uppercase tracking-wider">
-                ringo2005
+                ringularity0
               </span>
             </div>
             <p className="text-text-secondary text-sm max-w-md leading-relaxed">

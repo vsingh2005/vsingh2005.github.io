@@ -61,7 +61,7 @@ export function Navbar() {
             <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-yellow-400 border border-yellow-300/60 group-hover:border-yellow-200 group-hover:shadow-[0_0_20px_rgba(250,204,21,0.5)] transition-all duration-300 overflow-hidden">
               <Image
                 src="/avatar.jpg"
-                alt="ringo2005"
+                alt="ringularity0"
                 width={40}
                 height={40}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
@@ -73,7 +73,7 @@ export function Navbar() {
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
                 <span className="font-display font-bold text-base tracking-wider text-white group-hover:text-cyan-300 transition-colors uppercase">
-                  ringo2005
+                  ringularity0
                 </span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#10B981]" />
               </div>
