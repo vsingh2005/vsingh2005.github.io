@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUp, Github, Mail, FileDown, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { DevpostIcon } from "@/components/ui/DevpostIcon";
 
 export function Footer() {
   const [amherstTime, setAmherstTime] = useState<string>("");
@@ -150,6 +151,17 @@ export function Footer() {
               <Github className="w-3.5 h-3.5 text-accent-cyan" />
               <span>GitHub</span>
             </a>
+            {PERSONAL_INFO.devpost && (
+              <a
+                href={PERSONAL_INFO.devpost}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors"
+              >
+                <DevpostIcon className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Devpost</span>
+              </a>
+            )}
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
               className="flex items-center gap-1.5 hover:text-white transition-colors"

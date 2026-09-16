@@ -28,6 +28,7 @@ export interface ProjectCaseStudy {
   results: string[];
   links: {
     github?: string;
+    devpost?: string;
     demo?: string;
     paper?: string;
   };
@@ -78,6 +79,7 @@ export const PERSONAL_INFO = {
   email: "vanshsingh@umass.edu",
   github: "https://github.com/vsingh2005",
   githubHandle: "vsingh2005",
+  devpost: "https://devpost.com/vanshsingh",
   locations: ["Chicago, IL", "Amherst, MA"],
   resumePdf: "/Vansh_Singh_Resume.pdf",
   portfolioPdf: "/Vansh_Singh_Portfolio.pdf",
@@ -264,7 +266,88 @@ class HybridQuantumNet(nn.Module):
       "Packaged into containerized training pipelines for cloud execution."
     ],
     links: {
-      github: "https://github.com/vsingh2005"
+      github: "https://github.com/xoth42/QNN-hack",
+      devpost: "https://devpost.com/software/quantum-hybrid-neural-network"
+    }
+  },
+  {
+    id: "hacktheherd-wasteless",
+    slug: "hacktheherd",
+    title: "WasteLess (Frutiger Eco) – Real-Time Food Waste AI",
+    subtitle: "On-Device Neural Network & Distributed Telemetry for Sustainability",
+    category: "Quantum & AI",
+    period: "Nov 2025",
+    featured: true,
+    award: "Hack the Herd Fall 2025",
+    summary: "Engineered a custom-trained computer vision neural network on edge camera hardware to detect and quantify uneaten dining hall food in real time, with multi-camera deduplication caching.",
+    role: "Lead ML & Embedded Systems Developer",
+    organization: "Hack the Herd Fall 2025",
+    technologies: ["Python", "PyTorch", "OpenCV", "Raspberry Pi", "Machine Learning", "Edge Inference", "REST APIs", "Data Analytics"],
+    metrics: [
+      { label: "Inference", value: "Real-Time", description: "On-device camera capture & meal classification" },
+      { label: "Deduplication", value: "60s Cache", description: "Multi-camera plate signature matching" },
+      { label: "Dataset", value: "Custom", description: "Self-collected food imagery across lighting conditions" }
+    ],
+    problem: "University dining halls generate tons of unmeasured food waste daily. Without automated logging of uneaten food items, facilities lack actionable data on leftover trends, portion size mismatches, and consumption patterns.",
+    architecture: {
+      title: "Edge Vision & Distributed Cache Architecture",
+      description: "On-device neural network inference coupled with a synchronized multi-camera caching layer to eliminate duplicate counts and stream telemetry to an analytics dashboard.",
+      points: [
+        "Collected and curated custom dataset of dining hall meals to ensure high accuracy across variable lighting and camera angles.",
+        "Engineered on-device inference pipeline running on Raspberry Pi camera hardware for low-latency frame evaluation.",
+        "Implemented a synchronized 60-second plate signature cache preventing duplicate logging across multi-camera conveyor setups.",
+        "Built telemetry pipeline streaming classified meal items to a central backend for waste analytics and portion optimization."
+      ]
+    },
+    keyFeatures: [
+      "Custom-trained convolutional food classifier optimized for edge execution.",
+      "Real-time camera frame evaluation with non-invasive hardware mounting.",
+      "Shared caching system preventing duplicate plate counts across multiple conveyor cameras.",
+      "Data export pipeline highlighting common leftovers and portion mismatches."
+    ],
+    codeSnippet: {
+      language: "python",
+      filename: "edge_waste_detector.py",
+      code: `import cv2
+import torch
+import time
+from collections import OrderedDict
+
+class EdgeFoodWasteDetector:
+    def __init__(self, model_path="model_weights.pt", cache_ttl=60):
+        self.model = torch.load(model_path, map_location="cpu")
+        self.model.eval()
+        self.cache_ttl = cache_ttl
+        self.plate_cache = OrderedDict()  # plate_hash -> timestamp
+
+    def purge_expired(self):
+        now = time.time()
+        expired = [h for h, ts in self.plate_cache.items() if now - ts > self.cache_ttl]
+        for h in expired:
+            del self.plate_cache[h]
+
+    def process_frame(self, frame):
+        self.purge_expired()
+        plate_sig = self.compute_signature(frame)
+        if plate_sig in self.plate_cache:
+            return None  # Deduplicate: Plate seen within 60s window
+
+        tensor = self.preprocess(frame)
+        with torch.no_grad():
+            preds = self.model(tensor)
+            label, conf = self.postprocess(preds)
+
+        self.plate_cache[plate_sig] = time.time()
+        return {"item": label, "confidence": conf, "timestamp": time.time()}`
+    },
+    results: [
+      "Successfully built and demonstrated functional camera prototype during Hack the Herd Fall 2025.",
+      "Validated edge inference latency and multi-camera cache deduplication strategy.",
+      "Published open-source repository and project showcase on Devpost."
+    ],
+    links: {
+      github: "https://github.com/vsingh2005/HackTheHerd2025",
+      devpost: "https://devpost.com/software/wasteless-lkvgnz"
     }
   },
   {

@@ -49,6 +49,7 @@ export function TerminalCard() {
               <div><span className="text-accent-cyan font-semibold">projects</span> - List engineering case studies</div>
               <div><span className="text-accent-cyan font-semibold">skills</span> - Technical skills matrix</div>
               <div><span className="text-accent-cyan font-semibold">quantum</span> - Simulate quantum variational circuit</div>
+              <div><span className="text-accent-cyan font-semibold">hacktheherd</span> - WasteLess edge AI project & Devpost</div>
               <div><span className="text-accent-cyan font-semibold">cloud</span> - View cloud IaC architecture specs</div>
               <div><span className="text-accent-cyan font-semibold">contact</span> - Get email & GitHub links</div>
               <div><span className="text-accent-cyan font-semibold">clear</span> - Flush terminal buffer</div>
@@ -117,6 +118,26 @@ q[3]: --RY(θ3)----------╰X------╰X------⟨Z⟩
 Backend: AWS Braket StateVector | Convergence: 28% Faster`}
             </pre>
             <p className="text-text-muted text-[11px]">Calculated Linear Combination of Unitaries feature expectation values.</p>
+            <div className="pt-1 flex flex-wrap gap-3 text-[11px]">
+              <a href="https://devpost.com/software/quantum-hybrid-neural-network" target="_blank" rel="noopener noreferrer" className="text-accent-cyan hover:underline">↗ Devpost Submission</a>
+              <a href="https://github.com/xoth42/QNN-hack" target="_blank" rel="noopener noreferrer" className="text-accent-violet hover:underline">↗ GitHub Repo</a>
+            </div>
+          </div>
+        );
+        break;
+
+      case "hacktheherd":
+      case "wasteless":
+        output = (
+          <div className="space-y-1.5 text-xs font-mono text-emerald-300">
+            <p className="font-bold text-accent-emerald">🌱 WasteLess (Frutiger Eco) - Hack the Herd Fall 2025:</p>
+            <p className="text-text-secondary text-[11px]">
+              Edge neural network with camera inference to log food waste and stream analytics with 60s plate deduplication caching.
+            </p>
+            <div className="pt-1 flex flex-wrap gap-3 text-[11px]">
+              <a href="https://devpost.com/software/wasteless-lkvgnz" target="_blank" rel="noopener noreferrer" className="text-accent-cyan hover:underline">↗ Devpost Submission</a>
+              <a href="https://github.com/vsingh2005/HackTheHerd2025" target="_blank" rel="noopener noreferrer" className="text-accent-violet hover:underline">↗ GitHub Repo</a>
+            </div>
           </div>
         );
         break;
@@ -138,6 +159,7 @@ Backend: AWS Braket StateVector | Convergence: 28% Faster`}
             <p className="text-white font-semibold">Contact & Links:</p>
             <p>📧 Email: <a href={`mailto:${PERSONAL_INFO.email}`} className="text-accent-cyan hover:underline">{PERSONAL_INFO.email}</a></p>
             <p>💻 GitHub: <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="text-accent-violet hover:underline">{PERSONAL_INFO.github}</a></p>
+            <p>🏆 Devpost: <a href={PERSONAL_INFO.devpost} target="_blank" rel="noopener noreferrer" className="text-accent-cyan hover:underline">{PERSONAL_INFO.devpost}</a></p>
             <p>📍 Location: Chicago, IL / Amherst, MA</p>
           </div>
         );

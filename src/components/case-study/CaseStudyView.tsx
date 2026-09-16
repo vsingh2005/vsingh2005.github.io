@@ -15,6 +15,7 @@ import {
   Building
 } from "lucide-react";
 import { ProjectCaseStudy } from "@/data/portfolioData";
+import { DevpostIcon } from "@/components/ui/DevpostIcon";
 
 export function CaseStudyView({
   project,
@@ -47,7 +48,29 @@ export function CaseStudyView({
           <span>Back to Projects</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {project.links.devpost && (
+            <a
+              href={project.links.devpost}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition-all"
+            >
+              <DevpostIcon className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Devpost</span>
+            </a>
+          )}
+          {project.links.github && (
+            <a
+              href={project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-white/[0.04] hover:bg-white/[0.08] text-text-secondary hover:text-white border border-white/[0.08] transition-all"
+            >
+              <Github className="w-3.5 h-3.5" />
+              <span>Repo</span>
+            </a>
+          )}
           <span className="px-3 py-1 rounded-full text-xs font-mono bg-accent-blue/10 text-cyan-300 border border-accent-blue/30">
             {project.category}
           </span>
@@ -230,7 +253,18 @@ export function CaseStudyView({
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          {project.links.devpost && (
+            <a
+              href={project.links.devpost}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all shadow-sm"
+            >
+              <DevpostIcon className="w-4 h-4 text-cyan-400" />
+              <span>Devpost Showcase</span>
+            </a>
+          )}
           {project.links.github && (
             <a
               href={project.links.github}

@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Award, Cpu, BrainCircuit, Cloud, Layers, ExternalLink, Github } from "lucide-react";
 import { ProjectCaseStudy } from "@/data/portfolioData";
+import { DevpostIcon } from "@/components/ui/DevpostIcon";
 
 export function ProjectCard({ project }: { project: ProjectCaseStudy }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -127,7 +128,7 @@ export function ProjectCard({ project }: { project: ProjectCaseStudy }) {
 
       {/* Card Footer Actions */}
       <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5">
           {project.links.github && (
             <a
               href={project.links.github}
@@ -137,6 +138,17 @@ export function ProjectCard({ project }: { project: ProjectCaseStudy }) {
               title="View on GitHub"
             >
               <Github className="w-4 h-4" />
+            </a>
+          )}
+          {project.links.devpost && (
+            <a
+              href={project.links.devpost}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-secondary hover:text-cyan-300 transition-colors p-1.5 rounded-lg hover:bg-cyan-500/10"
+              title="View on Devpost"
+            >
+              <DevpostIcon className="w-4 h-4" />
             </a>
           )}
         </div>

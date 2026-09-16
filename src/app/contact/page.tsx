@@ -13,6 +13,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { DevpostIcon } from "@/components/ui/DevpostIcon";
 
 export default function ContactPage() {
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -232,6 +233,29 @@ export default function ContactPage() {
               className="w-full py-2.5 rounded-xl text-xs font-mono font-medium text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center gap-2 transition-all"
             >
               <span>Visit github.com/vsingh2005</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* Devpost Card */}
+          <div className="p-6 rounded-3xl glass-panel border border-white/[0.08] space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                <DevpostIcon className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-display font-bold text-white">Devpost</h4>
+                <p className="text-xs text-text-muted font-mono">vanshsingh</p>
+              </div>
+            </div>
+
+            <a
+              href={PERSONAL_INFO.devpost}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 rounded-xl text-xs font-mono font-medium text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center gap-2 transition-all"
+            >
+              <span>Visit devpost.com/vanshsingh</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
