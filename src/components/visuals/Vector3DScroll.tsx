@@ -19,7 +19,7 @@ export function Vector3DScroll({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Default to the real, functional logic gates mode so recruiters & users see authentic engineering
+  // Default to the real, functional logic gates mode
   const [activeMode, setActiveMode] = useState<CompEMode>("logic");
 
   // Real Boolean inputs for Full Adder circuit: A, B, Carry-In
@@ -33,9 +33,8 @@ export function Vector3DScroll({
   // Telemetry display
   const [telemetry, setTelemetry] = useState({
     fps: 60,
-    rotX: 18.0,
-    rotY: -12.0,
-    scrollDir: "IDLE" as "DOWN" | "UP" | "IDLE",
+    rotX: 12.0,
+    rotY: -8.0,
     stepIndex: 5, // (1, 0, 1) = index 5 in truth table
     sum: 0,
     cout: 1,
@@ -119,9 +118,9 @@ export function Vector3DScroll({
 
     const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
-    // View angles: starts in a gentle isometric 3D CAD schematic angle
-    let rotX = 0.28;  // ~16 degrees pitch
-    let rotY = -0.22; // ~-12 degrees yaw
+    // Fixed, forward-facing isometric CAD angles clamped so circuit NEVER flips backwards
+    let rotX = 0.16;  // ~9° pitch
+    let rotY = -0.12; // ~-7° yaw
     let targetRotX = rotX;
     let targetRotY = rotY;
 
@@ -129,36 +128,6 @@ export function Vector3DScroll({
     let isDragging = false;
     let startX = 0;
     let startY = 0;
-
-    // Bidirectional scroll tracking
-    let lastScrollY = typeof window !== "undefined" ? window.scrollY : 0;
-    let accumulatedScrollDelta = 0;
-    let scrollVelocity = 0;
-
-    const onScroll = () => {
-      const currentY = window.scrollY;
-      const deltaY = currentY - lastScrollY;
-      lastScrollY = currentY;
-
-      scrollVelocity = deltaY;
-      accumulatedScrollDelta += deltaY;
-
-      // Every ~75px of scroll steps the circuit forward (down) or backward (up)
-      const stepThreshold = 75;
-      if (accumulatedScrollDelta >= stepThreshold) {
-        stepTruthTable(true);
-        accumulatedScrollDelta = 0;
-      } else if (accumulatedScrollDelta <= -stepThreshold) {
-        stepTruthTable(false);
-        accumulatedScrollDelta = 0;
-      }
-
-      // Gentle parallax tilt with scroll
-      targetRotY += deltaY * 0.0012;
-      targetRotX += deltaY * 0.0006;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
 
     const onPointerDown = (clientX: number, clientY: number) => {
       if (!interactive) return;
@@ -174,8 +143,9 @@ export function Vector3DScroll({
       startX = clientX;
       startY = clientY;
 
-      targetRotY += dx * 0.007;
-      targetRotX -= dy * 0.007;
+      // Clamp yaw and pitch within a safe range so circuit never flips or mirrors
+      targetRotY = Math.max(-0.35, Math.min(0.35, targetRotY + dx * 0.005));
+      targetRotX = Math.max(-0.25, Math.min(0.35, targetRotX - dy * 0.005));
     };
 
     const onPointerUp = () => {
@@ -237,8 +207,8 @@ export function Vector3DScroll({
       lastTime = time;
       frame++;
 
-      // Update telemetry every 12 frames
-      if (frame % 12 === 0 && deltaMs > 0) {
+      // Update telemetry every 15 frames
+      if (frame % 15 === 0 && deltaMs > 0) {
         const curA = inputsRef.current.a;
         const curB = inputsRef.current.b;
         const curCin = inputsRef.current.cin;
@@ -253,7 +223,6 @@ export function Vector3DScroll({
           fps: Math.min(Math.round(1000 / deltaMs), 60),
           rotX: parseFloat(((rotX * 180) / Math.PI).toFixed(1)),
           rotY: parseFloat(((rotY * 180) / Math.PI).toFixed(1)),
-          scrollDir: scrollVelocity > 1.2 ? "DOWN" : scrollVelocity < -1.2 ? "UP" : "IDLE",
           stepIndex: (curA ? 4 : 0) + (curB ? 2 : 0) + (curCin ? 1 : 0),
           sum: curSum ? 1 : 0,
           cout: curCout ? 1 : 0,
@@ -261,21 +230,13 @@ export function Vector3DScroll({
         });
       }
 
-      // Smooth physics damping
-      rotX += (targetRotX - rotX) * 0.08;
-      rotY += (targetRotY - rotY) * 0.08;
-
-      // Extremely gentle idle drift when user is not interacting
-      if (!isDragging) {
-        targetRotY += 0.0006;
-      }
-
-      scrollVelocity *= 0.92;
-      if (Math.abs(scrollVelocity) < 0.1) scrollVelocity = 0;
+      // Smooth physics damping toward target angles
+      rotX += (targetRotX - rotX) * 0.1;
+      rotY += (targetRotY - rotY) * 0.1;
 
       const rect = canvas.getBoundingClientRect();
       const width = rect.width || size;
-      const height = rect.height || size;
+      const height = rect.height || (size * 0.7);
 
       if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
         canvas.width = width * dpr;
@@ -290,11 +251,11 @@ export function Vector3DScroll({
       const fov = 440;
       const currentMode = modeRef.current;
 
-      // Ambient architectural schematic grid
+      // Ambient background glow
       const gridR = width * 0.44;
       const gridGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, gridR);
-      gridGrad.addColorStop(0, "rgba(0, 245, 212, 0.06)");
-      gridGrad.addColorStop(0.6, "rgba(121, 40, 202, 0.04)");
+      gridGrad.addColorStop(0, "rgba(0, 245, 212, 0.05)");
+      gridGrad.addColorStop(0.6, "rgba(121, 40, 202, 0.03)");
       gridGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = gridGrad;
       ctx.fillRect(0, 0, width, height);
@@ -329,7 +290,7 @@ export function Vector3DScroll({
         c.stroke();
 
         c.fillStyle = active ? "#00F5D4" : "rgba(148, 163, 184, 0.85)";
-        c.font = `bold ${Math.max(9, Math.round(11 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.font = `bold ${Math.max(9, Math.round(10 * p.scale))}px 'JetBrains Mono', monospace`;
         c.textAlign = "center";
         c.textBaseline = "middle";
         c.fillText(label, p.x2d - gw * 0.08, p.y2d);
@@ -367,7 +328,7 @@ export function Vector3DScroll({
         c.stroke();
 
         c.fillStyle = active ? "#F59E0B" : "rgba(148, 163, 184, 0.85)";
-        c.font = `bold ${Math.max(9, Math.round(11 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.font = `bold ${Math.max(9, Math.round(10 * p.scale))}px 'JetBrains Mono', monospace`;
         c.textAlign = "center";
         c.textBaseline = "middle";
         c.fillText(label, p.x2d - gw * 0.05, p.y2d);
@@ -412,7 +373,7 @@ export function Vector3DScroll({
         c.stroke();
 
         c.fillStyle = active ? "#D8B4FE" : "rgba(148, 163, 184, 0.85)";
-        c.font = `bold ${Math.max(9, Math.round(11 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.font = `bold ${Math.max(9, Math.round(10 * p.scale))}px 'JetBrains Mono', monospace`;
         c.textAlign = "center";
         c.textBaseline = "middle";
         c.fillText(label, p.x2d - gw * 0.05, p.y2d);
@@ -437,13 +398,13 @@ export function Vector3DScroll({
 
         if (isHigh) {
           c.strokeStyle = colorHigh;
-          c.lineWidth = 2.4;
+          c.lineWidth = 2.2;
           c.shadowColor = colorHigh;
-          c.shadowBlur = 7;
+          c.shadowBlur = 6;
           c.stroke();
         } else {
           c.strokeStyle = "rgba(71, 85, 105, 0.45)";
-          c.lineWidth = 1.4;
+          c.lineWidth = 1.3;
           c.stroke();
         }
         c.restore();
@@ -461,22 +422,22 @@ export function Vector3DScroll({
         c.save();
 
         c.beginPath();
-        c.arc(p.x2d, p.y2d, 5 * p.scale, 0, Math.PI * 2);
+        c.arc(p.x2d, p.y2d, 4.5 * p.scale, 0, Math.PI * 2);
         c.fillStyle = isHigh ? badgeColor : "rgba(30, 41, 59, 0.9)";
         c.strokeStyle = isHigh ? "#ffffff" : "rgba(100, 116, 139, 0.8)";
-        c.lineWidth = 1.5;
+        c.lineWidth = 1.4;
         c.fill();
         c.stroke();
 
-        c.font = `bold ${Math.max(9, Math.round(10 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.font = `bold ${Math.max(9, Math.round(9.5 * p.scale))}px 'JetBrains Mono', monospace`;
         c.textAlign = align === "left" ? "right" : align === "right" ? "left" : "center";
         c.textBaseline = "middle";
 
-        const offset = 10 * p.scale;
+        const offset = 9 * p.scale;
         const textX = align === "left" ? p.x2d - offset : align === "right" ? p.x2d + offset : p.x2d;
         const textY = align === "top" ? p.y2d - offset : align === "bottom" ? p.y2d + offset : p.y2d;
 
-        c.fillStyle = isHigh ? badgeColor : "rgba(148, 163, 184, 0.7)";
+        c.fillStyle = isHigh ? badgeColor : "rgba(148, 163, 184, 0.75)";
         c.fillText(`${label}=${isHigh ? "1" : "0"}`, textX, textY);
         c.restore();
       };
@@ -494,89 +455,89 @@ export function Vector3DScroll({
         const curAnd2 = curXor1 && curCin;
         const curCout = curAnd1 || curAnd2;
 
-        // Subtle 3D Schematic Substrate Plane
+        // Clean, well-proportioned 3D Schematic Substrate Plane
         const plateCorners = [
-          { x: -195, y: -130, z: -10 },
-          { x: 195, y: -130, z: -10 },
-          { x: 195, y: 130, z: -10 },
-          { x: -195, y: 130, z: -10 },
+          { x: -160, y: -100, z: -10 },
+          { x: 165, y: -100, z: -10 },
+          { x: 165, y: 100, z: -10 },
+          { x: -160, y: 100, z: -10 },
         ];
         const projCorners = plateCorners.map((pt) => project(pt.x, pt.y, pt.z, rotX, rotY, cx, cy, fov));
         ctx.beginPath();
         ctx.moveTo(projCorners[0].x2d, projCorners[0].y2d);
         for (let i = 1; i < projCorners.length; i++) ctx.lineTo(projCorners[i].x2d, projCorners[i].y2d);
         ctx.closePath();
-        ctx.fillStyle = "rgba(10, 15, 26, 0.65)";
+        ctx.fillStyle = "rgba(10, 15, 26, 0.7)";
         ctx.fill();
-        ctx.strokeStyle = "rgba(0, 245, 212, 0.22)";
+        ctx.strokeStyle = "rgba(0, 245, 212, 0.25)";
         ctx.lineWidth = 1.2;
         ctx.stroke();
 
         // Architectural title on plane
-        ctx.fillStyle = "rgba(0, 245, 212, 0.4)";
+        ctx.fillStyle = "rgba(0, 245, 212, 0.5)";
         ctx.font = "8px 'JetBrains Mono', monospace";
-        ctx.fillText("CIRCUIT: 1-BIT FULL ADDER ALU SLICE", projCorners[0].x2d + 10, projCorners[0].y2d + 14);
+        ctx.fillText("CIRCUIT: 1-BIT FULL ADDER ALU", projCorners[0].x2d + 10, projCorners[0].y2d + 13);
 
-        // Defined Node Pin Coordinates (x, y, z) in local circuit units
+        // Scaled, perfectly centered coordinates (left-to-right flow)
         // Inputs on Left
-        const pinA = { x: -170, y: -80, z: 0 };
-        const pinB = { x: -170, y: -30, z: 0 };
-        const pinCin = { x: -170, y: 65, z: 0 };
+        const pinA = { x: -140, y: -65, z: 0 };
+        const pinB = { x: -140, y: -24, z: 0 };
+        const pinCin = { x: -140, y: 55, z: 0 };
 
         // Stage 1 Gates: XOR1 and AND1
-        const center_XOR1 = { x: -65, y: -60, z: 0 };
-        const in1_XOR1 = { x: -88, y: -72, z: 0 };
-        const in2_XOR1 = { x: -88, y: -48, z: 0 };
-        const out_XOR1 = { x: -42, y: -60, z: 0 };
+        const center_XOR1 = { x: -50, y: -50, z: 0 };
+        const in1_XOR1 = { x: -70, y: -60, z: 0 };
+        const in2_XOR1 = { x: -70, y: -40, z: 0 };
+        const out_XOR1 = { x: -30, y: -50, z: 0 };
 
-        const center_AND1 = { x: -65, y: 10, z: 0 };
-        const in1_AND1 = { x: -88, y: 0, z: 0 };
-        const in2_AND1 = { x: -88, y: 20, z: 0 };
-        const out_AND1 = { x: -42, y: 10, z: 0 };
+        const center_AND1 = { x: -50, y: 8, z: 0 };
+        const in1_AND1 = { x: -70, y: 0, z: 0 };
+        const in2_AND1 = { x: -70, y: 16, z: 0 };
+        const out_AND1 = { x: -30, y: 8, z: 0 };
 
         // Stage 2 Gates: XOR2 and AND2
-        const center_XOR2 = { x: 45, y: -45, z: 0 };
-        const in1_XOR2 = { x: 22, y: -57, z: 0 };
-        const in2_XOR2 = { x: 22, y: -33, z: 0 };
-        const out_XOR2 = { x: 68, y: -45, z: 0 };
+        const center_XOR2 = { x: 40, y: -38, z: 0 };
+        const in1_XOR2 = { x: 20, y: -48, z: 0 };
+        const in2_XOR2 = { x: 20, y: -28, z: 0 };
+        const out_XOR2 = { x: 60, y: -38, z: 0 };
 
-        const center_AND2 = { x: 45, y: 30, z: 0 };
-        const in1_AND2 = { x: 22, y: 20, z: 0 };
-        const in2_AND2 = { x: 22, y: 40, z: 0 };
-        const out_AND2 = { x: 68, y: 30, z: 0 };
+        const center_AND2 = { x: 40, y: 25, z: 0 };
+        const in1_AND2 = { x: 20, y: 17, z: 0 };
+        const in2_AND2 = { x: 20, y: 33, z: 0 };
+        const out_AND2 = { x: 60, y: 25, z: 0 };
 
         // Stage 3 Gate: OR1 (computes Cout)
-        const center_OR1 = { x: 125, y: 50, z: 0 };
-        const in1_OR1 = { x: 102, y: 38, z: 0 };
-        const in2_OR1 = { x: 102, y: 62, z: 0 };
-        const out_OR1 = { x: 148, y: 50, z: 0 };
+        const center_OR1 = { x: 105, y: 42, z: 0 };
+        const in1_OR1 = { x: 85, y: 32, z: 0 };
+        const in2_OR1 = { x: 85, y: 52, z: 0 };
+        const out_OR1 = { x: 125, y: 42, z: 0 };
 
         // Outputs on Right
-        const pinSum = { x: 175, y: -45, z: 0 };
-        const pinCout = { x: 175, y: 50, z: 0 };
+        const pinSum = { x: 145, y: -38, z: 0 };
+        const pinCout = { x: 145, y: 42, z: 0 };
 
         // 1. Draw Wires with Real Boolean States
         // Input A Wire -> XOR1 in1 & branch down to AND1 in1
-        drawLogicWire(ctx, [pinA, { x: -125, y: -80, z: 0 }, { x: -125, y: -72, z: 0 }, in1_XOR1], curA, "#00F5D4");
-        drawLogicWire(ctx, [{ x: -125, y: -80, z: 0 }, { x: -125, y: 0, z: 0 }, in1_AND1], curA, "#00F5D4");
+        drawLogicWire(ctx, [pinA, { x: -105, y: -65, z: 0 }, { x: -105, y: -60, z: 0 }, in1_XOR1], curA, "#00F5D4");
+        drawLogicWire(ctx, [{ x: -105, y: -65, z: 0 }, { x: -105, y: 0, z: 0 }, in1_AND1], curA, "#00F5D4");
 
         // Input B Wire -> XOR1 in2 & branch down to AND1 in2
-        drawLogicWire(ctx, [pinB, { x: -110, y: -30, z: 0 }, { x: -110, y: -48, z: 0 }, in2_XOR1], curB, "#00F5D4");
-        drawLogicWire(ctx, [{ x: -110, y: -30, z: 0 }, { x: -110, y: 20, z: 0 }, in2_AND1], curB, "#00F5D4");
+        drawLogicWire(ctx, [pinB, { x: -92, y: -24, z: 0 }, { x: -92, y: -40, z: 0 }, in2_XOR1], curB, "#00F5D4");
+        drawLogicWire(ctx, [{ x: -92, y: -24, z: 0 }, { x: -92, y: 16, z: 0 }, in2_AND1], curB, "#00F5D4");
 
         // Input Cin Wire -> XOR2 in2 & branch to AND2 in2
-        drawLogicWire(ctx, [pinCin, { x: 0, y: 65, z: 0 }, { x: 0, y: -33, z: 0 }, in2_XOR2], curCin, "#00F5D4");
-        drawLogicWire(ctx, [{ x: 0, y: 65, z: 0 }, { x: 0, y: 40, z: 0 }, in2_AND2], curCin, "#00F5D4");
+        drawLogicWire(ctx, [pinCin, { x: 0, y: 55, z: 0 }, { x: 0, y: -28, z: 0 }, in2_XOR2], curCin, "#00F5D4");
+        drawLogicWire(ctx, [{ x: 0, y: 55, z: 0 }, { x: 0, y: 33, z: 0 }, in2_AND2], curCin, "#00F5D4");
 
         // XOR1 Output Wire -> XOR2 in1 & branch to AND2 in1
-        drawLogicWire(ctx, [out_XOR1, { x: -10, y: -60, z: 0 }, { x: -10, y: -57, z: 0 }, in1_XOR2], curXor1, "#A855F7");
-        drawLogicWire(ctx, [{ x: -10, y: -60, z: 0 }, { x: -10, y: 20, z: 0 }, in1_AND2], curXor1, "#A855F7");
+        drawLogicWire(ctx, [out_XOR1, { x: -8, y: -50, z: 0 }, { x: -8, y: -48, z: 0 }, in1_XOR2], curXor1, "#A855F7");
+        drawLogicWire(ctx, [{ x: -8, y: -50, z: 0 }, { x: -8, y: 17, z: 0 }, in1_AND2], curXor1, "#A855F7");
 
         // AND1 Output Wire -> OR1 in1
-        drawLogicWire(ctx, [out_AND1, { x: 85, y: 10, z: 0 }, { x: 85, y: 38, z: 0 }, in1_OR1], curAnd1, "#F59E0B");
+        drawLogicWire(ctx, [out_AND1, { x: 72, y: 8, z: 0 }, { x: 72, y: 32, z: 0 }, in1_OR1], curAnd1, "#F59E0B");
 
         // AND2 Output Wire -> OR1 in2
-        drawLogicWire(ctx, [out_AND2, { x: 85, y: 30, z: 0 }, { x: 85, y: 62, z: 0 }, in2_OR1], curAnd2, "#F59E0B");
+        drawLogicWire(ctx, [out_AND2, { x: 72, y: 25, z: 0 }, { x: 72, y: 52, z: 0 }, in2_OR1], curAnd2, "#F59E0B");
 
         // XOR2 Output Wire -> Sum Output Pin
         drawLogicWire(ctx, [out_XOR2, pinSum], curSum, "#00F5D4");
@@ -585,8 +546,8 @@ export function Vector3DScroll({
         drawLogicWire(ctx, [out_OR1, pinCout], curCout, "#F59E0B");
 
         // 2. Draw ANSI Logic Gates
-        const gateW = 46;
-        const gateH = 34;
+        const gateW = 40;
+        const gateH = 28;
         drawXorGate(ctx, center_XOR1, gateW, gateH, curXor1, "XOR₁");
         drawAndGate(ctx, center_AND1, gateW, gateH, curAnd1, "AND₁");
         drawXorGate(ctx, center_XOR2, gateW, gateH, curSum, "XOR₂");
@@ -603,7 +564,7 @@ export function Vector3DScroll({
       }
 
       // =========================================================================
-      // MODE 2: MULTI-LAYER SILICON DIE ARCHITECTURE (Clean & Calm)
+      // MODE 2: MULTI-LAYER SILICON DIE ARCHITECTURE
       // =========================================================================
       else if (currentMode === "die") {
         const chipRadius = width * 0.32;
@@ -750,7 +711,6 @@ export function Vector3DScroll({
 
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener("scroll", onScroll);
       canvas.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
@@ -764,14 +724,14 @@ export function Vector3DScroll({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full aspect-square max-w-[480px] mx-auto rounded-3xl bg-black/50 border border-white/[0.08] backdrop-blur-2xl p-3 sm:p-4 overflow-hidden shadow-2xl group select-none ${className}`}
+      className={`relative w-full max-w-[500px] h-[520px] mx-auto rounded-3xl bg-black/50 border border-white/[0.08] backdrop-blur-2xl p-4 flex flex-col justify-between overflow-hidden shadow-2xl group select-none ${className}`}
     >
       {/* Background Silicon Glow */}
       <div className="absolute -top-14 -right-14 w-72 h-72 rounded-full bg-gradient-to-tr from-cyan-500/20 via-violet-600/15 to-transparent blur-[90px] pointer-events-none" />
       <div className="absolute -bottom-14 -left-14 w-72 h-72 rounded-full bg-gradient-to-tr from-amber-500/15 via-emerald-500/10 to-transparent blur-[90px] pointer-events-none" />
 
-      {/* Top Header: Architecture Modes & Live Calculation Banner */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-1.5 border-b border-white/[0.06] pb-2 text-xs font-mono">
+      {/* Top Header: Architecture Modes */}
+      <div className="relative z-10 shrink-0 flex flex-wrap items-center justify-between gap-1.5 border-b border-white/[0.06] pb-2 text-xs font-mono">
         {/* Architecture Mode Selector */}
         <div className="flex items-center gap-1 p-0.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
           <button
@@ -817,16 +777,16 @@ export function Vector3DScroll({
 
         {/* Status Badge */}
         <div className="flex items-center gap-1 text-[11px]">
-          <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 font-medium">
+          <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 font-medium">
             <Zap className="w-3 h-3 text-cyan-400" />
-            <span>{telemetry.scrollDir === "DOWN" ? "CLOCK +1" : telemetry.scrollDir === "UP" ? "CLOCK -1" : "DUAL-SCROLL CLOCK"}</span>
+            <span>1-BIT ALU</span>
           </span>
         </div>
       </div>
 
       {/* Interactive Circuit Switch Bar (Only shown in Logic mode) */}
       {activeMode === "logic" && (
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-1.5 mt-2 px-2 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs font-mono">
+        <div className="relative z-10 shrink-0 flex flex-wrap items-center justify-between gap-1.5 mt-2.5 px-2.5 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs font-mono">
           <div className="flex items-center gap-1.5">
             <span className="text-[10px] text-text-muted uppercase tracking-wider">Inputs:</span>
             
@@ -897,40 +857,38 @@ export function Vector3DScroll({
         </div>
       )}
 
-      {/* Main 3D Canvas */}
-      <div className="relative w-full h-[calc(100%-115px)] flex items-center justify-center">
+      {/* Main 3D Canvas (Dynamically fills available space with zero clipping) */}
+      <div className="relative w-full flex-1 min-h-0 flex items-center justify-center my-1">
         <canvas
           ref={canvasRef}
           className="w-full h-full cursor-grab active:cursor-grabbing touch-none"
-          title="Drag to inspect circuit in 3D perspective • Scroll page up or down to step clock"
+          title="Drag to inspect circuit in 3D perspective"
         />
       </div>
 
       {/* Bottom Telemetry & Real Boolean Computation Output */}
-      <div className="relative z-10 flex items-center justify-between text-[10px] font-mono text-text-muted pt-2 border-t border-white/[0.06]">
+      <div className="relative z-10 shrink-0 flex items-center justify-between text-[11px] font-mono text-text-muted pt-2.5 pb-0.5 border-t border-white/[0.08]">
         {activeMode === "logic" ? (
           <div className="flex items-center gap-2 flex-wrap w-full justify-between">
             <div className="flex items-center gap-2">
               <span className="text-white font-medium">
                 ALU OUT: <strong className="text-cyan-300">SUM={telemetry.sum}</strong>, <strong className="text-amber-300">C_OUT={telemetry.cout}</strong>
               </span>
-              <span className="hidden sm:inline text-text-muted/70">
+              <span className="text-text-muted/70 text-[10px]">
                 ({telemetry.formula})
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-text-muted">
-              <span>Vector #{telemetry.stepIndex}/7</span>
-              <span className="text-white/20">•</span>
-              <span className="hidden sm:inline">Scroll drives clock</span>
+            <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
+              <span className="px-1.5 py-0.5 rounded bg-white/[0.05] border border-white/10 text-cyan-300">Vector #{telemetry.stepIndex}/7</span>
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-between w-full">
+          <div className="flex items-center justify-between w-full text-[10px]">
             <div className="flex items-center gap-3">
               <span>PITCH: <strong className="text-cyan-300">{telemetry.rotX}°</strong></span>
               <span>YAW: <strong className="text-purple-300">{telemetry.rotY}°</strong></span>
             </div>
-            <span>Drag to rotate • Scroll to inspect</span>
+            <span>Drag to rotate</span>
           </div>
         )}
       </div>

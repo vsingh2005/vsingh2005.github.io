@@ -117,11 +117,6 @@ export default function HomePage() {
                   <span>Interactive Terminal</span>
                 </button>
               </div>
-
-              <span className="text-[11px] font-mono text-text-muted hidden sm:inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span>Bidirectional Scroll</span>
-              </span>
             </div>
 
             <div className="relative">
