@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -11,14 +11,17 @@ import {
   ChevronRight,
   Binary,
   Layers,
-  Sparkles
+  Sparkles,
+  Terminal,
 } from "lucide-react";
 import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { TerminalCard } from "@/components/ui/TerminalCard";
 import { SpinningBadge } from "@/components/visuals/SpinningBadge";
+import { Vector3DScroll } from "@/components/visuals/Vector3DScroll";
 
 export default function HomePage() {
+  const [heroTab, setHeroTab] = useState<"vector3d" | "terminal">("vector3d");
   const featuredProjects = PROJECTS.filter((p) => p.featured);
 
   return (
@@ -79,20 +82,58 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* Right Column: Terminal Card in Linearity-Style Multicolored Aura Frame */}
+          {/* Right Column: Hero Visual & Interactive Terminal Switcher */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-6"
+            className="lg:col-span-6 space-y-3"
           >
+            {/* View Mode Switcher */}
+            <div className="flex items-center justify-between px-1">
+              <div className="inline-flex p-1 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md">
+                <button
+                  type="button"
+                  onClick={() => setHeroTab("vector3d")}
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
+                    heroTab === "vector3d"
+                      ? "bg-accent-blue/20 text-accent-cyan border border-accent-cyan/40 shadow-sm"
+                      : "text-text-muted hover:text-white"
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
+                  <span>3D Vector Dynamics</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHeroTab("terminal")}
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
+                    heroTab === "terminal"
+                      ? "bg-accent-violet/20 text-fuchsia-300 border border-fuchsia-400/40 shadow-sm"
+                      : "text-text-muted hover:text-white"
+                  }`}
+                >
+                  <Terminal className="w-3.5 h-3.5 text-fuchsia-400" />
+                  <span>Interactive Terminal</span>
+                </button>
+              </div>
+
+              <span className="text-[11px] font-mono text-text-muted hidden sm:inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span>Bidirectional Scroll</span>
+              </span>
+            </div>
+
             <div className="relative">
-              {/* Multicolored Background Aurora Glow Behind Terminal */}
+              {/* Multicolored Background Aurora Glow Behind Visuals */}
               <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full bg-gradient-to-tr from-fuchsia-500/30 to-violet-600/30 blur-[90px] pointer-events-none" />
               <div className="absolute -bottom-10 -left-10 w-72 h-72 rounded-full bg-gradient-to-tr from-cyan-400/25 to-emerald-500/20 blur-[90px] pointer-events-none" />
               
-              {/* Terminal Component */}
-              <TerminalCard />
+              {heroTab === "vector3d" ? (
+                <Vector3DScroll size={440} />
+              ) : (
+                <TerminalCard />
+              )}
             </div>
           </motion.div>
         </div>

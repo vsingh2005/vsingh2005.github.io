@@ -48,7 +48,6 @@ export function TerminalCard() {
               <div><span className="text-accent-cyan font-semibold">whoami</span> - Background & UMass Amherst details</div>
               <div><span className="text-accent-cyan font-semibold">projects</span> - List engineering case studies</div>
               <div><span className="text-accent-cyan font-semibold">skills</span> - Technical skills matrix</div>
-              <div><span className="text-accent-cyan font-semibold">quantum</span> - Simulate quantum variational circuit</div>
               <div><span className="text-accent-cyan font-semibold">hacktheherd</span> - WasteLess edge AI project & Devpost</div>
               <div><span className="text-accent-cyan font-semibold">cloud</span> - View cloud IaC architecture specs</div>
               <div><span className="text-accent-cyan font-semibold">contact</span> - Get email & GitHub links</div>
@@ -102,26 +101,6 @@ export function TerminalCard() {
                 </span>
               </div>
             ))}
-          </div>
-        );
-        break;
-
-      case "quantum":
-        output = (
-          <div className="space-y-2 text-xs font-mono text-cyan-300">
-            <p className="font-bold text-accent-cyan">⚛️ Variational Quantum Circuit Execution (PennyLane / AWS Braket):</p>
-            <pre className="p-2.5 rounded bg-black/40 text-[11px] overflow-x-auto text-cyan-400 border border-cyan-500/20">
-{`q[0]: --RY(θ0)--╭●-------------╭●-------⟨Z⟩
-q[1]: --RY(θ1)--╰X--╭●----------│-------⟨Z⟩
-q[2]: --RY(θ2)------╰X--╭●------│-------⟨Z⟩
-q[3]: --RY(θ3)----------╰X------╰X------⟨Z⟩
-Backend: AWS Braket StateVector | Convergence: 28% Faster`}
-            </pre>
-            <p className="text-text-muted text-[11px]">Calculated Linear Combination of Unitaries feature expectation values.</p>
-            <div className="pt-1 flex flex-wrap gap-3 text-[11px]">
-              <a href="https://devpost.com/software/quantum-hybrid-neural-network" target="_blank" rel="noopener noreferrer" className="text-accent-cyan hover:underline">↗ Devpost Submission</a>
-              <a href="https://github.com/xoth42/QNN-hack" target="_blank" rel="noopener noreferrer" className="text-accent-violet hover:underline">↗ GitHub Repo</a>
-            </div>
           </div>
         );
         break;
