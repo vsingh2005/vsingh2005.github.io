@@ -101,8 +101,8 @@ export default function HomePage() {
                       : "text-text-muted hover:text-white"
                   }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
-                  <span>3D Vector Dynamics</span>
+                  <Cpu className="w-3.5 h-3.5 text-accent-cyan" />
+                  <span>3D Silicon Architecture</span>
                 </button>
                 <button
                   type="button"
