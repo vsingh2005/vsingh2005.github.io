@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Cpu, CircuitBoard, Binary, Zap } from "lucide-react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Cpu, CircuitBoard, Binary, Zap, Play, Pause, ChevronRight } from "lucide-react";
 
 interface Vector3DScrollProps {
   className?: string;
@@ -9,25 +9,7 @@ interface Vector3DScrollProps {
   interactive?: boolean;
 }
 
-type CompEMode = "die" | "pcb" | "logic";
-
-interface TraceLine3D {
-  layer: number; // 0: Substrate, 1: Logic Core, 2: Bus Interconnect
-  path: { x: number; y: number; z: number }[];
-  color: string;
-  pulseOffset: number;
-}
-
-interface ComponentBlock3D {
-  name: string;
-  layer: number;
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-  h: number;
-  color: string;
-}
+type CompEMode = "logic" | "die" | "pcb";
 
 export function Vector3DScroll({
   className = "",
@@ -37,21 +19,87 @@ export function Vector3DScroll({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const [activeMode, setActiveMode] = useState<CompEMode>("die");
+  // Default to the real, functional logic gates mode so recruiters & users see authentic engineering
+  const [activeMode, setActiveMode] = useState<CompEMode>("logic");
+
+  // Real Boolean inputs for Full Adder circuit: A, B, Carry-In
+  const [inputA, setInputA] = useState<boolean>(true);
+  const [inputB, setInputB] = useState<boolean>(false);
+  const [inputCin, setInputCin] = useState<boolean>(true);
+
+  // Auto-clock stepping toggle
+  const [autoClock, setAutoClock] = useState<boolean>(false);
+
+  // Telemetry display
   const [telemetry, setTelemetry] = useState({
     fps: 60,
-    rotX: 32.5,
-    rotY: -28.0,
+    rotX: 18.0,
+    rotY: -12.0,
     scrollDir: "IDLE" as "DOWN" | "UP" | "IDLE",
-    clockFreq: "3.2 GHz",
-    busActivity: "FORWARD",
+    stepIndex: 5, // (1, 0, 1) = index 5 in truth table
+    sum: 0,
+    cout: 1,
+    formula: "1 + 0 + 1 = 2 (Binary 10)",
   });
 
+  // Calculate real Boolean values
+  const xor1 = inputA !== inputB;
+  const and1 = inputA && inputB;
+  const sum = xor1 !== inputCin;
+  const and2 = xor1 && inputCin;
+  const cout = and1 || and2;
+
+  // Refs for animation loop access
   const modeRef = useRef<CompEMode>(activeMode);
+  const inputsRef = useRef({ a: inputA, b: inputB, cin: inputCin });
+  const autoClockRef = useRef(autoClock);
+
   useEffect(() => {
     modeRef.current = activeMode;
   }, [activeMode]);
 
+  useEffect(() => {
+    inputsRef.current = { a: inputA, b: inputB, cin: inputCin };
+  }, [inputA, inputB, inputCin]);
+
+  useEffect(() => {
+    autoClockRef.current = autoClock;
+  }, [autoClock]);
+
+  // Step through truth table vectors (000 -> 111)
+  const stepTruthTable = useCallback((forward: boolean = true) => {
+    const truthTable = [
+      { a: false, b: false, cin: false }, // 0: 000
+      { a: false, b: false, cin: true },  // 1: 001
+      { a: false, b: true,  cin: false }, // 2: 010
+      { a: false, b: true,  cin: true },  // 3: 011
+      { a: true,  b: false, cin: false }, // 4: 100
+      { a: true,  b: false, cin: true },  // 5: 101
+      { a: true,  b: true,  cin: false }, // 6: 110
+      { a: true,  b: true,  cin: true },  // 7: 111
+    ];
+
+    const currentIdx = (inputsRef.current.a ? 4 : 0) + (inputsRef.current.b ? 2 : 0) + (inputsRef.current.cin ? 1 : 0);
+    const nextIdx = forward
+      ? (currentIdx + 1) % 8
+      : (currentIdx - 1 + 8) % 8;
+
+    const next = truthTable[nextIdx];
+    setInputA(next.a);
+    setInputB(next.b);
+    setInputCin(next.cin);
+  }, []);
+
+  // Auto-clock effect
+  useEffect(() => {
+    if (!autoClock) return;
+    const interval = setInterval(() => {
+      stepTruthTable(true);
+    }, 1400);
+    return () => clearInterval(interval);
+  }, [autoClock, stepTruthTable]);
+
+  // Main canvas rendering & 3D projection engine
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -61,7 +109,6 @@ export function Vector3DScroll({
     let animId: number;
     let isVisible = true;
 
-    // Pause animation when scrolled out of view to preserve mobile performance and battery
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
@@ -72,118 +119,43 @@ export function Vector3DScroll({
 
     const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
-    // Core Computer Engineering Geometry:
-    // 1. Silicon Die Architecture Blocks (ALU, Register File, Cache, Bus Controller, I/O)
-    const chipRadius = size * 0.38;
-
-    const dieBlocks: ComponentBlock3D[] = [
-      { name: "VECTOR ALU", layer: 1, x: -chipRadius * 0.45, y: -chipRadius * 0.45, z: 0, w: chipRadius * 0.4, h: chipRadius * 0.4, color: "#00F5D4" },
-      { name: "REG FILE", layer: 1, x: chipRadius * 0.05, y: -chipRadius * 0.45, z: 0, w: chipRadius * 0.4, h: chipRadius * 0.22, color: "#7928CA" },
-      { name: "L1 CACHE", layer: 1, x: chipRadius * 0.05, y: -chipRadius * 0.18, z: 0, w: chipRadius * 0.4, h: chipRadius * 0.18, color: "#FF0080" },
-      { name: "BUS MATRIX", layer: 1, x: -chipRadius * 0.45, y: chipRadius * 0.05, z: 0, w: chipRadius * 0.9, h: chipRadius * 0.15, color: "#F59E0B" },
-      { name: "DMA & TELEMETRY", layer: 1, x: -chipRadius * 0.45, y: chipRadius * 0.26, z: 0, w: chipRadius * 0.42, h: chipRadius * 0.22, color: "#CD8DBD" },
-      { name: "SPI/I2C ENGINE", layer: 1, x: chipRadius * 0.03, y: chipRadius * 0.26, z: 0, w: chipRadius * 0.42, h: chipRadius * 0.22, color: "#00F5D4" },
-    ];
-
-    // 2. Multi-Layer Integrated Circuit Traces (Orthogonal Manhattan Routing)
-    const traces: TraceLine3D[] = [];
-
-    // Helper to generate orthogonal circuit pathways
-    const addTrace = (layer: number, start: [number, number], segments: [number, number][], color: string) => {
-      const path = [{ x: start[0], y: start[1], z: 0 }];
-      for (const seg of segments) {
-        path.push({ x: seg[0], y: seg[1], z: 0 });
-      }
-      traces.push({
-        layer,
-        path,
-        color,
-        pulseOffset: Math.random() * 100,
-      });
-    };
-
-    // Layer 0: Substrate Ground & Power Rails (Gold & Copper)
-    for (let i = -4; i <= 4; i++) {
-      const span = (i / 4) * chipRadius * 0.75;
-      addTrace(0, [-chipRadius * 0.75, span], [[chipRadius * 0.75, span]], "rgba(245, 158, 11, 0.4)");
-      addTrace(0, [span, -chipRadius * 0.75], [[span, chipRadius * 0.75]], "rgba(245, 158, 11, 0.4)");
-    }
-
-    // Layer 1: High-Density Logic Core Buses (Cyan & Violet)
-    addTrace(1, [-chipRadius * 0.6, -chipRadius * 0.3], [[-chipRadius * 0.25, -chipRadius * 0.3], [-chipRadius * 0.25, chipRadius * 0.1], [chipRadius * 0.2, chipRadius * 0.1]], "rgba(0, 245, 212, 0.85)");
-    addTrace(1, [-chipRadius * 0.2, -chipRadius * 0.5], [[-chipRadius * 0.2, -chipRadius * 0.2], [chipRadius * 0.1, -chipRadius * 0.2], [chipRadius * 0.1, chipRadius * 0.3]], "rgba(121, 40, 202, 0.85)");
-    addTrace(1, [chipRadius * 0.3, -chipRadius * 0.4], [[chipRadius * 0.3, chipRadius * 0.0], [chipRadius * 0.45, chipRadius * 0.0], [chipRadius * 0.45, chipRadius * 0.4]], "rgba(255, 0, 128, 0.85)");
-    addTrace(1, [-chipRadius * 0.4, chipRadius * 0.2], [[-chipRadius * 0.1, chipRadius * 0.2], [-chipRadius * 0.1, chipRadius * 0.45]], "rgba(0, 245, 212, 0.8)");
-    addTrace(1, [chipRadius * 0.2, chipRadius * 0.2], [[chipRadius * 0.2, chipRadius * 0.35], [-chipRadius * 0.2, chipRadius * 0.35]], "rgba(205, 141, 189, 0.8)");
-
-    // Layer 2: External Interconnect Pins & Differential Wave Pairs
-    const pinCount = 32;
-    const perimeterPins: { x: number; y: number; layer: number }[] = [];
-    for (let i = 0; i < pinCount; i++) {
-      const theta = (i / pinCount) * Math.PI * 2;
-      const rx = Math.cos(theta) * chipRadius * 0.85;
-      const ry = Math.sin(theta) * chipRadius * 0.85;
-      perimeterPins.push({ x: rx, y: ry, layer: 2 });
-
-      // Connect perimeter pins to core
-      const innerX = rx * 0.65;
-      const innerY = ry * 0.65;
-      addTrace(2, [rx, ry], [[innerX, ry], [innerX, innerY]], "rgba(0, 245, 212, 0.6)");
-    }
-
-    // Logic Gate Nodes (SystemVerilog / Transistor Matrix for "logic" mode)
-    const logicNodes: { x: number; y: number; z: number; type: string; connections: number[] }[] = [];
-    const gateGrid = 4;
-    for (let gx = 0; gx < gateGrid; gx++) {
-      for (let gy = 0; gy < gateGrid; gy++) {
-        const nx = ((gx - (gateGrid - 1) / 2) / (gateGrid - 1)) * chipRadius * 0.8;
-        const ny = ((gy - (gateGrid - 1) / 2) / (gateGrid - 1)) * chipRadius * 0.8;
-        const types = ["NAND", "XOR", "FF", "MUX"];
-        logicNodes.push({
-          x: nx,
-          y: ny,
-          z: (Math.sin(gx * 1.5 + gy * 1.2) * chipRadius * 0.25),
-          type: types[(gx + gy) % types.length],
-          connections: [],
-        });
-      }
-    }
-
-    // Wire logic gates to neighbors
-    for (let i = 0; i < logicNodes.length; i++) {
-      if (i % gateGrid < gateGrid - 1) logicNodes[i].connections.push(i + 1);
-      if (i + gateGrid < logicNodes.length) logicNodes[i].connections.push(i + gateGrid);
-    }
-
-    // Dynamic Bidirectional Scroll Coupling
-    let scrollPos = typeof window !== "undefined" ? window.scrollY : 0;
-    let targetScrollPos = scrollPos;
-    let scrollVelocity = 0;
-    let lastScrollY = scrollPos;
-
-    // Isometric default viewing angles (CompE CAD / Architecture view)
-    let rotX = 0.62; // ~35° tilt
-    let rotY = -0.55; // ~-30° rotation
+    // View angles: starts in a gentle isometric 3D CAD schematic angle
+    let rotX = 0.28;  // ~16 degrees pitch
+    let rotY = -0.22; // ~-12 degrees yaw
     let targetRotX = rotX;
     let targetRotY = rotY;
 
-    // Interactive mouse / touch dragging
+    // Drag interaction
     let isDragging = false;
     let startX = 0;
     let startY = 0;
-    let mouseX = 0;
-    let mouseY = 0;
+
+    // Bidirectional scroll tracking
+    let lastScrollY = typeof window !== "undefined" ? window.scrollY : 0;
+    let accumulatedScrollDelta = 0;
+    let scrollVelocity = 0;
 
     const onScroll = () => {
       const currentY = window.scrollY;
       const deltaY = currentY - lastScrollY;
       lastScrollY = currentY;
 
-      // Positive = scrolling down; Negative = scrolling up
-      targetScrollPos += deltaY * 0.005;
-      targetRotY += deltaY * 0.003;
-      targetRotX += deltaY * 0.0015;
       scrollVelocity = deltaY;
+      accumulatedScrollDelta += deltaY;
+
+      // Every ~75px of scroll steps the circuit forward (down) or backward (up)
+      const stepThreshold = 75;
+      if (accumulatedScrollDelta >= stepThreshold) {
+        stepTruthTable(true);
+        accumulatedScrollDelta = 0;
+      } else if (accumulatedScrollDelta <= -stepThreshold) {
+        stepTruthTable(false);
+        accumulatedScrollDelta = 0;
+      }
+
+      // Gentle parallax tilt with scroll
+      targetRotY += deltaY * 0.0012;
+      targetRotX += deltaY * 0.0006;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -196,17 +168,14 @@ export function Vector3DScroll({
     };
 
     const onPointerMove = (clientX: number, clientY: number) => {
-      mouseX = (clientX / window.innerWidth - 0.5) * 0.4;
-      mouseY = (clientY / window.innerHeight - 0.5) * 0.4;
-
       if (!isDragging) return;
       const dx = clientX - startX;
       const dy = clientY - startY;
       startX = clientX;
       startY = clientY;
 
-      targetRotY += dx * 0.008;
-      targetRotX -= dy * 0.008;
+      targetRotY += dx * 0.007;
+      targetRotX -= dy * 0.007;
     };
 
     const onPointerUp = () => {
@@ -228,12 +197,11 @@ export function Vector3DScroll({
     canvas.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
-
     canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
     window.addEventListener("touchend", handleTouchEnd);
 
-    // 3D Perspective Projection
+    // 3D Perspective Projection Function
     const project = (x: number, y: number, z: number, rx: number, ry: number, cx: number, cy: number, fov: number) => {
       const cosY = Math.cos(ry);
       const sinY = Math.sin(ry);
@@ -247,7 +215,7 @@ export function Vector3DScroll({
       const y2 = y1 * cosX - z1 * sinX;
       const z2 = y1 * sinX + z1 * cosX;
 
-      const scale = fov / (fov + z2);
+      const scale = fov / (fov + z2 + 280);
       return {
         x2d: cx + x2 * scale,
         y2d: cy + y2 * scale,
@@ -259,7 +227,6 @@ export function Vector3DScroll({
     let frame = 0;
     let lastTime = performance.now();
 
-    // Render loop
     const render = (time: number) => {
       if (!isVisible) {
         animId = requestAnimationFrame(render);
@@ -270,26 +237,40 @@ export function Vector3DScroll({
       lastTime = time;
       frame++;
 
-      if (frame % 15 === 0 && deltaMs > 0) {
+      // Update telemetry every 12 frames
+      if (frame % 12 === 0 && deltaMs > 0) {
+        const curA = inputsRef.current.a;
+        const curB = inputsRef.current.b;
+        const curCin = inputsRef.current.cin;
+        const curXor1 = curA !== curB;
+        const curAnd1 = curA && curB;
+        const curSum = curXor1 !== curCin;
+        const curAnd2 = curXor1 && curCin;
+        const curCout = curAnd1 || curAnd2;
+        const decVal = (curA ? 1 : 0) + (curB ? 1 : 0) + (curCin ? 1 : 0);
+
         setTelemetry({
           fps: Math.min(Math.round(1000 / deltaMs), 60),
-          rotX: parseFloat(((rotX * 180) / Math.PI % 360).toFixed(1)),
-          rotY: parseFloat(((rotY * 180) / Math.PI % 360).toFixed(1)),
-          scrollDir: scrollVelocity > 0.4 ? "DOWN" : scrollVelocity < -0.4 ? "UP" : "IDLE",
-          clockFreq: "3.2 GHz",
-          busActivity: scrollVelocity > 0.4 ? "ACCEL (+BUS)" : scrollVelocity < -0.4 ? "REVERSE (-BUS)" : "NOMINAL",
+          rotX: parseFloat(((rotX * 180) / Math.PI).toFixed(1)),
+          rotY: parseFloat(((rotY * 180) / Math.PI).toFixed(1)),
+          scrollDir: scrollVelocity > 1.2 ? "DOWN" : scrollVelocity < -1.2 ? "UP" : "IDLE",
+          stepIndex: (curA ? 4 : 0) + (curB ? 2 : 0) + (curCin ? 1 : 0),
+          sum: curSum ? 1 : 0,
+          cout: curCout ? 1 : 0,
+          formula: `${curA ? 1 : 0} + ${curB ? 1 : 0} + ${curCin ? 1 : 0} = ${decVal} (Sum:${curSum ? 1 : 0}, Cout:${curCout ? 1 : 0})`,
         });
       }
 
-      // Smooth physics lerp
-      scrollPos += (targetScrollPos - scrollPos) * 0.08;
-      rotX += (targetRotX + mouseY * 0.35 - rotX) * 0.07;
-      rotY += (targetRotY + mouseX * 0.35 - rotY) * 0.07;
+      // Smooth physics damping
+      rotX += (targetRotX - rotX) * 0.08;
+      rotY += (targetRotY - rotY) * 0.08;
 
-      // Subtle ambient hover drift
-      targetRotY += 0.0012;
+      // Extremely gentle idle drift when user is not interacting
+      if (!isDragging) {
+        targetRotY += 0.0006;
+      }
 
-      scrollVelocity *= 0.93;
+      scrollVelocity *= 0.92;
       if (Math.abs(scrollVelocity) < 0.1) scrollVelocity = 0;
 
       const rect = canvas.getBoundingClientRect();
@@ -306,59 +287,393 @@ export function Vector3DScroll({
 
       const cx = width / 2;
       const cy = height / 2;
-      const fov = 460;
+      const fov = 440;
       const currentMode = modeRef.current;
 
-      // Exploded Layer Elevation factor: scrolling separates silicon layers into an architectural exploded-view
-      // Clamped smooth breathing separation
-      const layerSeparation = (0.28 + Math.abs(Math.sin(scrollPos * 2)) * 0.45) * chipRadius * 0.65;
+      // Ambient architectural schematic grid
+      const gridR = width * 0.44;
+      const gridGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, gridR);
+      gridGrad.addColorStop(0, "rgba(0, 245, 212, 0.06)");
+      gridGrad.addColorStop(0.6, "rgba(121, 40, 202, 0.04)");
+      gridGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = gridGrad;
+      ctx.fillRect(0, 0, width, height);
 
-      // 1. Draw Silicon Wafer Glowing Foundation
-      const waferR = chipRadius * 1.15;
-      const waferGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, waferR);
-      waferGrad.addColorStop(0, "rgba(0, 245, 212, 0.10)");
-      waferGrad.addColorStop(0.5, "rgba(121, 40, 202, 0.07)");
-      waferGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = waferGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, waferR, 0, Math.PI * 2);
-      ctx.fill();
+      // ANSI Logic Gate Shape Renderers (clean, authentic vector paths)
+      const drawAndGate = (
+        c: CanvasRenderingContext2D,
+        center: { x: number; y: number; z: number },
+        w: number,
+        h: number,
+        active: boolean,
+        label: string
+      ) => {
+        const p = project(center.x, center.y, center.z, rotX, rotY, cx, cy, fov);
+        const gw = w * p.scale;
+        const gh = h * p.scale;
+        const left = p.x2d - gw / 2;
+        const top = p.y2d - gh / 2;
 
-      // Draw 3D Silicon Die Substrate Base Plate (Layer 0)
-      const baseCorners = [
-        { x: -chipRadius * 0.8, y: -chipRadius * 0.8 },
-        { x: chipRadius * 0.8, y: -chipRadius * 0.8 },
-        { x: chipRadius * 0.8, y: chipRadius * 0.8 },
-        { x: -chipRadius * 0.8, y: chipRadius * 0.8 },
-      ];
+        c.save();
+        c.beginPath();
+        c.moveTo(left, top);
+        c.lineTo(left + gw * 0.5, top);
+        c.arc(left + gw * 0.5, p.y2d, gh / 2, -Math.PI / 2, Math.PI / 2);
+        c.lineTo(left, top + gh);
+        c.closePath();
 
-      const drawLayerPlane = (layerZ: number, strokeCol: string, fillCol: string, label: string) => {
-        const projCorners = baseCorners.map((c) => project(c.x, c.y, layerZ, rotX, rotY, cx, cy, fov));
+        c.fillStyle = active ? "rgba(0, 245, 212, 0.12)" : "rgba(30, 41, 59, 0.6)";
+        c.fill();
+        c.strokeStyle = active ? "#00F5D4" : "rgba(100, 116, 139, 0.65)";
+        c.lineWidth = active ? 2 : 1.3;
+        c.stroke();
+
+        c.fillStyle = active ? "#00F5D4" : "rgba(148, 163, 184, 0.85)";
+        c.font = `bold ${Math.max(9, Math.round(11 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillText(label, p.x2d - gw * 0.08, p.y2d);
+        c.restore();
+      };
+
+      const drawOrGate = (
+        c: CanvasRenderingContext2D,
+        center: { x: number; y: number; z: number },
+        w: number,
+        h: number,
+        active: boolean,
+        label: string
+      ) => {
+        const p = project(center.x, center.y, center.z, rotX, rotY, cx, cy, fov);
+        const gw = w * p.scale;
+        const gh = h * p.scale;
+        const left = p.x2d - gw / 2;
+        const right = p.x2d + gw / 2;
+        const top = p.y2d - gh / 2;
+        const bottom = p.y2d + gh / 2;
+
+        c.save();
+        c.beginPath();
+        c.moveTo(left, top);
+        c.quadraticCurveTo(left + gw * 0.28, p.y2d, left, bottom);
+        c.quadraticCurveTo(left + gw * 0.65, bottom - gh * 0.08, right, p.y2d);
+        c.quadraticCurveTo(left + gw * 0.65, top + gh * 0.08, left, top);
+        c.closePath();
+
+        c.fillStyle = active ? "rgba(245, 158, 11, 0.12)" : "rgba(30, 41, 59, 0.6)";
+        c.fill();
+        c.strokeStyle = active ? "#F59E0B" : "rgba(100, 116, 139, 0.65)";
+        c.lineWidth = active ? 2 : 1.3;
+        c.stroke();
+
+        c.fillStyle = active ? "#F59E0B" : "rgba(148, 163, 184, 0.85)";
+        c.font = `bold ${Math.max(9, Math.round(11 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillText(label, p.x2d - gw * 0.05, p.y2d);
+        c.restore();
+      };
+
+      const drawXorGate = (
+        c: CanvasRenderingContext2D,
+        center: { x: number; y: number; z: number },
+        w: number,
+        h: number,
+        active: boolean,
+        label: string
+      ) => {
+        const p = project(center.x, center.y, center.z, rotX, rotY, cx, cy, fov);
+        const gw = w * p.scale;
+        const gh = h * p.scale;
+        const left = p.x2d - gw / 2;
+        const right = p.x2d + gw / 2;
+        const top = p.y2d - gh / 2;
+        const bottom = p.y2d + gh / 2;
+
+        c.save();
+        c.beginPath();
+        c.moveTo(left - gw * 0.14, top);
+        c.quadraticCurveTo(left + gw * 0.14, p.y2d, left - gw * 0.14, bottom);
+        c.strokeStyle = active ? "#A855F7" : "rgba(100, 116, 139, 0.65)";
+        c.lineWidth = active ? 2 : 1.3;
+        c.stroke();
+
+        c.beginPath();
+        c.moveTo(left, top);
+        c.quadraticCurveTo(left + gw * 0.28, p.y2d, left, bottom);
+        c.quadraticCurveTo(left + gw * 0.65, bottom - gh * 0.08, right, p.y2d);
+        c.quadraticCurveTo(left + gw * 0.65, top + gh * 0.08, left, top);
+        c.closePath();
+
+        c.fillStyle = active ? "rgba(168, 85, 247, 0.14)" : "rgba(30, 41, 59, 0.6)";
+        c.fill();
+        c.strokeStyle = active ? "#A855F7" : "rgba(100, 116, 139, 0.65)";
+        c.lineWidth = active ? 2 : 1.3;
+        c.stroke();
+
+        c.fillStyle = active ? "#D8B4FE" : "rgba(148, 163, 184, 0.85)";
+        c.font = `bold ${Math.max(9, Math.round(11 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillText(label, p.x2d - gw * 0.05, p.y2d);
+        c.restore();
+      };
+
+      const drawLogicWire = (
+        c: CanvasRenderingContext2D,
+        waypoints: { x: number; y: number; z: number }[],
+        isHigh: boolean,
+        colorHigh: string = "#00F5D4"
+      ) => {
+        if (waypoints.length < 2) return;
+        const proj = waypoints.map((pt) => project(pt.x, pt.y, pt.z, rotX, rotY, cx, cy, fov));
+
+        c.save();
+        c.beginPath();
+        c.moveTo(proj[0].x2d, proj[0].y2d);
+        for (let i = 1; i < proj.length; i++) {
+          c.lineTo(proj[i].x2d, proj[i].y2d);
+        }
+
+        if (isHigh) {
+          c.strokeStyle = colorHigh;
+          c.lineWidth = 2.4;
+          c.shadowColor = colorHigh;
+          c.shadowBlur = 7;
+          c.stroke();
+        } else {
+          c.strokeStyle = "rgba(71, 85, 105, 0.45)";
+          c.lineWidth = 1.4;
+          c.stroke();
+        }
+        c.restore();
+      };
+
+      const drawPinBadge = (
+        c: CanvasRenderingContext2D,
+        pt: { x: number; y: number; z: number },
+        label: string,
+        isHigh: boolean,
+        align: "left" | "right" | "top" | "bottom" = "left",
+        badgeColor: string = "#00F5D4"
+      ) => {
+        const p = project(pt.x, pt.y, pt.z, rotX, rotY, cx, cy, fov);
+        c.save();
+
+        c.beginPath();
+        c.arc(p.x2d, p.y2d, 5 * p.scale, 0, Math.PI * 2);
+        c.fillStyle = isHigh ? badgeColor : "rgba(30, 41, 59, 0.9)";
+        c.strokeStyle = isHigh ? "#ffffff" : "rgba(100, 116, 139, 0.8)";
+        c.lineWidth = 1.5;
+        c.fill();
+        c.stroke();
+
+        c.font = `bold ${Math.max(9, Math.round(10 * p.scale))}px 'JetBrains Mono', monospace`;
+        c.textAlign = align === "left" ? "right" : align === "right" ? "left" : "center";
+        c.textBaseline = "middle";
+
+        const offset = 10 * p.scale;
+        const textX = align === "left" ? p.x2d - offset : align === "right" ? p.x2d + offset : p.x2d;
+        const textY = align === "top" ? p.y2d - offset : align === "bottom" ? p.y2d + offset : p.y2d;
+
+        c.fillStyle = isHigh ? badgeColor : "rgba(148, 163, 184, 0.7)";
+        c.fillText(`${label}=${isHigh ? "1" : "0"}`, textX, textY);
+        c.restore();
+      };
+
+      // =========================================================================
+      // MODE 1: VERIFIABLE 1-BIT ALU FULL ADDER DIGITAL LOGIC CIRCUIT
+      // =========================================================================
+      if (currentMode === "logic") {
+        const curA = inputsRef.current.a;
+        const curB = inputsRef.current.b;
+        const curCin = inputsRef.current.cin;
+        const curXor1 = curA !== curB;
+        const curAnd1 = curA && curB;
+        const curSum = curXor1 !== curCin;
+        const curAnd2 = curXor1 && curCin;
+        const curCout = curAnd1 || curAnd2;
+
+        // Subtle 3D Schematic Substrate Plane
+        const plateCorners = [
+          { x: -195, y: -130, z: -10 },
+          { x: 195, y: -130, z: -10 },
+          { x: 195, y: 130, z: -10 },
+          { x: -195, y: 130, z: -10 },
+        ];
+        const projCorners = plateCorners.map((pt) => project(pt.x, pt.y, pt.z, rotX, rotY, cx, cy, fov));
         ctx.beginPath();
         ctx.moveTo(projCorners[0].x2d, projCorners[0].y2d);
-        for (let i = 1; i < projCorners.length; i++) {
-          ctx.lineTo(projCorners[i].x2d, projCorners[i].y2d);
-        }
+        for (let i = 1; i < projCorners.length; i++) ctx.lineTo(projCorners[i].x2d, projCorners[i].y2d);
         ctx.closePath();
-        ctx.fillStyle = fillCol;
+        ctx.fillStyle = "rgba(10, 15, 26, 0.65)";
         ctx.fill();
-        ctx.strokeStyle = strokeCol;
+        ctx.strokeStyle = "rgba(0, 245, 212, 0.22)";
         ctx.lineWidth = 1.2;
         ctx.stroke();
 
-        // Label on top-left pin
-        ctx.fillStyle = strokeCol;
-        ctx.font = "9px 'JetBrains Mono', monospace";
-        ctx.fillText(label, projCorners[0].x2d - 10, projCorners[0].y2d - 6);
-      };
+        // Architectural title on plane
+        ctx.fillStyle = "rgba(0, 245, 212, 0.4)";
+        ctx.font = "8px 'JetBrains Mono', monospace";
+        ctx.fillText("CIRCUIT: 1-BIT FULL ADDER ALU SLICE", projCorners[0].x2d + 10, projCorners[0].y2d + 14);
 
-      if (currentMode === "die") {
-        // Draw 3 Exploded Metal & Silicon Interconnect Planes
-        drawLayerPlane(-layerSeparation, "rgba(245, 158, 11, 0.35)", "rgba(245, 158, 11, 0.03)", "LAYER 0: SUBSTRATE");
-        drawLayerPlane(0, "rgba(0, 245, 212, 0.45)", "rgba(0, 245, 212, 0.04)", "LAYER 1: COMPUTE DIE");
-        drawLayerPlane(layerSeparation, "rgba(255, 0, 128, 0.35)", "rgba(255, 0, 128, 0.02)", "LAYER 2: METAL INTERCONNECT");
+        // Defined Node Pin Coordinates (x, y, z) in local circuit units
+        // Inputs on Left
+        const pinA = { x: -170, y: -80, z: 0 };
+        const pinB = { x: -170, y: -30, z: 0 };
+        const pinCin = { x: -170, y: 65, z: 0 };
 
-        // Vertical Vias connecting layers (microscopic silicon through-silicon vias TSVs)
+        // Stage 1 Gates: XOR1 and AND1
+        const center_XOR1 = { x: -65, y: -60, z: 0 };
+        const in1_XOR1 = { x: -88, y: -72, z: 0 };
+        const in2_XOR1 = { x: -88, y: -48, z: 0 };
+        const out_XOR1 = { x: -42, y: -60, z: 0 };
+
+        const center_AND1 = { x: -65, y: 10, z: 0 };
+        const in1_AND1 = { x: -88, y: 0, z: 0 };
+        const in2_AND1 = { x: -88, y: 20, z: 0 };
+        const out_AND1 = { x: -42, y: 10, z: 0 };
+
+        // Stage 2 Gates: XOR2 and AND2
+        const center_XOR2 = { x: 45, y: -45, z: 0 };
+        const in1_XOR2 = { x: 22, y: -57, z: 0 };
+        const in2_XOR2 = { x: 22, y: -33, z: 0 };
+        const out_XOR2 = { x: 68, y: -45, z: 0 };
+
+        const center_AND2 = { x: 45, y: 30, z: 0 };
+        const in1_AND2 = { x: 22, y: 20, z: 0 };
+        const in2_AND2 = { x: 22, y: 40, z: 0 };
+        const out_AND2 = { x: 68, y: 30, z: 0 };
+
+        // Stage 3 Gate: OR1 (computes Cout)
+        const center_OR1 = { x: 125, y: 50, z: 0 };
+        const in1_OR1 = { x: 102, y: 38, z: 0 };
+        const in2_OR1 = { x: 102, y: 62, z: 0 };
+        const out_OR1 = { x: 148, y: 50, z: 0 };
+
+        // Outputs on Right
+        const pinSum = { x: 175, y: -45, z: 0 };
+        const pinCout = { x: 175, y: 50, z: 0 };
+
+        // 1. Draw Wires with Real Boolean States
+        // Input A Wire -> XOR1 in1 & branch down to AND1 in1
+        drawLogicWire(ctx, [pinA, { x: -125, y: -80, z: 0 }, { x: -125, y: -72, z: 0 }, in1_XOR1], curA, "#00F5D4");
+        drawLogicWire(ctx, [{ x: -125, y: -80, z: 0 }, { x: -125, y: 0, z: 0 }, in1_AND1], curA, "#00F5D4");
+
+        // Input B Wire -> XOR1 in2 & branch down to AND1 in2
+        drawLogicWire(ctx, [pinB, { x: -110, y: -30, z: 0 }, { x: -110, y: -48, z: 0 }, in2_XOR1], curB, "#00F5D4");
+        drawLogicWire(ctx, [{ x: -110, y: -30, z: 0 }, { x: -110, y: 20, z: 0 }, in2_AND1], curB, "#00F5D4");
+
+        // Input Cin Wire -> XOR2 in2 & branch to AND2 in2
+        drawLogicWire(ctx, [pinCin, { x: 0, y: 65, z: 0 }, { x: 0, y: -33, z: 0 }, in2_XOR2], curCin, "#00F5D4");
+        drawLogicWire(ctx, [{ x: 0, y: 65, z: 0 }, { x: 0, y: 40, z: 0 }, in2_AND2], curCin, "#00F5D4");
+
+        // XOR1 Output Wire -> XOR2 in1 & branch to AND2 in1
+        drawLogicWire(ctx, [out_XOR1, { x: -10, y: -60, z: 0 }, { x: -10, y: -57, z: 0 }, in1_XOR2], curXor1, "#A855F7");
+        drawLogicWire(ctx, [{ x: -10, y: -60, z: 0 }, { x: -10, y: 20, z: 0 }, in1_AND2], curXor1, "#A855F7");
+
+        // AND1 Output Wire -> OR1 in1
+        drawLogicWire(ctx, [out_AND1, { x: 85, y: 10, z: 0 }, { x: 85, y: 38, z: 0 }, in1_OR1], curAnd1, "#F59E0B");
+
+        // AND2 Output Wire -> OR1 in2
+        drawLogicWire(ctx, [out_AND2, { x: 85, y: 30, z: 0 }, { x: 85, y: 62, z: 0 }, in2_OR1], curAnd2, "#F59E0B");
+
+        // XOR2 Output Wire -> Sum Output Pin
+        drawLogicWire(ctx, [out_XOR2, pinSum], curSum, "#00F5D4");
+
+        // OR1 Output Wire -> Cout Output Pin
+        drawLogicWire(ctx, [out_OR1, pinCout], curCout, "#F59E0B");
+
+        // 2. Draw ANSI Logic Gates
+        const gateW = 46;
+        const gateH = 34;
+        drawXorGate(ctx, center_XOR1, gateW, gateH, curXor1, "XOR₁");
+        drawAndGate(ctx, center_AND1, gateW, gateH, curAnd1, "AND₁");
+        drawXorGate(ctx, center_XOR2, gateW, gateH, curSum, "XOR₂");
+        drawAndGate(ctx, center_AND2, gateW, gateH, curAnd2, "AND₂");
+        drawOrGate(ctx, center_OR1, gateW, gateH, curCout, "OR₁");
+
+        // 3. Draw Input & Output Terminal Badges
+        drawPinBadge(ctx, pinA, "A", curA, "left", "#00F5D4");
+        drawPinBadge(ctx, pinB, "B", curB, "left", "#00F5D4");
+        drawPinBadge(ctx, pinCin, "C_IN", curCin, "left", "#00F5D4");
+
+        drawPinBadge(ctx, pinSum, "SUM", curSum, "right", "#00F5D4");
+        drawPinBadge(ctx, pinCout, "C_OUT", curCout, "right", "#F59E0B");
+      }
+
+      // =========================================================================
+      // MODE 2: MULTI-LAYER SILICON DIE ARCHITECTURE (Clean & Calm)
+      // =========================================================================
+      else if (currentMode === "die") {
+        const chipRadius = width * 0.32;
+        const layerSeparation = chipRadius * 0.38;
+
+        const baseCorners = [
+          { x: -chipRadius * 0.8, y: -chipRadius * 0.8 },
+          { x: chipRadius * 0.8, y: -chipRadius * 0.8 },
+          { x: chipRadius * 0.8, y: chipRadius * 0.8 },
+          { x: -chipRadius * 0.8, y: chipRadius * 0.8 },
+        ];
+
+        const drawLayerPlane = (layerZ: number, strokeCol: string, fillCol: string, label: string) => {
+          const projC = baseCorners.map((c) => project(c.x, c.y, layerZ, rotX, rotY, cx, cy, fov));
+          ctx.beginPath();
+          ctx.moveTo(projC[0].x2d, projC[0].y2d);
+          for (let i = 1; i < projC.length; i++) ctx.lineTo(projC[i].x2d, projC[i].y2d);
+          ctx.closePath();
+          ctx.fillStyle = fillCol;
+          ctx.fill();
+          ctx.strokeStyle = strokeCol;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+
+          ctx.fillStyle = strokeCol;
+          ctx.font = "9px 'JetBrains Mono', monospace";
+          ctx.fillText(label, projC[0].x2d - 10, projC[0].y2d - 6);
+        };
+
+        drawLayerPlane(-layerSeparation, "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.03)", "LAYER 0: SUBSTRATE");
+        drawLayerPlane(0, "rgba(0, 245, 212, 0.5)", "rgba(0, 245, 212, 0.04)", "LAYER 1: COMPUTE CORE");
+        drawLayerPlane(layerSeparation, "rgba(168, 85, 247, 0.4)", "rgba(168, 85, 247, 0.02)", "LAYER 2: METAL INTERCONNECT");
+
+        // Microprocessor Blocks on Die
+        const dieBlocks = [
+          { name: "VECTOR ALU", x: -chipRadius * 0.45, y: -chipRadius * 0.45, w: chipRadius * 0.4, h: chipRadius * 0.4, color: "#00F5D4" },
+          { name: "REG FILE", x: chipRadius * 0.05, y: -chipRadius * 0.45, w: chipRadius * 0.4, h: chipRadius * 0.22, color: "#A855F7" },
+          { name: "L1 CACHE", x: chipRadius * 0.05, y: -chipRadius * 0.18, w: chipRadius * 0.4, h: chipRadius * 0.18, color: "#EC4899" },
+          { name: "BUS MATRIX", x: -chipRadius * 0.45, y: chipRadius * 0.05, w: chipRadius * 0.9, h: chipRadius * 0.15, color: "#F59E0B" },
+          { name: "DMA & TELEMETRY", x: -chipRadius * 0.45, y: chipRadius * 0.26, w: chipRadius * 0.42, h: chipRadius * 0.22, color: "#38BDF8" },
+          { name: "SPI/I2C CONTROLLER", x: chipRadius * 0.03, y: chipRadius * 0.26, w: chipRadius * 0.42, h: chipRadius * 0.22, color: "#10B981" },
+        ];
+
+        dieBlocks.forEach((b) => {
+          const corners = [
+            project(b.x, b.y, 0, rotX, rotY, cx, cy, fov),
+            project(b.x + b.w, b.y, 0, rotX, rotY, cx, cy, fov),
+            project(b.x + b.w, b.y + b.h, 0, rotX, rotY, cx, cy, fov),
+            project(b.x, b.y + b.h, 0, rotX, rotY, cx, cy, fov),
+          ];
+
+          ctx.beginPath();
+          ctx.moveTo(corners[0].x2d, corners[0].y2d);
+          for (let i = 1; i < corners.length; i++) ctx.lineTo(corners[i].x2d, corners[i].y2d);
+          ctx.closePath();
+          ctx.fillStyle = `${b.color}15`;
+          ctx.fill();
+          ctx.strokeStyle = `${b.color}90`;
+          ctx.lineWidth = 1.3;
+          ctx.stroke();
+
+          const center = project(b.x + b.w / 2, b.y + b.h / 2, 0, rotX, rotY, cx, cy, fov);
+          ctx.fillStyle = b.color;
+          ctx.font = `bold ${Math.max(8, 9 * center.scale)}px 'JetBrains Mono', monospace`;
+          ctx.textAlign = "center";
+          ctx.fillText(b.name, center.x2d, center.y2d + 3);
+          ctx.textAlign = "left";
+        });
+
+        // Vertical Through-Silicon Vias (TSVs)
         baseCorners.forEach((c) => {
           const pBot = project(c.x * 0.85, c.y * 0.85, -layerSeparation, rotX, rotY, cx, cy, fov);
           const pTop = project(c.x * 0.85, c.y * 0.85, layerSeparation, rotX, rotY, cx, cy, fov);
@@ -370,131 +685,35 @@ export function Vector3DScroll({
           ctx.stroke();
           ctx.setLineDash([]);
         });
-
-        // Draw Architectural Blocks on Die (Layer 1)
-        dieBlocks.forEach((b) => {
-          const zElevation = 0;
-          const corners = [
-            project(b.x, b.y, zElevation, rotX, rotY, cx, cy, fov),
-            project(b.x + b.w, b.y, zElevation, rotX, rotY, cx, cy, fov),
-            project(b.x + b.w, b.y + b.h, zElevation, rotX, rotY, cx, cy, fov),
-            project(b.x, b.y + b.h, zElevation, rotX, rotY, cx, cy, fov),
-          ];
-
-          ctx.beginPath();
-          ctx.moveTo(corners[0].x2d, corners[0].y2d);
-          for (let i = 1; i < corners.length; i++) ctx.lineTo(corners[i].x2d, corners[i].y2d);
-          ctx.closePath();
-
-          ctx.fillStyle = `${b.color}18`;
-          ctx.fill();
-          ctx.strokeStyle = `${b.color}88`;
-          ctx.lineWidth = 1.4;
-          ctx.stroke();
-
-          // Block text label
-          const center = project(b.x + b.w / 2, b.y + b.h / 2, zElevation, rotX, rotY, cx, cy, fov);
-          ctx.fillStyle = b.color;
-          ctx.font = `bold ${Math.max(8, 9 * center.scale)}px 'JetBrains Mono', monospace`;
-          ctx.textAlign = "center";
-          ctx.fillText(b.name, center.x2d, center.y2d + 3);
-          ctx.textAlign = "left";
-        });
       }
 
-      // Draw Multi-Layer Circuit Traces and Traveling Bitstream Data Packets
-      traces.forEach((tr) => {
-        let zPos = 0;
-        if (currentMode === "die") {
-          zPos = tr.layer === 0 ? -layerSeparation : tr.layer === 2 ? layerSeparation : 0;
-        }
-
-        const projPath = tr.path.map((p) => project(p.x, p.y, zPos, rotX, rotY, cx, cy, fov));
-
-        // Draw trace line
+      // =========================================================================
+      // MODE 3: PCB MAINBOARD & COMPONENT FOOTPRINTS
+      // =========================================================================
+      else if (currentMode === "pcb") {
+        const chipRadius = width * 0.32;
+        const pcbCorners = [
+          { x: -chipRadius * 0.9, y: -chipRadius * 0.9 },
+          { x: chipRadius * 0.9, y: -chipRadius * 0.9 },
+          { x: chipRadius * 0.9, y: chipRadius * 0.9 },
+          { x: -chipRadius * 0.9, y: chipRadius * 0.9 },
+        ];
+        const projCorners = pcbCorners.map((pt) => project(pt.x, pt.y, 0, rotX, rotY, cx, cy, fov));
         ctx.beginPath();
-        ctx.moveTo(projPath[0].x2d, projPath[0].y2d);
-        for (let i = 1; i < projPath.length; i++) {
-          ctx.lineTo(projPath[i].x2d, projPath[i].y2d);
-        }
-        ctx.strokeStyle = tr.color;
-        ctx.lineWidth = 1.3;
+        ctx.moveTo(projCorners[0].x2d, projCorners[0].y2d);
+        for (let i = 1; i < projCorners.length; i++) ctx.lineTo(projCorners[i].x2d, projCorners[i].y2d);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(6, 44, 30, 0.4)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(16, 185, 129, 0.6)";
+        ctx.lineWidth = 1.4;
         ctx.stroke();
 
-        // Draw bidirectional traveling clock/data pulse on this trace!
-        // Driven forward or backward by scroll position + time
-        const pulseProgress = ((time * 0.0018 + tr.pulseOffset + scrollPos * 4) % 1 + 1) % 1;
-        const totalSegments = projPath.length - 1;
-        const currentSeg = Math.min(Math.floor(pulseProgress * totalSegments), totalSegments - 1);
-        const subT = (pulseProgress * totalSegments) - currentSeg;
-
-        const pA = projPath[currentSeg];
-        const pB = projPath[currentSeg + 1];
-
-        const pulseX = pA.x2d + (pB.x2d - pA.x2d) * subT;
-        const pulseY = pA.y2d + (pB.y2d - pA.y2d) * subT;
-
-        // Glowing data packet bit
-        ctx.beginPath();
-        ctx.arc(pulseX, pulseY, 2.5 * pA.scale, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
-        ctx.shadowColor = "#00F5D4";
-        ctx.shadowBlur = 6;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-
-      // Perimeter I/O Wirebond Pads
-      perimeterPins.forEach((pin, idx) => {
-        const zPos = currentMode === "die" ? layerSeparation : 0;
-        const p = project(pin.x, pin.y, zPos, rotX, rotY, cx, cy, fov);
-
-        ctx.beginPath();
-        ctx.arc(p.x2d, p.y2d, 2.2 * p.scale, 0, Math.PI * 2);
-        ctx.fillStyle = idx % 2 === 0 ? "#F59E0B" : "#00F5D4";
-        ctx.fill();
-      });
-
-      // 3. Logic Gate Network Mode (SystemVerilog State Machine Topology)
-      if (currentMode === "logic") {
-        logicNodes.forEach((node) => {
-          const p = project(node.x, node.y, node.z + Math.sin(scrollPos * 3 + node.x) * 20, rotX, rotY, cx, cy, fov);
-
-          // Connect wires
-          node.connections.forEach((targetIdx) => {
-            const target = logicNodes[targetIdx];
-            const targetP = project(target.x, target.y, target.z + Math.sin(scrollPos * 3 + target.x) * 20, rotX, rotY, cx, cy, fov);
-
-            ctx.beginPath();
-            ctx.moveTo(p.x2d, p.y2d);
-            ctx.lineTo(targetP.x2d, targetP.y2d);
-            ctx.strokeStyle = "rgba(121, 40, 202, 0.45)";
-            ctx.lineWidth = 1.2;
-            ctx.stroke();
-          });
-
-          // Draw Gate Icon / Node
-          ctx.beginPath();
-          ctx.arc(p.x2d, p.y2d, 5 * p.scale, 0, Math.PI * 2);
-          ctx.fillStyle = node.type === "NAND" ? "#00F5D4" : node.type === "XOR" ? "#FF0080" : "#F59E0B";
-          ctx.fill();
-
-          ctx.fillStyle = "#ffffff";
-          ctx.font = "8px 'JetBrains Mono', monospace";
-          ctx.fillText(node.type, p.x2d + 7, p.y2d + 3);
-        });
-      }
-
-      // 4. PCB Matrix Mode (Component Packages, Solder Joints & SMD Capacitors)
-      if (currentMode === "pcb") {
-        drawLayerPlane(0, "rgba(0, 245, 212, 0.6)", "rgba(0, 40, 25, 0.15)", "PCB MAINBOARD");
-
-        // Surface mount IC chips on PCB
         const smdChips = [
-          { x: -chipRadius * 0.4, y: -chipRadius * 0.4, w: chipRadius * 0.35, h: chipRadius * 0.35, label: "MCU (ARM)" },
-          { x: chipRadius * 0.1, y: -chipRadius * 0.4, w: chipRadius * 0.35, h: chipRadius * 0.25, label: "EEPROM" },
-          { x: -chipRadius * 0.4, y: chipRadius * 0.1, w: chipRadius * 0.25, h: chipRadius * 0.25, label: "CRYSTAL" },
-          { x: 0, y: chipRadius * 0.1, w: chipRadius * 0.45, h: chipRadius * 0.3, label: "POWER REG" },
+          { x: -chipRadius * 0.45, y: -chipRadius * 0.45, w: chipRadius * 0.38, h: chipRadius * 0.38, label: "MCU (ARM-M4)" },
+          { x: chipRadius * 0.1, y: -chipRadius * 0.45, w: chipRadius * 0.35, h: chipRadius * 0.25, label: "EEPROM (I2C)" },
+          { x: -chipRadius * 0.45, y: chipRadius * 0.1, w: chipRadius * 0.25, h: chipRadius * 0.25, label: "16MHz XTAL" },
+          { x: 0, y: chipRadius * 0.1, w: chipRadius * 0.45, h: chipRadius * 0.3, label: "3.3V LDO REG" },
         ];
 
         smdChips.forEach((chip) => {
@@ -509,50 +728,20 @@ export function Vector3DScroll({
           ctx.moveTo(corners[0].x2d, corners[0].y2d);
           for (let i = 1; i < corners.length; i++) ctx.lineTo(corners[i].x2d, corners[i].y2d);
           ctx.closePath();
-          ctx.fillStyle = "rgba(10, 15, 25, 0.85)";
+          ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
           ctx.fill();
-          ctx.strokeStyle = "#00F5D4";
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = "#10B981";
+          ctx.lineWidth = 1.4;
           ctx.stroke();
 
-          // Solder pads on chip sides
-          for (let pIdx = 0; pIdx < 4; pIdx++) {
-            const py = chip.y + (pIdx / 3) * chip.h;
-            const padL = project(chip.x - 3, py, 0, rotX, rotY, cx, cy, fov);
-            const padR = project(chip.x + chip.w + 3, py, 0, rotX, rotY, cx, cy, fov);
-
-            ctx.fillStyle = "#F59E0B";
-            ctx.fillRect(padL.x2d - 2, padL.y2d - 1, 4, 2);
-            ctx.fillRect(padR.x2d - 2, padR.y2d - 1, 4, 2);
-          }
-
           const center = project(chip.x + chip.w / 2, chip.y + chip.h / 2, 0, rotX, rotY, cx, cy, fov);
-          ctx.fillStyle = "#EDDFEE";
+          ctx.fillStyle = "#E2E8F0";
           ctx.font = "8px 'JetBrains Mono', monospace";
           ctx.textAlign = "center";
           ctx.fillText(chip.label, center.x2d, center.y2d + 3);
           ctx.textAlign = "left";
         });
       }
-
-      // 5. Mini Digital Logic Waveform (Oscilloscope trace at bottom)
-      const waveY = height - 20;
-      const waveWidth = width - 40;
-      ctx.beginPath();
-      ctx.strokeStyle = "rgba(0, 245, 212, 0.5)";
-      ctx.lineWidth = 1.2;
-
-      for (let wx = 0; wx < waveWidth; wx += 4) {
-        // Clock square wave shifted dynamically by scroll direction
-        const clockT = (wx * 0.08 + time * 0.005 + scrollPos * 3);
-        const squareVal = Math.sin(clockT) > 0 ? 8 : -8;
-        const ptX = 20 + wx;
-        const ptY = waveY + squareVal;
-
-        if (wx === 0) ctx.moveTo(ptX, ptY);
-        else ctx.lineTo(ptX, ptY);
-      }
-      ctx.stroke();
 
       animId = requestAnimationFrame(render);
     };
@@ -570,32 +759,45 @@ export function Vector3DScroll({
       window.removeEventListener("touchend", handleTouchEnd);
       observer.disconnect();
     };
-  }, [interactive, size]);
+  }, [interactive, size, stepTruthTable]);
 
   return (
     <div
       ref={containerRef}
-      className={`relative w-full aspect-square max-w-[480px] mx-auto rounded-3xl bg-black/40 border border-white/[0.08] backdrop-blur-2xl p-4 overflow-hidden shadow-2xl group select-none ${className}`}
+      className={`relative w-full aspect-square max-w-[480px] mx-auto rounded-3xl bg-black/50 border border-white/[0.08] backdrop-blur-2xl p-3 sm:p-4 overflow-hidden shadow-2xl group select-none ${className}`}
     >
-      {/* Background Silicon Glow in Theme Colors */}
-      <div className="absolute -top-14 -right-14 w-72 h-72 rounded-full bg-gradient-to-tr from-cyan-500/20 via-violet-600/20 to-transparent blur-[90px] pointer-events-none" />
-      <div className="absolute -bottom-14 -left-14 w-72 h-72 rounded-full bg-gradient-to-tr from-fuchsia-500/20 via-amber-500/15 to-transparent blur-[90px] pointer-events-none" />
+      {/* Background Silicon Glow */}
+      <div className="absolute -top-14 -right-14 w-72 h-72 rounded-full bg-gradient-to-tr from-cyan-500/20 via-violet-600/15 to-transparent blur-[90px] pointer-events-none" />
+      <div className="absolute -bottom-14 -left-14 w-72 h-72 rounded-full bg-gradient-to-tr from-amber-500/15 via-emerald-500/10 to-transparent blur-[90px] pointer-events-none" />
 
-      {/* Top Header: Computer Engineering Architecture Modes & Telemetry */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-2.5 mb-2 text-xs font-mono">
+      {/* Top Header: Architecture Modes & Live Calculation Banner */}
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-1.5 border-b border-white/[0.06] pb-2 text-xs font-mono">
         {/* Architecture Mode Selector */}
         <div className="flex items-center gap-1 p-0.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+          <button
+            type="button"
+            onClick={() => setActiveMode("logic")}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all ${
+              activeMode === "logic"
+                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm"
+                : "text-text-muted hover:text-white"
+            }`}
+            title="Real 1-Bit Full Adder ALU slice: Authentic Boolean logic gates with verifiable inputs & outputs"
+          >
+            <Binary className="w-3 h-3 text-cyan-400" />
+            <span>Logic Gates (ALU)</span>
+          </button>
           <button
             type="button"
             onClick={() => setActiveMode("die")}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all ${
               activeMode === "die"
-                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-sm"
+                ? "bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm"
                 : "text-text-muted hover:text-white"
             }`}
             title="Silicon Die: Multi-layer microprocessor architecture with exploded elevation"
           >
-            <Cpu className="w-3 h-3 text-cyan-400" />
+            <Cpu className="w-3 h-3 text-purple-400" />
             <span>Silicon Die</span>
           </button>
           <button
@@ -603,64 +805,134 @@ export function Vector3DScroll({
             onClick={() => setActiveMode("pcb")}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all ${
               activeMode === "pcb"
-                ? "bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-sm"
+                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm"
                 : "text-text-muted hover:text-white"
             }`}
-            title="PCB Matrix: Surface mount components & bus routing"
+            title="PCB Mainboard: Component footprints & traces"
           >
-            <CircuitBoard className="w-3 h-3 text-amber-400" />
+            <CircuitBoard className="w-3 h-3 text-emerald-400" />
             <span>PCB Matrix</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveMode("logic")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all ${
-              activeMode === "logic"
-                ? "bg-violet-500/20 text-purple-300 border border-purple-500/30 shadow-sm"
-                : "text-text-muted hover:text-white"
-            }`}
-            title="Logic Lattice: 3D SystemVerilog state machine topology"
-          >
-            <Binary className="w-3 h-3 text-purple-400" />
-            <span>Logic Gates</span>
           </button>
         </div>
 
-        {/* Live Scroll Bus Indicator */}
-        <div className="flex items-center gap-2 text-[11px] text-text-muted">
-          <span className="flex items-center gap-1 text-cyan-300 font-semibold">
-            <Zap className="w-3 h-3 text-cyan-400 animate-pulse" />
-            <span>{telemetry.scrollDir === "DOWN" ? "▼ BUS: CLOCK+" : telemetry.scrollDir === "UP" ? "▲ BUS: CLOCK-" : "⟳ DUAL-SCROLL"}</span>
+        {/* Status Badge */}
+        <div className="flex items-center gap-1 text-[11px]">
+          <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 font-medium">
+            <Zap className="w-3 h-3 text-cyan-400" />
+            <span>{telemetry.scrollDir === "DOWN" ? "CLOCK +1" : telemetry.scrollDir === "UP" ? "CLOCK -1" : "DUAL-SCROLL CLOCK"}</span>
           </span>
         </div>
       </div>
 
+      {/* Interactive Circuit Switch Bar (Only shown in Logic mode) */}
+      {activeMode === "logic" && (
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-1.5 mt-2 px-2 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs font-mono">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-text-muted uppercase tracking-wider">Inputs:</span>
+            
+            <button
+              type="button"
+              onClick={() => setInputA(!inputA)}
+              className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition-all border ${
+                inputA
+                  ? "bg-cyan-500/25 text-cyan-300 border-cyan-400/50 shadow-sm shadow-cyan-500/20"
+                  : "bg-white/[0.04] text-text-muted border-white/10 hover:text-white"
+              }`}
+              title="Click to toggle Input A (0 or 1)"
+            >
+              A: {inputA ? "1" : "0"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setInputB(!inputB)}
+              className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition-all border ${
+                inputB
+                  ? "bg-cyan-500/25 text-cyan-300 border-cyan-400/50 shadow-sm shadow-cyan-500/20"
+                  : "bg-white/[0.04] text-text-muted border-white/10 hover:text-white"
+              }`}
+              title="Click to toggle Input B (0 or 1)"
+            >
+              B: {inputB ? "1" : "0"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setInputCin(!inputCin)}
+              className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition-all border ${
+                inputCin
+                  ? "bg-cyan-500/25 text-cyan-300 border-cyan-400/50 shadow-sm shadow-cyan-500/20"
+                  : "bg-white/[0.04] text-text-muted border-white/10 hover:text-white"
+              }`}
+              title="Click to toggle Carry In (0 or 1)"
+            >
+              C_IN: {inputCin ? "1" : "0"}
+            </button>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => stepTruthTable(true)}
+              className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] text-white bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-colors"
+              title="Step to next truth table combination"
+            >
+              <span>Step Vector</span>
+              <ChevronRight className="w-3 h-3" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setAutoClock(!autoClock)}
+              className={`p-1 rounded-md transition-all border ${
+                autoClock
+                  ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                  : "bg-white/[0.04] text-text-muted border-white/10 hover:text-white"
+              }`}
+              title={autoClock ? "Pause auto clock" : "Run continuous clock generator"}
+            >
+              {autoClock ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Main 3D Canvas */}
-      <div className="relative w-full h-[calc(100%-80px)] flex items-center justify-center">
+      <div className="relative w-full h-[calc(100%-115px)] flex items-center justify-center">
         <canvas
           ref={canvasRef}
           className="w-full h-full cursor-grab active:cursor-grabbing touch-none"
-          title="Scroll page in both directions to accelerate bus pulses, or drag directly to rotate"
+          title="Drag to inspect circuit in 3D perspective • Scroll page up or down to step clock"
         />
       </div>
 
-      {/* Bottom Technical Architecture Coordinates Bar */}
+      {/* Bottom Telemetry & Real Boolean Computation Output */}
       <div className="relative z-10 flex items-center justify-between text-[10px] font-mono text-text-muted pt-2 border-t border-white/[0.06]">
-        <div className="flex items-center gap-3">
-          <span>
-            PITCH: <strong className="text-cyan-300">{telemetry.rotX}°</strong>
-          </span>
-          <span>
-            YAW: <strong className="text-fuchsia-300">{telemetry.rotY}°</strong>
-          </span>
-          <span className="hidden sm:inline">
-            BUS: <strong className="text-amber-300">{telemetry.busActivity}</strong>
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-text-muted/80 hidden sm:inline">Scroll drives clock in both directions • Drag to inspect</span>
-          <span className="text-text-muted/80 sm:hidden">Dual-Scroll Clock</span>
-        </div>
+        {activeMode === "logic" ? (
+          <div className="flex items-center gap-2 flex-wrap w-full justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-white font-medium">
+                ALU OUT: <strong className="text-cyan-300">SUM={telemetry.sum}</strong>, <strong className="text-amber-300">C_OUT={telemetry.cout}</strong>
+              </span>
+              <span className="hidden sm:inline text-text-muted/70">
+                ({telemetry.formula})
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 text-text-muted">
+              <span>Vector #{telemetry.stepIndex}/7</span>
+              <span className="text-white/20">•</span>
+              <span className="hidden sm:inline">Scroll drives clock</span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-3">
+              <span>PITCH: <strong className="text-cyan-300">{telemetry.rotX}°</strong></span>
+              <span>YAW: <strong className="text-purple-300">{telemetry.rotY}°</strong></span>
+            </div>
+            <span>Drag to rotate • Scroll to inspect</span>
+          </div>
+        )}
       </div>
     </div>
   );

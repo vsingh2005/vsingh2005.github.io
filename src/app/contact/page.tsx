@@ -273,7 +273,7 @@ export default function ContactPage() {
             </div>
 
             <a
-              href="/Vansh_Singh_Resume.pdf"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-2.5 rounded-xl text-xs font-mono font-medium text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center gap-2 transition-all"

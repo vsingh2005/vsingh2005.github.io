@@ -58,7 +58,7 @@ export default function ExperiencePage() {
         </div>
 
         <a
-          href="/Vansh_Singh_Resume.pdf"
+          href="/resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all"

@@ -6,7 +6,7 @@ const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vansh Singh - Engineering Portfolio</title>
+  <title>Vansh - Engineering Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -425,7 +425,7 @@ const htmlContent = `<!DOCTYPE html>
       <!-- HEADER -->
       <div class="header">
         <div class="header-left">
-          <div class="name">Vansh Singh</div>
+          <div class="name">Vansh</div>
           <div class="tagline-main">Computer Engineer | Cloud, Quantum ML & Embedded Systems</div>
           <div class="bio-text">
             Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. Experienced in automated cloud infrastructure (Terraform/AWS), embedded mechatronics, and quantum variational machine learning algorithms.
@@ -632,7 +632,7 @@ const htmlContent = `<!DOCTYPE html>
     </div>
 
     <div class="footer-note">
-      <span>Vansh Singh • Engineering Portfolio</span>
+      <span>Vansh • Engineering Portfolio</span>
       <span>Live GitHub: <a href="https://github.com/vsingh2005" target="_blank">https://github.com/vsingh2005</a></span>
       <span>Page 1 of 2</span>
     </div>
@@ -867,7 +867,7 @@ const htmlContent = `<!DOCTYPE html>
     </div>
 
     <div class="footer-note">
-      <span>Vansh Singh • Engineering Portfolio</span>
+      <span>Vansh • Engineering Portfolio</span>
       <span>GitHub Profile & Repos: <a href="https://github.com/vsingh2005" target="_blank">https://github.com/vsingh2005</a></span>
       <span>Page 2 of 2</span>
     </div>
@@ -881,8 +881,8 @@ fs.writeFileSync('portfolio_export.html', htmlContent, 'utf-8');
 console.log('HTML written to portfolio_export.html');
 
 const htmlPath = path.resolve('portfolio_export.html');
-const pdfPath = path.resolve('Vansh_Singh_Portfolio.pdf');
-const publicPdfPath = path.resolve('public', 'Vansh_Singh_Portfolio.pdf');
+const pdfPath = path.resolve('portfolio.pdf');
+const publicPdfPath = path.resolve('public', 'portfolio.pdf');
 
 const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const edgePath = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";

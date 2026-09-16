@@ -143,7 +143,7 @@ export default function AboutPage() {
 
             <div className="pt-2">
               <a
-                href="/Vansh_Singh_Resume.pdf"
+                href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-2.5 rounded-xl font-medium text-xs text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all"

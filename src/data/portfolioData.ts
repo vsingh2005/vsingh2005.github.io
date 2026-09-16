@@ -72,7 +72,7 @@ export interface SkillCategory {
 
 export const PERSONAL_INFO = {
   name: "Vansh",
-  fullName: "Vansh Singh",
+  fullName: "Vansh",
   title: "Computer Engineer | Cloud Infrastructure, Mechatronics & Systems",
   tagline: "B.S. in Computer Engineering & M.S. in Business Analytics at UMass Amherst. Engineering automated cloud environments with Terraform, embedded robotics, and data analytics systems.",
   bio: "Graduate student at UMass Amherst pursuing an MSBA in Business Analytics with a B.S. in Computer Engineering. Experienced in cloud automation with Terraform/AWS, embedded mechatronics, and applied systems engineering.",
@@ -81,8 +81,8 @@ export const PERSONAL_INFO = {
   githubHandle: "vsingh2005",
   devpost: "https://devpost.com/vanshsingh",
   locations: ["Chicago, IL", "Amherst, MA"],
-  resumePdf: "/Vansh_Singh_Resume.pdf",
-  portfolioPdf: "/Vansh_Singh_Portfolio.pdf",
+  resumePdf: "/resume.pdf",
+  portfolioPdf: "/portfolio.pdf",
   status: "Open to Software, Cloud & Systems Roles",
   stats: [
     { value: "2nd", label: "Global ASME Mechatronics", change: "40+ Universities" },

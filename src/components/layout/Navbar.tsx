@@ -117,7 +117,7 @@ export function Navbar() {
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-2.5">
             <a
-              href="/Vansh_Singh_Portfolio.pdf"
+              href="/portfolio.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-cyan-300 hover:text-white bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 hover:border-cyan-300 transition-all group"
@@ -127,7 +127,7 @@ export function Navbar() {
             </a>
 
             <a
-              href="/Vansh_Singh_Resume.pdf"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-text-secondary hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 transition-all group"
@@ -193,7 +193,7 @@ export function Navbar() {
 
               <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
                 <a
-                  href="/Vansh_Singh_Portfolio.pdf"
+                  href="/portfolio.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-cyan-300 bg-cyan-500/10 border border-cyan-400/30"
@@ -202,7 +202,7 @@ export function Navbar() {
                   <span>Download Portfolio (PDF)</span>
                 </a>
                 <a
-                  href="/Vansh_Singh_Resume.pdf"
+                  href="/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white bg-white/5 border border-white/10"

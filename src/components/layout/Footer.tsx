@@ -170,7 +170,7 @@ export function Footer() {
               <span>Email</span>
             </a>
             <a
-              href="/Vansh_Singh_Portfolio.pdf"
+              href="/portfolio.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-white transition-colors"
@@ -179,7 +179,7 @@ export function Footer() {
               <span>Portfolio PDF</span>
             </a>
             <a
-              href="/Vansh_Singh_Resume.pdf"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-white transition-colors"

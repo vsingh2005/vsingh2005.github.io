@@ -48,7 +48,7 @@ export default function HomePage() {
                 Engineering systems from physical hardware to cloud scale.
               </h1>
               <p className="text-base sm:text-lg font-normal text-text-secondary leading-relaxed max-w-xl">
-                I am Vansh Singh, a computer engineer at UMass Amherst. I build automated cloud environments with Terraform, design embedded mechatronics, and explore applied computational models.
+                I am Vansh, a computer engineer at UMass Amherst. I build automated cloud environments with Terraform, design embedded mechatronics, and explore applied computational models.
               </p>
             </div>
 
@@ -71,7 +71,7 @@ export default function HomePage() {
               </Link>
 
               <a
-                href="/Vansh_Singh_Resume.pdf"
+                href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-mono text-xs text-text-muted hover:text-white transition-colors"
@@ -102,7 +102,7 @@ export default function HomePage() {
                   }`}
                 >
                   <Cpu className="w-3.5 h-3.5 text-accent-cyan" />
-                  <span>3D Silicon Architecture</span>
+                  <span>3D Silicon & Logic Gates</span>
                 </button>
                 <button
                   type="button"
@@ -372,7 +372,7 @@ export default function HomePage() {
 
           <div className="relative z-10 flex flex-wrap items-center gap-3">
             <a
-              href="/Vansh_Singh_Resume.pdf"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 transition-all"

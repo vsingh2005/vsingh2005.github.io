@@ -35,10 +35,10 @@ export const viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://vsingh2005.github.io"),
   title: "ringularity0 | Computer Engineer, Cloud & Embedded Systems",
-  description: "Portfolio of Vansh Singh (ringularity0) — UMass Amherst Computer Engineering & Business Analytics. Cloud automation with Terraform/AWS, embedded mechatronics, and applied data systems.",
+  description: "Portfolio of Vansh (ringularity0) — UMass Amherst Computer Engineering & Business Analytics. Cloud automation with Terraform/AWS, embedded mechatronics, and applied data systems.",
   keywords: [
     "ringularity0",
-    "Vansh Singh",
+    "Vansh",
     "UMass Amherst",
     "Computer Engineering",
     "Business Analytics",
