@@ -15,8 +15,11 @@ export function CustomCursor() {
   const dotY = useSpring(0, { damping: 40, stiffness: 600 });
 
   useEffect(() => {
-    // Disable on touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) {
+    // Disable on touch devices or reduced motion
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       return;
     }
 

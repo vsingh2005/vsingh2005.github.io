@@ -105,16 +105,40 @@ export function Vector3DScroll({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animId: number;
+    let animId = 0;
     let isVisible = true;
+    let isDocVisible = !document.hidden;
+
+    const startLoop = () => {
+      if (!animId && isVisible && isDocVisible) {
+        lastTime = performance.now();
+        animId = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      }
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
+        if (isVisible) startLoop();
+        else stopLoop();
       },
       { threshold: 0.05 }
     );
     if (containerRef.current) observer.observe(containerRef.current);
+
+    const onVisibilityChange = () => {
+      isDocVisible = !document.hidden;
+      if (isDocVisible && isVisible) startLoop();
+      else stopLoop();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
@@ -198,36 +222,21 @@ export function Vector3DScroll({
     let lastTime = performance.now();
 
     const render = (time: number) => {
-      if (!isVisible) {
-        animId = requestAnimationFrame(render);
+      if (!isVisible || !isDocVisible) {
+        animId = 0;
         return;
       }
 
-      const deltaMs = time - lastTime;
       lastTime = time;
       frame++;
 
-      // Update telemetry every 15 frames
-      if (frame % 15 === 0 && deltaMs > 0) {
-        const curA = inputsRef.current.a;
-        const curB = inputsRef.current.b;
-        const curCin = inputsRef.current.cin;
-        const curXor1 = curA !== curB;
-        const curAnd1 = curA && curB;
-        const curSum = curXor1 !== curCin;
-        const curAnd2 = curXor1 && curCin;
-        const curCout = curAnd1 || curAnd2;
-        const decVal = (curA ? 1 : 0) + (curB ? 1 : 0) + (curCin ? 1 : 0);
-
-        setTelemetry({
-          fps: Math.min(Math.round(1000 / deltaMs), 60),
+      // Only update telemetry while dragging to avoid unnecessary React re-renders
+      if (isDragging && frame % 10 === 0) {
+        setTelemetry((prev) => ({
+          ...prev,
           rotX: parseFloat(((rotX * 180) / Math.PI).toFixed(1)),
           rotY: parseFloat(((rotY * 180) / Math.PI).toFixed(1)),
-          stepIndex: (curA ? 4 : 0) + (curB ? 2 : 0) + (curCin ? 1 : 0),
-          sum: curSum ? 1 : 0,
-          cout: curCout ? 1 : 0,
-          formula: `${curA ? 1 : 0} + ${curB ? 1 : 0} + ${curCin ? 1 : 0} = ${decVal} (Sum:${curSum ? 1 : 0}, Cout:${curCout ? 1 : 0})`,
-        });
+        }));
       }
 
       // Smooth physics damping toward target angles
@@ -707,10 +716,11 @@ export function Vector3DScroll({
       animId = requestAnimationFrame(render);
     };
 
-    animId = requestAnimationFrame(render);
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animId);
+      stopLoop();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       canvas.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
@@ -872,14 +882,14 @@ export function Vector3DScroll({
           <div className="flex items-center gap-2 flex-wrap w-full justify-between">
             <div className="flex items-center gap-2">
               <span className="text-white font-medium">
-                ALU OUT: <strong className="text-cyan-300">SUM={telemetry.sum}</strong>, <strong className="text-amber-300">C_OUT={telemetry.cout}</strong>
+                ALU OUT: <strong className="text-cyan-300">SUM={sum ? 1 : 0}</strong>, <strong className="text-amber-300">C_OUT={cout ? 1 : 0}</strong>
               </span>
               <span className="text-text-muted/70 text-[10px]">
-                ({telemetry.formula})
+                ({inputA ? 1 : 0} + {inputB ? 1 : 0} + {inputCin ? 1 : 0} = {(inputA ? 1 : 0) + (inputB ? 1 : 0) + (inputCin ? 1 : 0)})
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
-              <span className="px-1.5 py-0.5 rounded bg-white/[0.05] border border-white/10 text-cyan-300">Vector #{telemetry.stepIndex}/7</span>
+              <span className="px-1.5 py-0.5 rounded bg-white/[0.05] border border-white/10 text-cyan-300">Vector #{(inputA ? 4 : 0) + (inputB ? 2 : 0) + (inputCin ? 1 : 0)}/7</span>
             </div>
           </div>
         ) : (

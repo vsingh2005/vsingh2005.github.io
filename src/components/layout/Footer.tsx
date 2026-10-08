@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUp, Github, Mail, FileDown, MapPin } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Mail, FileDown, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 import { DevpostIcon } from "@/components/ui/DevpostIcon";
 
@@ -151,6 +151,17 @@ export function Footer() {
               <Github className="w-3.5 h-3.5 text-accent-cyan" />
               <span>GitHub</span>
             </a>
+            {PERSONAL_INFO.linkedin && (
+              <a
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 hover:text-blue-300 transition-colors"
+              >
+                <Linkedin className="w-3.5 h-3.5 text-blue-400" />
+                <span>LinkedIn</span>
+              </a>
+            )}
             {PERSONAL_INFO.devpost && (
               <a
                 href={PERSONAL_INFO.devpost}

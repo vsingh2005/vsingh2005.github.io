@@ -79,11 +79,47 @@ export const PERSONAL_INFO = {
   email: "vanshsingh@umass.edu",
   github: "https://github.com/vsingh2005",
   githubHandle: "vsingh2005",
+  linkedin: "https://www.linkedin.com/in/vsingh2005",
+  linkedinHandle: "vsingh2005",
   devpost: "https://devpost.com/vanshsingh",
   locations: ["Chicago, IL", "Amherst, MA"],
   resumePdf: "/resume.pdf",
   portfolioPdf: "/portfolio.pdf",
-  status: "Open to Software, Cloud & Systems Roles",
+  status: "Open to Cloud Infrastructure, Systems & Embedded Roles | May 2026 / 2027 Grad",
+  recruiterBrief: {
+    targetRoles: [
+      "Cloud & Infrastructure Engineer (AWS / Terraform)",
+      "Systems & Embedded Software Engineer (C / C++ / RTOS)",
+      "Robotics & Mechatronics Systems Engineer",
+      "Applied Data & Analytics Systems Engineer",
+    ],
+    availability: "Available for Summer/Fall 2026 Internships & May 2026/2027 Full-Time",
+    workAuth: "US Work Authorized (No Sponsorship Required)",
+    relocation: "Chicago, IL | Boston / Amherst, MA | Open to Relocation across US & Remote",
+    coreStack: [
+      { category: "Languages", items: ["C", "C++", "Python", "TypeScript", "SystemVerilog", "SQL"] },
+      { category: "Cloud & DevOps", items: ["Terraform", "AWS (EC2, S3, IAM, Braket)", "Docker", "Linux", "CI/CD"] },
+      { category: "Embedded & Hardware", items: ["ESP32 / STM32", "RTOS", "LTSpice", "I2C/SPI/UART", "PCB Design"] },
+      { category: "Data & ML", items: ["PyTorch", "PennyLane", "NumPy", "Pandas", "Distributed Training"] },
+    ],
+    flagshipWins: [
+      {
+        metric: "2nd Place Global",
+        headline: "ASME IAM3D Mechatronics Competition",
+        detail: "Led electrical architecture among 40+ international university engineering teams.",
+      },
+      {
+        metric: "40% Faster",
+        headline: "Cloud Infrastructure IaC Automation",
+        detail: "Standardized multi-tenant AWS deployments using modular Terraform configurations.",
+      },
+      {
+        metric: "6 Engineers Led",
+        headline: "U.S. Department of Energy Collegiate Wind",
+        detail: "Directed electrical drivetrain subteam and control telemetry systems.",
+      },
+    ],
+  },
   stats: [
     { value: "2nd", label: "Global ASME Mechatronics", change: "40+ Universities" },
     { value: "40%", label: "Cloud Provisioning Boost", change: "Terraform & AWS IaC" },

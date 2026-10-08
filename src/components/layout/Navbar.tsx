@@ -15,7 +15,8 @@ import {
   User,
   Wrench,
   Mail,
-  Home
+  Home,
+  Linkedin
 } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
@@ -136,6 +137,19 @@ export function Navbar() {
               <span>Resume</span>
             </a>
 
+            {PERSONAL_INFO.linkedin && (
+              <a
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-medium text-blue-300 hover:text-white bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/30 hover:border-blue-300 transition-all group"
+                title="LinkedIn Profile"
+              >
+                <Linkedin className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform" />
+                <span>LinkedIn</span>
+              </a>
+            )}
+
             <Link
               href="/contact"
               className="relative inline-flex items-center justify-center p-0.5 overflow-hidden rounded-full font-medium transition-all group"
@@ -210,6 +224,17 @@ export function Navbar() {
                   <FileDown className="w-4 h-4 text-text-muted" />
                   <span>Download Resume (PDF)</span>
                 </a>
+                {PERSONAL_INFO.linkedin && (
+                  <a
+                    href={PERSONAL_INFO.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-blue-300 bg-blue-500/10 border border-blue-400/30"
+                  >
+                    <Linkedin className="w-4 h-4 text-blue-400" />
+                    <span>View LinkedIn Profile</span>
+                  </a>
+                )}
                 <Link
                   href="/contact"
                   className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-accent-blue to-accent-violet shadow-lg shadow-accent-blue/20"

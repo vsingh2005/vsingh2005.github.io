@@ -200,3 +200,39 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Recruiter & Executive Print / PDF Export Styling */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+  .noise-overlay,
+  canvas,
+  header,
+  footer,
+  .spotlight,
+  .scanline,
+  button,
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+  main {
+    padding-top: 0 !important;
+  }
+  h1, h2, h3, h4, p, span, div {
+    color: #0f172a !important;
+    text-shadow: none !important;
+  }
+  .glass-panel,
+  .glass-panel-glow {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+  a {
+    text-decoration: underline !important;
+    color: #2563eb !important;
+  }
+}
+

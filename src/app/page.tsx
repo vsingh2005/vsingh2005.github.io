@@ -19,13 +19,21 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { TerminalCard } from "@/components/ui/TerminalCard";
 import { SpinningBadge } from "@/components/visuals/SpinningBadge";
 import { Vector3DScroll } from "@/components/visuals/Vector3DScroll";
+import { RecruiterBriefModal } from "@/components/ui/RecruiterBriefModal";
 
 export default function HomePage() {
   const [heroTab, setHeroTab] = useState<"vector3d" | "terminal">("vector3d");
+  const [recruiterModalOpen, setRecruiterModalOpen] = useState(false);
   const featuredProjects = PROJECTS.filter((p) => p.featured);
 
   return (
     <div className="space-y-24 sm:space-y-36 pb-24 overflow-hidden">
+      {/* Executive Recruiter Brief Modal */}
+      <RecruiterBriefModal
+        isOpen={recruiterModalOpen}
+        onClose={() => setRecruiterModalOpen(false)}
+      />
+
       {/* HERO SECTION */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
@@ -54,6 +62,15 @@ export default function HomePage() {
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setRecruiterModalOpen(true)}
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-medium text-sm text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/40 hover:border-cyan-300 shadow-lg shadow-cyan-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              >
+                <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+                <span>Recruiter Brief (10s)</span>
+              </button>
+
               <Link
                 href="/projects"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-white bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
@@ -62,23 +79,26 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-text-primary bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all"
-              >
-                <span>About Background</span>
-                <ChevronRight className="w-4 h-4 text-text-muted" />
-              </Link>
-
               <a
-                href="/resume.pdf"
+                href={PERSONAL_INFO.resumePdf}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-mono text-xs text-text-muted hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl font-mono text-xs text-text-muted hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition-colors"
               >
                 <FileDown className="w-3.5 h-3.5 text-[#CD8DBD]" />
                 <span>Resume (PDF)</span>
               </a>
+
+              {PERSONAL_INFO.linkedin && (
+                <a
+                  href={PERSONAL_INFO.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-3.5 rounded-xl font-mono text-xs text-blue-300 hover:text-white bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/30 transition-colors"
+                >
+                  <span>LinkedIn ↗</span>
+                </a>
+              )}
             </div>
           </motion.div>
 
