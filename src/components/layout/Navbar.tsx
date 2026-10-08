@@ -30,21 +30,21 @@ export function Navbar({ onOpenRecruiter }: { onOpenRecruiter?: () => void }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
         {/* Logo / Brand with Transparent Mii */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 rounded-2xl bg-brand-lightLime/60 dark:bg-brand-navy/80 border-2 border-brand-navy dark:border-white/20 shadow-solid-sm overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:shadow-solid transition-all">
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-lightLime/60 dark:bg-brand-navy/80 border-2 border-brand-navy dark:border-white/20 shadow-solid-sm overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:shadow-solid transition-all">
             <Image
               src="/mii.png"
               alt="Vansh Mii Avatar"
-              width={40}
-              height={40}
+              width={56}
+              height={56}
               className="w-full h-full object-cover object-top scale-110 translate-y-0.5"
               priority
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-display font-bold text-base tracking-tight text-brand-navy dark:text-white leading-none">
+            <span className="font-display font-bold text-base sm:text-lg tracking-tight text-brand-navy dark:text-white leading-none">
               Vansh
             </span>
-            <span className="text-[11px] font-mono text-brand-slate dark:text-gray-400 mt-0.5">
+            <span className="text-[11px] sm:text-xs font-mono text-brand-slate dark:text-gray-400 mt-1">
               Systems &amp; Cloud
             </span>
           </div>

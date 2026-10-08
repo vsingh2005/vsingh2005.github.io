@@ -49,12 +49,12 @@ export function Footer() {
           {/* Brand & Mini Avatar */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-xl bg-brand-lightLime/60 dark:bg-brand-navy border-2 border-brand-navy dark:border-white/20 overflow-hidden flex items-center justify-center shadow-solid-sm">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-lightLime/60 dark:bg-brand-navy border-2 border-brand-navy dark:border-white/20 overflow-hidden flex items-center justify-center shadow-solid-sm">
                 <Image
                   src="/mii.png"
                   alt="Vansh Mii Avatar"
-                  width={40}
-                  height={40}
+                  width={56}
+                  height={56}
                   className="w-full h-full object-cover object-top scale-110 translate-y-0.5"
                 />
               </div>
