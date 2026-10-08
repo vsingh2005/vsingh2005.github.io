@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { QuantumCanvas } from "@/components/canvas/QuantumCanvas";
-import { BackgroundAmbient } from "@/components/canvas/BackgroundAmbient";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
-const syne = Syne({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-syne",
+  variable: "--font-space",
   display: "swap",
 });
 
@@ -33,23 +32,22 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vsingh2005.github.io"),
-  title: "ringularity0 | Computer Engineer, Cloud & Embedded Systems",
-  description: "Portfolio of Vansh (ringularity0) — UMass Amherst Computer Engineering & Business Analytics. Cloud automation with Terraform/AWS, embedded mechatronics, and applied data systems.",
+  title: "Vansh | Computer Engineer & Cloud Architect",
+  description: "Portfolio of Vansh (ringularity0) — UMass Amherst Computer Engineering & Business Analytics. Cloud automation with Terraform/AWS, quantum machine learning, and high-impact systems.",
   keywords: [
-    "ringularity0",
     "Vansh",
+    "ringularity0",
     "UMass Amherst",
     "Computer Engineering",
-    "Business Analytics",
+    "Cloud Architect",
     "Terraform",
     "AWS",
-    "Embedded Systems",
-    "Robotics",
-    "Mechatronics",
-    "ASME IAM3D"
+    "ASME IAM3D",
+    "Quantum Machine Learning",
+    "PennyLane"
   ],
-  authors: [{ name: "ringularity0", url: PERSONAL_INFO.github }],
-  creator: "ringularity0",
+  authors: [{ name: "Vansh", url: PERSONAL_INFO.github }],
+  creator: "Vansh",
   icons: {
     icon: "/avatar.jpg",
   },
@@ -57,14 +55,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://vsingh2005.github.io",
-    title: "ringularity0 | Computer Engineer, Cloud & Embedded Systems",
+    title: "Vansh | Computer Engineer & Cloud Architect",
     description: PERSONAL_INFO.tagline,
-    siteName: "ringularity0 Portfolio",
+    siteName: "Vansh Portfolio",
     images: [{ url: "/avatar.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ringularity0 | Engineering Portfolio",
+    title: "Vansh | Computer Engineer & Cloud Architect",
     description: PERSONAL_INFO.tagline,
     images: ["/avatar.jpg"],
   },
@@ -78,26 +76,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark scroll-smooth ${plusJakarta.variable} ${syne.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+      className={`scroll-smooth ${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-background text-text-primary antialiased selection:bg-accent-blue/30 selection:text-white relative font-sans">
-        {/* Dynamic atmospheric ambient glow & grid */}
-        <BackgroundAmbient />
+      <body className="antialiased selection:bg-brand-blue selection:text-white relative font-sans transition-colors duration-200">
+        <ThemeProvider>
+          <div className="min-h-screen flex flex-col">
+            {/* Top Navigation */}
+            <Navbar />
 
-        {/* Lightweight Quantum particle canvas */}
-        <QuantumCanvas />
+            {/* Main Content */}
+            <main className="relative z-10 pt-20 flex-1">
+              {children}
+            </main>
 
-        {/* Navigation */}
-        <Navbar />
-
-        {/* Main Content */}
-        <main className="relative z-10 pt-24 min-h-screen flex flex-col">
-          {children}
-        </main>
-
-        {/* Footer */}
-        <Footer />
+            {/* Footer */}
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+

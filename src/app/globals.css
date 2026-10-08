@@ -3,9 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #07080D;
-  --mouse-x: 50%;
-  --mouse-y: 50%;
+  --bg-color: #F7F7F2;
+  --text-primary: #062844;
+  --text-secondary: #486073;
+  --card-bg: #FFFFFF;
+  --card-border: #E2E5DC;
+  --grid-line: rgba(6, 40, 68, 0.05);
+}
+
+.dark {
+  --bg-color: #060D17;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --card-bg: #0C1829;
+  --card-border: #1B2F4C;
+  --grid-line: rgba(255, 255, 255, 0.04);
 }
 
 * {
@@ -14,20 +26,79 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 body {
   background-color: var(--bg-color);
-  color: #F8FAFC;
+  color: var(--text-primary);
   overflow-x: hidden;
   min-height: 100vh;
-  position: relative;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
-  background: rgba(56, 119, 255, 0.4);
-  color: #ffffff;
+  background: #C9D4A3;
+  color: #062844;
+}
+
+/* Crisp Technical Crosshair Grid Background */
+.bugster-grid {
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Subtle dotted texture */
+.dot-matrix {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Neo-modern Card Borders with solid depth */
+.neo-card {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neo-card:hover {
+  transform: translateY(-2px);
+}
+
+.light .neo-card {
+  box-shadow: 3px 3px 0px 0px rgba(6, 40, 68, 0.08);
+}
+
+.dark .neo-card {
+  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* Tactile Neo-Brutalist Buttons */
+.neo-btn {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.neo-btn:hover {
+  transform: translate(-1px, -1px);
+}
+
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none !important;
+}
+
+/* Browser Window Header Dots */
+.mac-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.mac-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
 }
 
 /* Custom Sleek Scrollbar */
@@ -36,153 +107,19 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #07080D;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E2438;
+  background: rgba(100, 116, 139, 0.3);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2E3856;
+  background: rgba(100, 116, 139, 0.5);
 }
 
-/* Film Grain Noise Overlay (Disabled for high-FPS Chrome rendering) */
-.noise-overlay {
-  display: none !important;
-}
-
-/* Subtle Grid Background */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
-
-/* Glassmorphism & UI Panels */
-.glass-panel {
-  background: rgba(14, 17, 28, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.glass-panel-glow {
-  background: rgba(14, 17, 28, 0.75);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(56, 119, 255, 0.15);
-}
-
-.glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel-hover:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 25px -5px rgba(138, 79, 255, 0.25);
-  transform: translateY(-2px);
-}
-
-/* Gradient Text Utilities */
-.text-gradient-cyan {
-  background: linear-gradient(135deg, #F8FAFC 0%, #00F2FE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-purple {
-  background: linear-gradient(135deg, #00F2FE 0%, #8A4FFF 50%, #FF2A85 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-white {
-  background: linear-gradient(180deg, #FFFFFF 0%, #94A3B8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Glow Utilities */
-.glow-cyan {
-  box-shadow: 0 0 25px -5px rgba(0, 242, 254, 0.3);
-}
-
-.glow-blue {
-  box-shadow: 0 0 25px -5px rgba(56, 119, 255, 0.3);
-}
-
-.glow-violet {
-  box-shadow: 0 0 25px -5px rgba(138, 79, 255, 0.3);
-}
-
-/* Cursor Spotlight */
-.spotlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(56, 119, 255, 0.08), transparent 40%);
-  pointer-events: none;
-}
-
-/* Terminal Scanline */
-.scanline {
-  position: relative;
-  overflow: hidden;
-}
-
-.scanline::after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 2;
-  background-size: 100% 2px, 3px 100%;
-  pointer-events: none;
-  opacity: 0.2;
-}
-
-/* Phobos-Inspired Vector & Orbital Keyframes */
-@keyframes orbSpin0 {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes orbSpin1 {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
-@keyframes orbSpin2 {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes radarSweep {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.animate-orb-slow {
-  animation: orbSpin0 120s linear infinite;
-}
-
-.animate-orb-mid {
-  animation: orbSpin1 80s linear infinite;
-}
-
-.animate-orb-fast {
-  animation: orbSpin2 45s linear infinite;
-}
-
-
-
+/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -192,38 +129,17 @@ body {
   }
 }
 
-/* Recruiter & Executive Print / PDF Export Styling */
+/* Print Friendly Styles */
 @media print {
   body {
     background: #ffffff !important;
-    color: #0f172a !important;
+    color: #062844 !important;
   }
-  .noise-overlay,
-  canvas,
-  header,
-  footer,
-  .spotlight,
-  .scanline,
-  button,
-  [aria-hidden="true"] {
+  header, footer, button, .neo-btn {
     display: none !important;
   }
-  main {
-    padding-top: 0 !important;
-  }
-  h1, h2, h3, h4, p, span, div {
-    color: #0f172a !important;
-    text-shadow: none !important;
-  }
-  .glass-panel,
-  .glass-panel-glow {
-    background: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
+  .neo-card {
     box-shadow: none !important;
-  }
-  a {
-    text-decoration: underline !important;
-    color: #2563eb !important;
+    border: 1px solid #cbd5e1 !important;
   }
 }
-
