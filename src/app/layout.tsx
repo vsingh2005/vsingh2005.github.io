@@ -3,7 +3,6 @@ import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/layout/CustomCursor";
 import { QuantumCanvas } from "@/components/canvas/QuantumCanvas";
 import { BackgroundAmbient } from "@/components/canvas/BackgroundAmbient";
 import { PERSONAL_INFO } from "@/data/portfolioData";
@@ -82,17 +81,11 @@ export default function RootLayout({
       className={`dark scroll-smooth ${plusJakarta.variable} ${syne.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-background text-text-primary antialiased selection:bg-accent-blue/30 selection:text-white relative font-sans">
-        {/* Film grain noise */}
-        <div className="noise-overlay" aria-hidden="true" />
-
         {/* Dynamic atmospheric ambient glow & grid */}
         <BackgroundAmbient />
 
-        {/* Interactive Quantum particle canvas */}
+        {/* Lightweight Quantum particle canvas */}
         <QuantumCanvas />
-
-        {/* Smooth spring cursor */}
-        <CustomCursor />
 
         {/* Navigation */}
         <Navbar />

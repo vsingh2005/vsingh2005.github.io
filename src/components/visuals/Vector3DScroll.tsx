@@ -148,6 +148,27 @@ export function Vector3DScroll({
     let targetRotX = rotX;
     let targetRotY = rotY;
 
+    // Cache dimensions to eliminate forced layout reflows (getBoundingClientRect) inside render loop
+    let width = size;
+    let height = size * 0.7;
+
+    const updateCanvasDimensions = () => {
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width || size;
+      height = rect.height || (size * 0.7);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    };
+
+    updateCanvasDimensions();
+    const resizeObserver = new ResizeObserver(() => {
+      updateCanvasDimensions();
+    });
+    resizeObserver.observe(canvas);
+
     // Drag interaction
     let isDragging = false;
     let startX = 0;
@@ -243,16 +264,6 @@ export function Vector3DScroll({
       rotX += (targetRotX - rotX) * 0.1;
       rotY += (targetRotY - rotY) * 0.1;
 
-      const rect = canvas.getBoundingClientRect();
-      const width = rect.width || size;
-      const height = rect.height || (size * 0.7);
-
-      if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        ctx.scale(dpr, dpr);
-      }
-
       ctx.clearRect(0, 0, width, height);
 
       const cx = width / 2;
@@ -260,13 +271,8 @@ export function Vector3DScroll({
       const fov = 440;
       const currentMode = modeRef.current;
 
-      // Ambient background glow
-      const gridR = width * 0.44;
-      const gridGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, gridR);
-      gridGrad.addColorStop(0, "rgba(0, 245, 212, 0.05)");
-      gridGrad.addColorStop(0.6, "rgba(121, 40, 202, 0.03)");
-      gridGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = gridGrad;
+      // Fast ambient background glow without creating new CanvasGradients every frame
+      ctx.fillStyle = "rgba(0, 245, 212, 0.02)";
       ctx.fillRect(0, 0, width, height);
 
       // ANSI Logic Gate Shape Renderers (clean, authentic vector paths)
@@ -720,6 +726,7 @@ export function Vector3DScroll({
 
     return () => {
       stopLoop();
+      resizeObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
       canvas.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mousemove", handleMouseMove);

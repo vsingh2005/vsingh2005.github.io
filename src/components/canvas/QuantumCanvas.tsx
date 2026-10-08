@@ -67,16 +67,25 @@ export function QuantumCanvas({ className = "" }: { className?: string }) {
       }
     };
 
+    let isScrolling = false;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    const handleScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 120);
+    };
+
     window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // Create balanced particle count (capped on mobile for high FPS)
+    // Ultra-lightweight particle count for butter-smooth Chrome 60-120 FPS
     const isMobile = width < 768;
-    const particleCount = isMobile
-      ? Math.min(Math.floor((width * height) / 30000), 32)
-      : Math.min(Math.floor((width * height) / 22000), 55);
+    const particleCount = isMobile ? 12 : 24;
 
     const particles: Particle[] = [];
 
@@ -84,12 +93,12 @@ export function QuantumCanvas({ className = "" }: { className?: string }) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        radius: Math.random() * 1.6 + 0.8,
-        baseAlpha: Math.random() * 0.4 + 0.2,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 1.5 + 0.8,
+        baseAlpha: Math.random() * 0.35 + 0.15,
         phase: Math.random() * Math.PI * 2,
-        hue: Math.random() > 0.5 ? 190 : 270, // Cyan or Violet
+        hue: Math.random() > 0.5 ? 190 : 270,
       });
     }
 
@@ -100,9 +109,16 @@ export function QuantumCanvas({ className = "" }: { className?: string }) {
       if (!isVisible) return;
 
       const now = performance.now();
+      // Yield thread during scrolling so Chrome gets full 120Hz budget for scroll compositing
+      if (isScrolling) {
+        lastTime = now;
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+
       const dt = Math.min((now - lastTime) / 1000, 0.1);
       lastTime = now;
-      time += 0.9 * dt;
+      time += 0.8 * dt;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -129,37 +145,35 @@ export function QuantumCanvas({ className = "" }: { className?: string }) {
 
           if (distSq < radiusSq) {
             const dist = Math.sqrt(distSq);
-            const force = (1 - dist / mouse.radius) * 0.6;
+            const force = (1 - dist / mouse.radius) * 0.5;
             p.x += (dx / dist) * force;
             p.y += (dy / dist) * force;
           }
         }
 
-        // Draw node without expensive shadowBlur
         const currentAlpha = p.baseAlpha * (0.8 + 0.2 * Math.sin(time * 2 + p.phase));
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${p.hue}, 90%, 65%, ${currentAlpha})`;
         ctx.fill();
 
-        // Draw quantum entanglement lines without per-frame gradient allocation
+        // Draw quantum lines only for close neighbors (80px radius)
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
           const dy = p.y - p2.y;
-          const maxDist = 120;
+          const maxDist = 80;
           const distSq = dx * dx + dy * dy;
 
           if (distSq < maxDist * maxDist) {
             const dist = Math.sqrt(distSq);
-            const lineAlpha = (1 - dist / maxDist) * 0.18;
+            const lineAlpha = (1 - dist / maxDist) * 0.15;
 
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            // Fast flat RGBA stroke instead of allocating dynamic CanvasGradient
             ctx.strokeStyle = `rgba(168, 85, 247, ${lineAlpha})`;
-            ctx.lineWidth = 0.75;
+            ctx.lineWidth = 0.7;
             ctx.stroke();
           }
         }
@@ -172,8 +186,10 @@ export function QuantumCanvas({ className = "" }: { className?: string }) {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      clearTimeout(scrollTimeout);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
