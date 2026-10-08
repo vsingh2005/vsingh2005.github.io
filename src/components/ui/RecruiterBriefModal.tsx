@@ -6,7 +6,6 @@ import {
   X,
   FileDown,
   Mail,
-  Linkedin,
   Github,
   Check,
   Copy,
@@ -97,21 +96,9 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
                     <span>Resume (PDF)</span>
                   </a>
 
-                  {PERSONAL_INFO.linkedin && (
-                    <a
-                      href={PERSONAL_INFO.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="neo-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-600 text-white text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
-                    >
-                      <Linkedin className="w-3.5 h-3.5" />
-                      <span>LinkedIn</span>
-                    </a>
-                  )}
-
                   <button
                     onClick={copyEmail}
-                    className="neo-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-brand-lime text-brand-navy text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
+                    className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-lime text-brand-navy text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
                     title="Copy email address"
                   >
                     {copied ? <Check className="w-3.5 h-3.5 text-emerald-700" /> : <Copy className="w-3.5 h-3.5" />}

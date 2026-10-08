@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowUp, Github, Linkedin, Mail, FileDown, MapPin, Sparkles, Heart } from "lucide-react";
+import Image from "next/image";
+import { ArrowUp, Github, Mail, FileDown, MapPin, Sparkles, Heart } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 import { DevpostIcon } from "@/components/ui/DevpostIcon";
 
@@ -45,11 +46,17 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b-2 border-brand-navy/10 dark:border-white/10">
           
-          {/* Brand & Mini Mascot */}
+          {/* Brand & Mini Avatar */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-blue border-2 border-brand-navy text-white flex items-center justify-center font-black font-mono shadow-solid-sm">
-                V
+              <div className="relative w-10 h-10 rounded-xl bg-brand-lightLime/60 dark:bg-brand-navy border-2 border-brand-navy dark:border-white/20 overflow-hidden flex items-center justify-center shadow-solid-sm">
+                <Image
+                  src="/mii.png"
+                  alt="Vansh Mii Avatar"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover object-top scale-110 translate-y-0.5"
+                />
               </div>
               <div>
                 <span className="font-heading font-black text-xl text-brand-navy dark:text-white tracking-tight">
@@ -148,17 +155,6 @@ export function Footer() {
               <Github className="w-3.5 h-3.5" />
               <span>GitHub</span>
             </a>
-            {PERSONAL_INFO.linkedin && (
-              <a
-                href={PERSONAL_INFO.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-brand-blue transition-colors"
-              >
-                <Linkedin className="w-3.5 h-3.5" />
-                <span>LinkedIn</span>
-              </a>
-            )}
             {PERSONAL_INFO.devpost && (
               <a
                 href={PERSONAL_INFO.devpost}

@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FileDown, Sparkles, Menu, X, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
+import Image from "next/image";
+import { FileDown, Sparkles, Menu, X, ArrowUpRight, Github, Mail } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
@@ -27,10 +28,17 @@ export function Navbar({ onOpenRecruiter }: { onOpenRecruiter?: () => void }) {
   return (
     <header className="sticky top-0 z-40 w-full bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-surface-lightBorder dark:border-surface-darkBorder transition-colors">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-        {/* Logo / Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-brand-blue flex items-center justify-center text-white font-display font-black text-lg border border-brand-navy shadow-solid-sm group-hover:scale-105 transition-transform">
-            V
+        {/* Logo / Brand with Transparent Mii */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative w-10 h-10 rounded-2xl bg-brand-lightLime/60 dark:bg-brand-navy/80 border-2 border-brand-navy dark:border-white/20 shadow-solid-sm overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:shadow-solid transition-all">
+            <Image
+              src="/mii.png"
+              alt="Vansh Mii Avatar"
+              width={40}
+              height={40}
+              className="w-full h-full object-cover object-top scale-110 translate-y-0.5"
+              priority
+            />
           </div>
           <div className="flex flex-col">
             <span className="font-display font-bold text-base tracking-tight text-brand-navy dark:text-white leading-none">

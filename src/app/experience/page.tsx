@@ -11,7 +11,6 @@ import {
   Layers,
   FileDown,
   Building,
-  Linkedin
 } from "lucide-react";
 import { EXPERIENCES, PERSONAL_INFO } from "@/data/portfolioData";
 
@@ -59,17 +58,6 @@ export default function ExperiencePage() {
         </div>
 
         <div className="flex items-center gap-2">
-          {PERSONAL_INFO.linkedin && (
-            <a
-              href={PERSONAL_INFO.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/30 transition-all"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-blue-400" />
-              <span>LinkedIn</span>
-            </a>
-          )}
           <a
             href="/resume.pdf"
             target="_blank"

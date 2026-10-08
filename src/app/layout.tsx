@@ -49,7 +49,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Vansh", url: PERSONAL_INFO.github }],
   creator: "Vansh",
   icons: {
-    icon: "/avatar.jpg",
+    icon: "/mii.png",
+    shortcut: "/mii.png",
+    apple: "/mii.png",
   },
   openGraph: {
     type: "website",
@@ -58,13 +60,13 @@ export const metadata: Metadata = {
     title: "Vansh | Computer Engineer & Cloud Architect",
     description: PERSONAL_INFO.tagline,
     siteName: "Vansh Portfolio",
-    images: [{ url: "/avatar.jpg" }],
+    images: [{ url: "/mii.png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Vansh | Computer Engineer & Cloud Architect",
     description: PERSONAL_INFO.tagline,
-    images: ["/avatar.jpg"],
+    images: ["/mii.png"],
   },
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Send, Check, Copy, Linkedin, Github, MessageSquare, AlertCircle } from "lucide-react";
+import { Mail, Send, Check, Copy, Github, MessageSquare, AlertCircle } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
 export function ContactSection() {
@@ -102,17 +102,6 @@ export function ContactSection() {
 
             {/* Social Links */}
             <div className="flex flex-wrap gap-3">
-              {PERSONAL_INFO.linkedin && (
-                <a
-                  href={PERSONAL_INFO.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="neo-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl font-mono text-xs font-bold text-white bg-blue-600 border border-brand-navy shadow-solid-sm hover:shadow-solid"
-                >
-                  <Linkedin className="w-4 h-4" />
-                  <span>LinkedIn Profile ↗</span>
-                </a>
-              )}
               <a
                 href={PERSONAL_INFO.github}
                 target="_blank"
