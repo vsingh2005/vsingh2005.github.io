@@ -11,28 +11,28 @@ export function MetricsBar() {
       label: "ASME IAM3D Mechatronics",
       subtext: "Among 40+ international university teams",
       icon: Award,
-      badgeColor: "bg-brand-coral/20 text-brand-coral border-brand-coral/40",
+      badgeColor: "bg-brand-ember/15 text-brand-ember border-brand-ember/30",
     },
     {
       value: "40% Faster",
       label: "AWS IaC Provisioning",
       subtext: "Automated modular Terraform architecture",
       icon: Zap,
-      badgeColor: "bg-brand-blue/20 text-brand-blue border-brand-blue/40",
+      badgeColor: "bg-brand-cobalt/15 text-brand-cobalt border-brand-cobalt/30",
     },
     {
       value: "6 Engineers",
       label: "Drivetrain Subteam Led",
       subtext: "U.S. Department of Energy Collegiate Wind",
       icon: Users,
-      badgeColor: "bg-brand-lime/40 text-brand-navy border-brand-lime",
+      badgeColor: "bg-brand-amber/20 text-brand-navy dark:text-brand-amber border-brand-amber/40",
     },
     {
       value: "150+ Taught",
       label: "Embedded & Robotics",
       subtext: "Engineering mentor & lab instructor",
       icon: Shield,
-      badgeColor: "bg-brand-olive/20 text-brand-olive border-brand-olive/40",
+      badgeColor: "bg-brand-cream text-brand-navy border-brand-amber/30",
     },
   ];
 

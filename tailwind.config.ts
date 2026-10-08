@@ -10,24 +10,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Bugster Palette Swatch
+        // Silicon & Ember Palette Tokens
         brand: {
-          blue: "#048AF8",
-          navy: "#062844",
-          coral: "#F9857D",
-          olive: "#9B8E5C",
-          slate: "#486073",
-          lime: "#C9D4A3",
-          lightLime: "#E4ECC9",
+          ember: "#FF5722",      // Primary Electric Ember (Hardware warmth, matches Mii jacket)
+          amber: "#FFB020",      // Secondary Amber Gold (Logic & energy)
+          cobalt: "#2563EB",     // Cool Steel Cobalt (Systems & cloud)
+          charcoal: "#18181B",   // Deep Obsidian Charcoal (Ink, borders & shadows)
+          slate: "#52525B",      // Balanced Secondary Slate
+          cream: "#FEF3C7",      // Warm Cream for tags & chip fills
+          lightAmber: "#FFFBEB", // Soft Warm Tint
+          
+          // Semantic & Backwards-Compatible Aliases
+          blue: "#2563EB",       // Steel Cobalt replaces electric blue
+          navy: "#18181B",       // Obsidian Charcoal replaces navy
+          coral: "#FF5722",      // Electric Ember replaces coral
+          olive: "#D97706",      // Warm Amber replaces olive
+          lime: "#FFB020",       // Amber Gold replaces lime
+          lightLime: "#FEF3C7",  // Warm Cream replaces lightLime
         },
         surface: {
-          light: "#F7F7F2",
+          light: "#FBFBF9",
           lightCard: "#FFFFFF",
-          lightBorder: "#E2E5DC",
-          dark: "#060D17",
-          darkCard: "#0C1829",
-          darkCardHover: "#11223A",
-          darkBorder: "#1B2F4C",
+          lightBorder: "#E4E4E7",
+          dark: "#0E0F12",
+          darkCard: "#18181B",
+          darkCardHover: "#27272A",
+          darkBorder: "#27272A",
         },
       },
       fontFamily: {
@@ -36,12 +44,13 @@ const config: Config = {
         mono: ["var(--font-mono)", "monospace"],
       },
       boxShadow: {
-        solid: "3px 3px 0px 0px rgba(6, 40, 68, 1)",
-        "solid-lg": "5px 5px 0px 0px rgba(6, 40, 68, 1)",
-        "solid-sm": "2px 2px 0px 0px rgba(6, 40, 68, 1)",
-        "solid-dark": "3px 3px 0px 0px rgba(4, 138, 248, 0.4)",
-        "solid-coral": "3px 3px 0px 0px rgba(249, 133, 125, 0.6)",
-        "solid-lime": "3px 3px 0px 0px rgba(6, 40, 68, 0.9)",
+        solid: "3px 3px 0px 0px rgba(24, 24, 27, 1)",
+        "solid-lg": "5px 5px 0px 0px rgba(24, 24, 27, 1)",
+        "solid-sm": "2px 2px 0px 0px rgba(24, 24, 27, 1)",
+        "solid-dark": "3px 3px 0px 0px rgba(255, 87, 34, 0.35)",
+        "solid-ember": "3px 3px 0px 0px rgba(255, 87, 34, 0.8)",
+        "solid-amber": "3px 3px 0px 0px rgba(255, 176, 32, 0.8)",
+        "solid-cobalt": "3px 3px 0px 0px rgba(37, 99, 235, 0.8)",
       },
       borderRadius: {
         "2xl": "1rem",

@@ -143,12 +143,12 @@ export function ProjectsSection() {
               {/* Card Header & Badge */}
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-lightLime text-brand-navy border border-brand-lime">
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-cream text-brand-navy border border-brand-amber/40">
                     {proj.category}
                   </span>
                   {proj.badge && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-coral/15 text-brand-coral border border-brand-coral/30">
-                      <Award className="w-3.5 h-3.5 text-brand-coral" />
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-ember/15 text-brand-ember border border-brand-ember/30">
+                      <Award className="w-3.5 h-3.5 text-brand-ember" />
                       <span>{proj.badge}</span>
                     </span>
                   )}
@@ -158,7 +158,7 @@ export function ProjectsSection() {
                   <h3 className="text-xl sm:text-2xl font-bold font-display text-brand-navy dark:text-white tracking-tight">
                     {proj.title}
                   </h3>
-                  <p className="text-xs sm:text-sm font-mono text-brand-blue font-semibold mt-1">
+                  <p className="text-xs sm:text-sm font-mono text-brand-cobalt font-semibold mt-1">
                     {proj.subtitle}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ export function ProjectsSection() {
               <div className="space-y-3.5 text-xs leading-relaxed">
                 {/* Challenge */}
                 <div className="p-3 rounded-2xl bg-surface-light dark:bg-surface-dark border border-surface-lightBorder dark:border-surface-darkBorder space-y-1">
-                  <span className="font-mono font-bold text-brand-coral uppercase tracking-wider text-[11px] block">
+                  <span className="font-mono font-bold text-brand-ember uppercase tracking-wider text-[11px] block">
                     [Challenge / Situation]
                   </span>
                   <p className="text-brand-slate dark:text-gray-300 font-normal">
@@ -178,7 +178,7 @@ export function ProjectsSection() {
 
                 {/* Engineering Action */}
                 <div className="p-3 rounded-2xl bg-surface-light dark:bg-surface-dark border border-surface-lightBorder dark:border-surface-darkBorder space-y-1">
-                  <span className="font-mono font-bold text-brand-blue uppercase tracking-wider text-[11px] block">
+                  <span className="font-mono font-bold text-brand-cobalt uppercase tracking-wider text-[11px] block">
                     [Architecture / Action]
                   </span>
                   <p className="text-brand-slate dark:text-gray-300 font-normal">
@@ -187,8 +187,8 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Quantifiable Result */}
-                <div className="p-3 rounded-2xl bg-brand-lime/20 dark:bg-brand-navy/60 border border-brand-lime/60 dark:border-brand-blue/30 space-y-1">
-                  <span className="font-mono font-bold text-brand-navy dark:text-brand-lime uppercase tracking-wider text-[11px] block flex items-center gap-1">
+                <div className="p-3 rounded-2xl bg-brand-cream/80 dark:bg-brand-charcoal/80 border border-brand-amber/40 dark:border-brand-cobalt/30 space-y-1">
+                  <span className="font-mono font-bold text-brand-navy dark:text-brand-amber uppercase tracking-wider text-[11px] block flex items-center gap-1">
                     <TrendingUp className="w-3.5 h-3.5" />
                     <span>[Quantified Impact / Result]</span>
                   </span>

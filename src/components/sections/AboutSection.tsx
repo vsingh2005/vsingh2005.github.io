@@ -10,19 +10,19 @@ export function AboutSection() {
       title: "Physical Computing Grounding",
       description: "Software reliability starts at the hardware interface. Understanding clock jitter, registers, and LTSpice transient response makes my cloud and software systems fundamentally more resilient.",
       icon: Cpu,
-      color: "text-brand-blue bg-brand-blue/10 border-brand-blue/30",
+      color: "text-brand-ember bg-brand-ember/10 border-brand-ember/30",
     },
     {
       title: "Declarative Infrastructure as Code",
       description: "Cloud systems should never rely on ad-hoc console clicks. I architect modular, self-healing Terraform environments across AWS with strict zero-drift reproducibility.",
       icon: Cloud,
-      color: "text-brand-coral bg-brand-coral/10 border-brand-coral/30",
+      color: "text-brand-cobalt bg-brand-cobalt/10 border-brand-cobalt/30",
     },
     {
       title: "Empathetic Technical Leadership",
       description: "Whether directing a 6-engineer electrical drivetrain subteam or teaching 150+ students in robotics labs, clear communication and mentorship multiply team velocity.",
       icon: HeartHandshake,
-      color: "text-brand-navy dark:text-brand-lime bg-brand-lime/30 border-brand-lime",
+      color: "text-brand-navy dark:text-brand-amber bg-brand-cream border-brand-amber/40",
     },
   ];
 
@@ -31,7 +31,7 @@ export function AboutSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
         {/* Section Header */}
         <div className="space-y-3 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-xs font-mono font-bold text-brand-blue">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-ember/10 border border-brand-ember/30 text-xs font-mono font-bold text-brand-ember">
             <Compass className="w-3.5 h-3.5" />
             <span>Story &amp; Philosophy</span>
           </div>

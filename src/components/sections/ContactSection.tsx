@@ -67,7 +67,7 @@ export function ContactSection() {
           {/* Left Column: Direct Outreach & Socials */}
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-xs font-mono font-bold text-brand-blue">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-ember/10 border border-brand-ember/30 text-xs font-mono font-bold text-brand-ember">
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>Get in Touch</span>
               </div>
@@ -91,7 +91,7 @@ export function ContactSection() {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="neo-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-brand-lime text-brand-navy border border-brand-navy shadow-solid-sm"
+                  className="neo-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-brand-amber text-brand-navy border border-brand-navy shadow-solid-sm"
                   title="Copy email to clipboard"
                 >
                   {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-700" /> : <Copy className="w-3.5 h-3.5" />}
@@ -245,7 +245,7 @@ export function ContactSection() {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="neo-btn w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-mono text-sm font-bold text-white bg-brand-blue border-2 border-brand-navy shadow-solid hover:shadow-solid-lg transition-all"
+                    className="neo-btn w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-mono text-sm font-bold text-white bg-brand-ember border-2 border-brand-navy shadow-solid hover:shadow-solid-lg transition-all"
                   >
                     <Send className="w-4 h-4" />
                     <span>Send Message (Direct Email)</span>

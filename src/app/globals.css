@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #F7F7F2;
-  --text-primary: #062844;
-  --text-secondary: #486073;
+  --bg-color: #FBFBF9;
+  --text-primary: #18181B;
+  --text-secondary: #52525B;
   --card-bg: #FFFFFF;
-  --card-border: #E2E5DC;
-  --grid-line: rgba(6, 40, 68, 0.05);
+  --card-border: #E4E4E7;
+  --grid-line: rgba(24, 24, 27, 0.05);
 }
 
 .dark {
-  --bg-color: #060D17;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --card-bg: #0C1829;
-  --card-border: #1B2F4C;
+  --bg-color: #0E0F12;
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --card-bg: #18181B;
+  --card-border: #27272A;
   --grid-line: rgba(255, 255, 255, 0.04);
 }
 
@@ -37,8 +37,8 @@ body {
 }
 
 ::selection {
-  background: #C9D4A3;
-  color: #062844;
+  background: #FF5722;
+  color: #FFFFFF;
 }
 
 /* Crisp Technical Crosshair Grid Background */
@@ -67,11 +67,11 @@ body {
 }
 
 .light .neo-card {
-  box-shadow: 3px 3px 0px 0px rgba(6, 40, 68, 0.08);
+  box-shadow: 3px 3px 0px 0px rgba(24, 24, 27, 0.08);
 }
 
 .dark .neo-card {
-  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.6);
 }
 
 /* Tactile Neo-Brutalist Buttons */

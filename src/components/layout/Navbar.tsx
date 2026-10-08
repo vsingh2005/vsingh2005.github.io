@@ -68,7 +68,7 @@ export function Navbar({ onOpenRecruiter }: { onOpenRecruiter?: () => void }) {
           {/* Recruiter 10s Pill Button */}
           <button
             onClick={handleOpenRecruiter}
-            className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-brand-lime text-brand-navy border border-brand-navy shadow-solid-sm hover:shadow-solid"
+            className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-brand-amber text-brand-navy border border-brand-navy shadow-solid-sm hover:shadow-solid"
           >
             <Sparkles className="w-3.5 h-3.5 text-brand-navy" />
             <span>Recruiter (10s)</span>
@@ -79,9 +79,9 @@ export function Navbar({ onOpenRecruiter }: { onOpenRecruiter?: () => void }) {
             href={PERSONAL_INFO.resumePdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="neo-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-medium text-brand-navy dark:text-white bg-white dark:bg-surface-darkCard border border-surface-lightBorder dark:border-surface-darkBorder shadow-solid-sm dark:shadow-none hover:border-brand-blue"
+            className="neo-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-medium text-brand-navy dark:text-white bg-white dark:bg-surface-darkCard border border-surface-lightBorder dark:border-surface-darkBorder shadow-solid-sm dark:shadow-none hover:border-brand-ember"
           >
-            <FileDown className="w-3.5 h-3.5 text-brand-blue" />
+            <FileDown className="w-3.5 h-3.5 text-brand-ember" />
             <span>Resume</span>
           </a>
 
@@ -123,7 +123,7 @@ export function Navbar({ onOpenRecruiter }: { onOpenRecruiter?: () => void }) {
                 setMobileMenuOpen(false);
                 handleOpenRecruiter();
               }}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-mono text-xs font-bold bg-brand-lime text-brand-navy border border-brand-navy shadow-solid-sm"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-mono text-xs font-bold bg-brand-amber text-brand-navy border border-brand-navy shadow-solid-sm"
             >
               <Sparkles className="w-4 h-4" />
               <span>Executive Recruiter Brief (10s)</span>

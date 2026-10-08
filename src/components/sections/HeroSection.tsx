@@ -24,7 +24,7 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-brand-navy dark:text-white leading-[1.12]">
                 Engineering systems from{" "}
-                <span className="text-brand-blue underline decoration-brand-lime decoration-4 underline-offset-4">
+                <span className="text-brand-ember underline decoration-brand-amber decoration-4 underline-offset-4">
                   physical silicon
                 </span>{" "}
                 to cloud scale.
@@ -37,11 +37,11 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
             {/* Quick Proof Badges */}
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white dark:bg-surface-darkCard border border-surface-lightBorder dark:border-surface-darkBorder text-brand-navy dark:text-gray-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-brand-cobalt" />
                 <span>Terraform &amp; AWS IaC</span>
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white dark:bg-surface-darkCard border border-surface-lightBorder dark:border-surface-darkBorder text-brand-navy dark:text-gray-300">
-                <Cpu className="w-3.5 h-3.5 text-brand-coral" />
+                <Cpu className="w-3.5 h-3.5 text-brand-ember" />
                 <span>ASME Global Podium Lead</span>
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white dark:bg-surface-darkCard border border-surface-lightBorder dark:border-surface-darkBorder text-brand-navy dark:text-gray-300">
@@ -55,7 +55,7 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
               {/* Primary Work Button */}
               <a
                 href="#projects"
-                className="neo-btn inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-mono text-sm font-bold text-white bg-brand-blue border-2 border-brand-navy shadow-solid hover:shadow-solid-lg transition-all"
+                className="neo-btn inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-mono text-sm font-bold text-white bg-brand-ember border-2 border-brand-navy shadow-solid hover:shadow-solid-lg transition-all"
               >
                 <span>View Projects</span>
                 <ArrowRight className="w-4 h-4" />
@@ -65,7 +65,7 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
               <button
                 type="button"
                 onClick={onOpenRecruiter}
-                className="neo-btn inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl font-mono text-sm font-bold text-brand-navy bg-brand-lime border-2 border-brand-navy shadow-solid hover:shadow-solid-lg transition-all"
+                className="neo-btn inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl font-mono text-sm font-bold text-brand-navy bg-brand-amber border-2 border-brand-navy shadow-solid hover:shadow-solid-lg transition-all"
               >
                 <Sparkles className="w-4 h-4 text-brand-navy" />
                 <span>Recruiter Brief (10s)</span>
@@ -76,9 +76,9 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
                 href={PERSONAL_INFO.resumePdf}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="neo-btn inline-flex items-center gap-2 px-4 py-3.5 rounded-2xl font-mono text-xs font-semibold text-brand-navy dark:text-white bg-white dark:bg-surface-darkCard border-2 border-surface-lightBorder dark:border-surface-darkBorder shadow-solid-sm hover:border-brand-blue transition-all"
+                className="neo-btn inline-flex items-center gap-2 px-4 py-3.5 rounded-2xl font-mono text-xs font-semibold text-brand-navy dark:text-white bg-white dark:bg-surface-darkCard border-2 border-surface-lightBorder dark:border-surface-darkBorder shadow-solid-sm hover:border-brand-ember transition-all"
               >
-                <FileDown className="w-3.5 h-3.5 text-brand-coral" />
+                <FileDown className="w-3.5 h-3.5 text-brand-ember" />
                 <span>Resume (PDF)</span>
               </a>
             </div>
@@ -90,9 +90,9 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
               {/* macOS Traffic Lights Header */}
               <div className="flex items-center justify-between pb-3 mb-2 border-b border-surface-lightBorder dark:border-surface-darkBorder">
                 <div className="mac-dots">
-                  <span className="mac-dot bg-brand-coral border border-brand-navy/30" />
-                  <span className="mac-dot bg-brand-lime border border-brand-navy/30" />
-                  <span className="mac-dot bg-brand-blue border border-brand-navy/30" />
+                  <span className="mac-dot bg-brand-ember border border-brand-navy/30" />
+                  <span className="mac-dot bg-brand-amber border border-brand-navy/30" />
+                  <span className="mac-dot bg-brand-cobalt border border-brand-navy/30" />
                 </div>
                 <div className="px-3 py-0.5 rounded-lg bg-surface-light dark:bg-surface-dark border border-surface-lightBorder dark:border-surface-darkBorder text-[11px] font-mono text-brand-slate dark:text-gray-400">
                   vansh@umass: ~/systems

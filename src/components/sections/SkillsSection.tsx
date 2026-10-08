@@ -12,7 +12,7 @@ export function SkillsSection() {
       id: "cloud",
       title: "Cloud & Infrastructure as Code",
       icon: Cloud,
-      color: "border-brand-blue text-brand-blue",
+      color: "border-brand-cobalt text-brand-cobalt",
       skills: [
         { name: "Terraform (IaC)", level: "Production", badge: "Primary" },
         { name: "AWS (EC2, S3, IAM, VPC)", level: "Advanced", badge: "Core" },
@@ -26,7 +26,7 @@ export function SkillsSection() {
       id: "embedded",
       title: "Embedded Systems & Hardware",
       icon: Cpu,
-      color: "border-brand-coral text-brand-coral",
+      color: "border-brand-ember text-brand-ember",
       skills: [
         { name: "C & C++ Systems", level: "Advanced", badge: "Core" },
         { name: "FreeRTOS & Embedded RTOS", level: "Advanced", badge: "Hardware" },
@@ -41,7 +41,7 @@ export function SkillsSection() {
       id: "data",
       title: "Data Analytics & Machine Learning",
       icon: Database,
-      color: "border-brand-olive text-brand-olive",
+      color: "border-brand-amber text-brand-amber",
       skills: [
         { name: "Python", level: "Advanced", badge: "Primary" },
         { name: "PyTorch & Deep Learning", level: "Advanced", badge: "ML" },
@@ -77,8 +77,8 @@ export function SkillsSection() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lime/30 border border-brand-lime text-xs font-mono font-bold text-brand-navy">
-              <Wrench className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cream border border-brand-amber/40 text-xs font-mono font-bold text-brand-navy">
+              <Wrench className="w-3.5 h-3.5 text-brand-amber" />
               <span>Technical Toolchain</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
@@ -97,7 +97,7 @@ export function SkillsSection() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
                   activeTab === tab
-                    ? "bg-brand-blue text-white shadow-solid-sm"
+                    ? "bg-brand-ember text-white shadow-solid-sm"
                     : "text-brand-slate dark:text-gray-400 hover:text-brand-navy dark:hover:text-white"
                 }`}
               >
@@ -112,8 +112,8 @@ export function SkillsSection() {
           {/* Left Column: Mascot Box (Bugster Inspired) */}
           <div className="lg:col-span-4 neo-card p-6 sm:p-7 rounded-3xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-surface-darkBorder shadow-solid-sm dark:shadow-none flex flex-col items-center justify-between text-center space-y-4">
             <div className="w-full text-left">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-brand-lightLime text-brand-navy font-mono text-[11px] font-bold">
-                <Sparkles className="w-3 h-3 text-brand-navy" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-brand-cream border border-brand-amber/40 text-brand-navy font-mono text-[11px] font-bold">
+                <Sparkles className="w-3 h-3 text-brand-amber" />
                 <span>Zero Drift Philosophy</span>
               </div>
               <h3 className="text-lg font-bold text-brand-navy dark:text-white font-display mt-2">

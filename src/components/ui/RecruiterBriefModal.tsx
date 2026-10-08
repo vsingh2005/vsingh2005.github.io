@@ -58,8 +58,8 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
           >
             {/* Top Close Button & Eyebrow */}
             <div className="flex items-center justify-between pb-4 border-b border-surface-lightBorder dark:border-surface-darkBorder">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lightLime text-brand-navy border border-brand-lime text-xs font-mono font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-brand-navy" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cream text-brand-navy border border-brand-amber/40 text-xs font-mono font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-brand-amber" />
                 <span>Executive Recruiter Brief • 10-Second Candidate Profile</span>
               </div>
 
@@ -79,7 +79,7 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
                   <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
                     {PERSONAL_INFO.name}
                   </h2>
-                  <p className="text-xs sm:text-sm font-mono text-brand-blue font-bold mt-0.5">
+                  <p className="text-xs sm:text-sm font-mono text-brand-cobalt font-bold mt-0.5">
                     BS Computer Engineering &apos;26 • MS Business Analytics &apos;27 @ UMass Amherst
                   </p>
                 </div>
@@ -90,7 +90,7 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
                     href={PERSONAL_INFO.resumePdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-blue text-white text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
+                    className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-ember text-white text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
                   >
                     <FileDown className="w-3.5 h-3.5" />
                     <span>Resume (PDF)</span>
@@ -98,7 +98,7 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
 
                   <button
                     onClick={copyEmail}
-                    className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-lime text-brand-navy text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
+                    className="neo-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-amber text-brand-navy text-xs font-mono font-bold border border-brand-navy shadow-solid-sm"
                     title="Copy email address"
                   >
                     {copied ? <Check className="w-3.5 h-3.5 text-emerald-700" /> : <Copy className="w-3.5 h-3.5" />}
@@ -109,12 +109,12 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
 
               {/* Status and Work Authorization Banner */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 text-xs font-mono">
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-brand-lightLime border border-brand-lime text-brand-navy font-bold">
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-brand-cream border border-brand-amber/40 text-brand-navy font-bold">
                   <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-700" />
                   <span>{brief.workAuth}</span>
                 </div>
                 <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-light dark:bg-surface-dark border border-surface-lightBorder dark:border-surface-darkBorder text-brand-slate dark:text-gray-300">
-                  <Clock className="w-4 h-4 shrink-0 text-brand-blue" />
+                  <Clock className="w-4 h-4 shrink-0 text-brand-ember" />
                   <span>{brief.availability}</span>
                 </div>
               </div>
