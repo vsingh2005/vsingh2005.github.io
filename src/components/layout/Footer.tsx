@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ArrowUp, Github, Mail, FileDown, MapPin, Sparkles, Heart } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 import { DevpostIcon } from "@/components/ui/DevpostIcon";
+import { MiiSleepingMascot } from "@/components/graphics/MiiSleepingMascot";
 
 export function Footer() {
   const [amherstTime, setAmherstTime] = useState<string>("");
@@ -42,7 +43,12 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t-2 border-brand-navy/15 dark:border-white/15 bg-brand-parchment/60 dark:bg-brand-navy/60 backdrop-blur-md pt-16 pb-12 overflow-hidden transition-colors">
+    <footer className="relative border-t-2 border-brand-navy/15 dark:border-white/15 bg-brand-parchment/60 dark:bg-brand-navy/60 backdrop-blur-md pt-16 pb-12 overflow-visible transition-colors">
+      {/* Sleeping Mii Mascot resting visually on the footer top border */}
+      <div className="absolute -top-[70px] sm:-top-[84px] right-6 sm:right-16 lg:right-32 z-20 pointer-events-auto">
+        <MiiSleepingMascot />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b-2 border-brand-navy/10 dark:border-white/10">
           

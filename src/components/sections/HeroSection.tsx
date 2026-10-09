@@ -3,7 +3,7 @@
 import React from "react";
 import { ArrowRight, FileDown, Sparkles, Terminal, CheckCircle2, ShieldCheck, Cpu } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
-import { BugsterHeroMascot } from "@/components/graphics/BugsterHeroMascot";
+import { MiiHeroMascot } from "@/components/graphics/MiiHeroMascot";
 
 export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }) {
   return (
@@ -102,7 +102,7 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
 
               {/* Character Illustration Area */}
               <div className="py-2">
-                <BugsterHeroMascot className="w-full" />
+                <MiiHeroMascot className="w-full" />
               </div>
 
               {/* Bottom Test & Deploy Verification Pill */}

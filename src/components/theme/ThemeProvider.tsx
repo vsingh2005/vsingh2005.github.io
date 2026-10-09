@@ -15,7 +15,7 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -25,9 +25,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setTheme(saved);
       document.documentElement.classList.toggle("dark", saved === "dark");
     } else {
-      // Default to light (Bugster aesthetic is iconic in its clean light parchment look)
-      setTheme("light");
-      document.documentElement.classList.remove("dark");
+      // Default to dark mode
+      setTheme("dark");
+      document.documentElement.classList.add("dark");
     }
     setMounted(true);
   }, []);

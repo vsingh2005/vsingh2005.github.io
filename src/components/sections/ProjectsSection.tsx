@@ -14,6 +14,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { DevpostIcon } from "@/components/ui/DevpostIcon";
+import { MiiRunnerMascot } from "@/components/graphics/MiiRunnerMascot";
 
 interface StarProject {
   id: string;
@@ -119,18 +120,25 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="py-16 sm:py-24 scroll-mt-20 border-t border-surface-lightBorder dark:border-surface-darkBorder bg-surface-light/50 dark:bg-surface-dark/50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
-        {/* Section Header */}
-        <div className="space-y-3 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-coral/15 border border-brand-coral/40 text-xs font-mono font-bold text-brand-coral">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Case Studies (STAR Framework)</span>
+        {/* Section Header & Speed Runner Mascot */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-coral/15 border border-brand-coral/40 text-xs font-mono font-bold text-brand-coral">
+              <Layers className="w-3.5 h-3.5" />
+              <span>Case Studies (STAR Framework)</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
+              Featured engineering case studies
+            </h2>
+            <p className="text-base text-brand-slate dark:text-gray-300 leading-relaxed font-normal">
+              Detailed breakdowns using the Situation, Task, Action, and Result (STAR) framework with verifiable code and quantifiable outcomes.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
-            Featured engineering case studies
-          </h2>
-          <p className="text-base text-brand-slate dark:text-gray-300 leading-relaxed font-normal">
-            Detailed breakdowns using the Situation, Task, Action, and Result (STAR) framework with verifiable code and quantifiable outcomes.
-          </p>
+
+          {/* Interactive Speed Runner Easter Egg */}
+          <div className="w-full lg:max-w-md">
+            <MiiRunnerMascot className="w-full" />
+          </div>
         </div>
 
         {/* Project Cards Grid */}

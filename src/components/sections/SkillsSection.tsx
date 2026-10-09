@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Wrench, Cloud, Cpu, Database, Terminal, Check, Sparkles } from "lucide-react";
-import { BugsterStackMascot } from "@/components/graphics/BugsterStackMascot";
+import { MiiStackMascot } from "@/components/graphics/MiiStackMascot";
 
 export function SkillsSection() {
   const [activeTab, setActiveTab] = useState<string>("all");
@@ -124,7 +124,7 @@ export function SkillsSection() {
               </p>
             </div>
 
-            <BugsterStackMascot className="w-full py-2" />
+            <MiiStackMascot className="w-full py-2" />
 
             <div className="w-full pt-3 border-t border-surface-lightBorder dark:border-surface-darkBorder flex items-center justify-between text-[11px] font-mono text-brand-slate dark:text-gray-400">
               <span>Stack Health: 100%</span>

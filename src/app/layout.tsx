@@ -79,7 +79,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`scroll-smooth ${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`dark scroll-smooth ${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased selection:bg-brand-blue selection:text-white relative font-sans transition-colors duration-200">
         <ThemeProvider>
