@@ -30,7 +30,7 @@ export function HeroSection({ onOpenRecruiter }: { onOpenRecruiter: () => void }
                 to cloud scale.
               </h1>
               <p className="text-base sm:text-lg text-brand-slate dark:text-gray-300 leading-relaxed max-w-xl font-normal">
-                I am <strong className="text-brand-navy dark:text-white font-semibold">Vansh</strong>, a computer engineer at UMass Amherst (BS &apos;26 • MSBA &apos;27). I build automated multi-tenant AWS cloud environments with Terraform, design embedded mechatronics, and explore applied computational models.
+                Hey, I&apos;m <strong className="text-brand-navy dark:text-white font-semibold">Vansh</strong>! A computer engineer at UMass Amherst (BS &apos;26 • MSBA &apos;27). I build automated multi-tenant AWS cloud environments with Terraform, design embedded mechatronics, and explore applied computational models.
               </p>
             </div>
 

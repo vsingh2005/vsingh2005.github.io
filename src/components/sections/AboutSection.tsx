@@ -45,7 +45,8 @@ export function AboutSection() {
             </p>
           </div>
 
-          <div className="w-full lg:max-w-md shrink-0">
+          {/* Standalone Pondering Mascot Looking Up */}
+          <div className="shrink-0 flex justify-center lg:justify-end">
             <MiiLookingUpMascot />
           </div>
         </div>

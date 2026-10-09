@@ -2,74 +2,123 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { BrainCircuit, Lightbulb, Compass, Sparkles } from "lucide-react";
+import { Cloud, Cpu, BrainCircuit, Sparkles, Lightbulb, Zap, Atom } from "lucide-react";
 
 export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
   const [thoughtIndex, setThoughtIndex] = useState(0);
+  const [isPondering, setIsPondering] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  const thoughts = [
-    "From hardware registers to cloud scale... 🧠",
-    "How do we cut provisioning time by another 40%? ⚡",
-    "Variational quantum circuits on AWS Braket... 🌌",
-    "Designing closed-loop motor telemetry in C... 🛠️",
-    "Zero drift, deterministic reproducibility... 🎯",
+  const concepts = [
+    {
+      icon: Cloud,
+      tag: "AWS Cloud Scale",
+      thought: "From hardware registers to cloud scale... ☁️",
+      color: "text-brand-cobalt bg-brand-cobalt/15 border-brand-cobalt/40",
+    },
+    {
+      icon: Atom,
+      tag: "Quantum ML Circuits",
+      thought: "Variational QNodes on AWS Braket... 🌌",
+      color: "text-purple-600 dark:text-purple-400 bg-purple-500/15 border-purple-500/40",
+    },
+    {
+      icon: Cpu,
+      tag: "Embedded Silicon & RTOS",
+      thought: "Clock jitter, registers, and bare-metal C... ⚡",
+      color: "text-brand-ember bg-brand-ember/15 border-brand-ember/40",
+    },
+    {
+      icon: BrainCircuit,
+      tag: "Zero-Drift Architecture",
+      thought: "Modular Terraform & self-healing systems... 🎯",
+      color: "text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 border-emerald-500/40",
+    },
   ];
 
-  const handleNextThought = () => {
-    setThoughtIndex((prev) => (prev + 1) % thoughts.length);
+  const current = concepts[thoughtIndex];
+  const CurrentIcon = current.icon;
+
+  const handleClick = () => {
+    setIsPondering(true);
+    setThoughtIndex((prev) => (prev + 1) % concepts.length);
+    setTimeout(() => setIsPondering(false), 600);
   };
 
   return (
     <div
-      className={`relative select-none ${className}`}
+      className={`relative select-none inline-flex flex-col items-center justify-center cursor-pointer ${className}`}
+      onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={handleNextThought}
+      title="Click to change thought concept!"
     >
-      <div className="group relative neo-card p-4 sm:p-5 rounded-3xl bg-gradient-to-tr from-brand-cobalt/10 via-white to-brand-cream/70 dark:from-surface-darkCard dark:via-surface-dark dark:to-surface-darkCard border-2 border-brand-navy dark:border-surface-darkBorder shadow-solid-sm hover:shadow-solid transition-all cursor-pointer flex flex-col sm:flex-row items-center justify-between gap-4 overflow-hidden">
-        {/* Ambient glow */}
-        <div className="absolute left-6 w-32 h-32 rounded-full bg-brand-cobalt/15 dark:bg-brand-blue/15 blur-2xl -z-10 pointer-events-none" />
+      {/* 1. What the Mii is looking up at: Floating Glowing Idea / Cloud Object */}
+      <div className="relative mb-3 flex flex-col items-center z-20">
+        {/* Floating Glowing Concept Pill directly in gaze path */}
+        <div
+          className={`relative px-3.5 py-1.5 rounded-2xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-brand-amber shadow-solid-sm flex items-center gap-2 transition-all duration-300 transform ${
+            hovered || isPondering ? "scale-110 -translate-y-1 shadow-solid" : "animate-float"
+          }`}
+        >
+          {/* Ambient Glow */}
+          <div className="absolute inset-0 rounded-2xl bg-brand-amber/20 dark:bg-brand-blue/20 blur-md -z-10 pointer-events-none" />
 
-        {/* Left: Looking Up Mii Avatar */}
-        <div className="relative w-28 h-32 sm:w-32 sm:h-36 shrink-0 flex items-center justify-center">
-          <div
-            className={`relative w-full h-full transition-transform duration-300 ${
-              hovered ? "scale-105 -translate-y-1" : "group-hover:scale-102"
-            }`}
-          >
-            <Image
-              src="/images/mii-looking-up.png"
-              alt="Vansh Mii Avatar Looking Up & Contemplating"
-              width={160}
-              height={180}
-              className="w-full h-full object-contain drop-shadow-[0_8px_14px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_8px_18px_rgba(0,0,0,0.6)]"
-            />
+          <div className={`p-1 rounded-lg border ${current.color}`}>
+            <CurrentIcon className="w-4 h-4 animate-spin-slow" />
           </div>
 
-          {/* Shadow Base */}
-          <div className="absolute bottom-0 inset-x-3 h-2 bg-brand-navy/10 dark:bg-black/30 rounded-full blur-xs" />
-        </div>
-
-        {/* Right: Thought Bubble & Philosophy */}
-        <div className="space-y-2 text-center sm:text-left z-10 flex-1">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-brand-cobalt text-white font-mono text-[10px] font-bold shadow-sm">
-            <Lightbulb className="w-3 h-3 text-brand-amber animate-pulse" />
-            <span>Systems Engineering Mindset</span>
-          </div>
-
-          <h4 className="text-xs sm:text-sm font-bold font-display text-brand-navy dark:text-white">
-            Pondering Architecture &amp; Scalability
-          </h4>
-
-          {/* Interactive Thought Bubble */}
-          <div className="relative p-2.5 rounded-2xl bg-white dark:bg-surface-dark border border-brand-navy/20 dark:border-surface-darkBorder font-mono text-xs text-brand-navy dark:text-brand-blue font-semibold shadow-inner">
-            <span className="text-brand-slate dark:text-gray-400 text-[10px] block mb-0.5 font-normal">
-              Click for next thought:
+          <div className="flex flex-col text-left">
+            <span className="text-[10px] font-mono text-brand-slate dark:text-gray-400 uppercase tracking-wider font-semibold">
+              Contemplating
             </span>
-            💭 &quot;{thoughts[thoughtIndex]}&quot;
+            <span className="text-xs font-mono font-bold text-brand-navy dark:text-white">
+              {current.tag}
+            </span>
           </div>
+
+          <Sparkles className="w-3.5 h-3.5 text-brand-amber animate-pulse ml-1" />
         </div>
+
+        {/* Floating Thought Dots connecting gaze upwards */}
+        <div className="flex flex-col items-center gap-1 my-1 opacity-70">
+          <span className="w-2 h-2 rounded-full bg-brand-amber dark:bg-brand-blue animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-ember delay-100 animate-pulse" />
+          <span className="w-1 h-1 rounded-full bg-brand-navy dark:bg-white delay-200 animate-pulse" />
+        </div>
+
+        {/* Thought Bubble with Click Hint */}
+        <div className="mt-0.5 px-3 py-1 rounded-xl bg-white/95 dark:bg-surface-dark border border-brand-navy/20 dark:border-surface-darkBorder font-mono text-xs font-semibold text-brand-navy dark:text-brand-amber shadow-sm">
+          💭 &quot;{current.thought}&quot;
+        </div>
+      </div>
+
+      {/* 2. Large Looking Up Mii Avatar */}
+      <div className="relative w-48 h-56 sm:w-56 sm:h-64 flex items-center justify-center">
+        {/* Ambient Halo Glow */}
+        <div className="absolute w-44 h-44 rounded-full bg-brand-cobalt/15 dark:bg-brand-blue/15 blur-2xl -z-10 pointer-events-none" />
+
+        {/* Character Image */}
+        <div
+          className={`relative z-10 w-full h-full transition-transform duration-300 ${
+            isPondering
+              ? "scale-108 -translate-y-2"
+              : hovered
+              ? "scale-105 -translate-y-1"
+              : "hover:scale-102"
+          }`}
+        >
+          <Image
+            src="/images/mii-looking-up.png"
+            alt="Vansh Mii Avatar Looking Up & Contemplating Architecture"
+            width={280}
+            height={320}
+            className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.22)] dark:drop-shadow-[0_10px_24px_rgba(0,0,0,0.65)]"
+          />
+        </div>
+
+        {/* Ground Shadow */}
+        <div className="absolute bottom-1 inset-x-8 h-3 bg-brand-navy/15 dark:bg-black/40 rounded-full blur-xs" />
       </div>
     </div>
   );
