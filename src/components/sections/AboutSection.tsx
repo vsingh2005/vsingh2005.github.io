@@ -30,9 +30,9 @@ export function AboutSection() {
   return (
     <section id="about" className="py-16 sm:py-24 scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
-        {/* Section Header with Looking Up Mascot */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="space-y-3 max-w-2xl">
+        {/* Section Header Centered to the Middle of the Mascot */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-2xl text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-ember/10 border border-brand-ember/30 text-xs font-mono font-bold text-brand-ember">
               <Compass className="w-3.5 h-3.5" />
               <span>Story &amp; Philosophy</span>

@@ -38,14 +38,14 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 py-10 sm:py-14 overflow-y-auto">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 pt-20 pb-8 sm:pt-24 sm:pb-12 overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-0"
+            className="fixed inset-0 bg-black/85 backdrop-blur-md z-0"
           />
 
           {/* Modal Card */}
@@ -54,7 +54,7 @@ export function RecruiterBriefModal({ isOpen, onClose }: RecruiterBriefModalProp
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-3xl my-auto rounded-3xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-brand-blue p-6 sm:p-8 shadow-solid-lg z-10 max-h-[85vh] overflow-y-auto"
+            className="relative w-full max-w-3xl my-auto rounded-3xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-brand-blue p-6 sm:p-8 shadow-solid-lg z-10 max-h-[80vh] overflow-y-auto"
           >
             {/* Top Close Button & Eyebrow */}
             <div className="flex items-center justify-between pb-4 border-b border-surface-lightBorder dark:border-surface-darkBorder">
