@@ -27,7 +27,7 @@ export function MiiFlexMascot({ className = "" }: { className?: string }) {
       >
         <div className="relative px-3 py-1.5 rounded-2xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-brand-amber shadow-solid-sm text-xs font-mono font-bold text-brand-navy dark:text-brand-amber flex items-center gap-1.5 whitespace-nowrap">
           <Trophy className="w-3.5 h-3.5 text-brand-amber animate-bounce" />
-          <span>{clicked ? "100% Hardware Uptime • Zero Drift! 💪" : "Built for Extreme Resilience! 🏆"}</span>
+          <span>{clicked ? "100% Hardware Uptime • Zero Drift" : "Built for Extreme Resilience"}</span>
           <div className="absolute -bottom-1.5 right-10 w-2.5 h-2.5 bg-white dark:bg-surface-darkCard border-r-2 border-b-2 border-brand-navy dark:border-brand-amber rotate-45" />
         </div>
       </div>

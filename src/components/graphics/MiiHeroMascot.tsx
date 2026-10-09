@@ -118,8 +118,7 @@ export function MiiHeroMascot({ className = "" }: { className?: string }) {
         }`}
       >
         <div className="relative px-4 py-1.5 rounded-2xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-brand-amber shadow-solid-sm text-xs font-mono font-bold text-brand-navy dark:text-white flex items-center gap-2 cursor-pointer">
-          <span className="inline-block animate-wave text-base">👋</span>
-          <span>{clicked ? "Ready for Full-Time & Internships!" : "Hey there! I'm Vansh"}</span>
+          <span>{clicked ? "Available for Spring 2027 & May 2027 Roles" : "Hi, I'm Vansh"}</span>
           <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-surface-darkCard border-r-2 border-b-2 border-brand-navy dark:border-brand-amber rotate-45" />
         </div>
       </div>

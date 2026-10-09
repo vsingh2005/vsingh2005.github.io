@@ -426,9 +426,7 @@ class EdgeFoodWasteDetector:
       "Achieved 100% mission payload drop success across all competitive trials.",
       "Set team records for autonomous course traversal speed."
     ],
-    links: {
-      github: "https://github.com/vsingh2005"
-    }
+    links: {}
   },
   {
     id: "doe-wind-turbine",
@@ -469,9 +467,7 @@ class EdgeFoodWasteDetector:
       "Passed all DOE electrical safety checks on first inspection.",
       "Maintained stable telemetry during high-vibration bench testing."
     ],
-    links: {
-      github: "https://github.com/vsingh2005"
-    }
+    links: {}
   },
   {
     id: "umass-cloud-iac",
@@ -511,9 +507,7 @@ class EdgeFoodWasteDetector:
       "Reduced infrastructure setup time from days to automated 20-minute pipelines.",
       "Zero downtime during infrastructure migrations."
     ],
-    links: {
-      github: "https://github.com/vsingh2005"
-    }
+    links: {}
   },
   {
     id: "stem-embedded-platform",
@@ -552,9 +546,7 @@ class EdgeFoodWasteDetector:
       "Increased student project completion and pass rates by 35%.",
       "Trained 150+ students who have moved into collegiate engineering programs."
     ],
-    links: {
-      github: "https://github.com/vsingh2005"
-    }
+    links: {}
   },
   {
     id: "security-incident-response",
@@ -593,9 +585,7 @@ class EdgeFoodWasteDetector:
       "Restored full production uptime with zero data loss.",
       "Set up continuous monitoring alerts for unauthorized file changes."
     ],
-    links: {
-      github: "https://github.com/vsingh2005"
-    }
+    links: {}
   }
 ];
 

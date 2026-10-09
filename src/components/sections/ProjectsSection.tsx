@@ -52,7 +52,8 @@ export function ProjectsSection() {
         { label: "Cloud Simulator", value: "AWS Braket" },
       ],
       technologies: ["PyTorch", "PennyLane", "AWS Braket", "Python", "NumPy"],
-      githubUrl: "https://github.com/vsingh2005",
+      githubUrl: "https://github.com/xoth42/QNN-hack",
+      devpostUrl: "https://devpost.com/software/quantum-hybrid-neural-network",
     },
     {
       id: "cloud-iac",
@@ -72,7 +73,6 @@ export function ProjectsSection() {
         { label: "Microservices", value: "6 Modules" },
       ],
       technologies: ["Terraform", "AWS (EC2/S3/IAM)", "Docker", "Linux", "Bash"],
-      githubUrl: "https://github.com/vsingh2005",
     },
     {
       id: "asme-mechatronics",
@@ -92,7 +92,6 @@ export function ProjectsSection() {
         { label: "Hardware Reliability", value: "100% Uptime" },
       ],
       technologies: ["Embedded C", "FreeRTOS", "LTSpice", "Power Electronics", "Sensors"],
-      githubUrl: "https://github.com/vsingh2005",
     },
     {
       id: "wasteless",

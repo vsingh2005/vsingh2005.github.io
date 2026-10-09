@@ -34,7 +34,7 @@ export function MiiSleepingMascot({ className = "" }: { className?: string }) {
       >
         <div className="px-3 py-1.5 rounded-2xl bg-white dark:bg-surface-darkCard border-2 border-brand-navy dark:border-brand-amber shadow-solid-sm text-[11px] font-mono font-bold text-brand-navy dark:text-white whitespace-nowrap flex items-center gap-1.5">
           <Moon className="w-3 h-3 text-brand-amber" />
-          <span>Shhh... recharging between builds ⚡</span>
+          <span>Recharging between build cycles</span>
           <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white dark:bg-surface-darkCard border-r-2 border-b-2 border-brand-navy dark:border-brand-amber rotate-45" />
         </div>
       </div>

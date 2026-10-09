@@ -19,7 +19,7 @@ export function MiiStackMascot({ className = "" }: { className?: string }) {
       <div className="mb-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-cream dark:bg-surface-dark border border-brand-amber/40 dark:border-brand-amber/30 text-[11px] font-mono font-bold text-brand-navy dark:text-brand-amber shadow-sm">
           <Sparkles className="w-3 h-3 text-brand-ember" />
-          <span>{clicked ? "Full-Stack + Silicon Ready! ⚡" : "Welcome to my stack! 🚀"}</span>
+          <span>{clicked ? "Full-Stack and Silicon Systems Ready" : "Welcome to my technical stack"}</span>
         </div>
       </div>
 

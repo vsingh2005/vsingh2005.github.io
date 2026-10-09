@@ -13,25 +13,25 @@ export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
     {
       icon: Cloud,
       tag: "AWS Cloud Scale",
-      thought: "From hardware registers to cloud scale... ☁️",
+      thought: "From hardware registers to cloud scale.",
       color: "text-brand-cobalt bg-brand-cobalt/15 border-brand-cobalt/40",
     },
     {
       icon: Atom,
       tag: "Quantum ML Circuits",
-      thought: "Variational QNodes on AWS Braket... 🌌",
+      thought: "Variational QNodes on AWS Braket simulation.",
       color: "text-purple-600 dark:text-purple-400 bg-purple-500/15 border-purple-500/40",
     },
     {
       icon: Cpu,
       tag: "Embedded Silicon & RTOS",
-      thought: "Clock jitter, registers, and bare-metal C... ⚡",
+      thought: "Clock jitter, registers, and bare-metal C systems.",
       color: "text-brand-ember bg-brand-ember/15 border-brand-ember/40",
     },
     {
       icon: BrainCircuit,
       tag: "Zero-Drift Architecture",
-      thought: "Modular Terraform & self-healing systems... 🎯",
+      thought: "Modular Terraform and self-healing cloud pipelines.",
       color: "text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 border-emerald-500/40",
     },
   ];
@@ -90,7 +90,7 @@ export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
         {/* Fixed Center Thought Bubble */}
         <div className="w-full flex justify-center text-center">
           <div className="px-3.5 py-1.5 rounded-xl bg-white/95 dark:bg-surface-dark border border-brand-navy/20 dark:border-surface-darkBorder font-mono text-xs font-semibold text-brand-navy dark:text-brand-amber shadow-sm min-h-[32px] flex items-center justify-center text-center">
-            <span>💭 &quot;{current.thought}&quot;</span>
+            <span>&quot;{current.thought}&quot;</span>
           </div>
         </div>
       </div>

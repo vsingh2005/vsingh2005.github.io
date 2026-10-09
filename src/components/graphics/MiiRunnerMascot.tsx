@@ -10,12 +10,12 @@ export function MiiRunnerMascot({ className = "" }: { className?: string }) {
   const [hovered, setHovered] = useState(false);
 
   const funQuotes = [
-    "Deploying to prod at lightspeed! 💨",
-    "Running 500+ unit tests in parallel! ⚡",
-    "Wait, who just pushed directly to main?! 🏃",
-    "Optimizing O(N²) down to O(1) in real-time! 🧠",
-    "Chasing down that race condition! 🐛",
-    "Building hardware rovers & cloud pipelines! 🚀",
+    "Deploying to production infrastructure.",
+    "Running 500+ unit tests in parallel.",
+    "Monitoring pipeline build and test cycles.",
+    "Optimizing O(N²) down to O(1) in real-time.",
+    "Isolating latency bottlenecks and edge cases.",
+    "Building mechatronics systems and cloud pipelines.",
   ];
 
   const handleClick = () => {
