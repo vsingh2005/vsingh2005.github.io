@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Cloud, Cpu, Box, Code2, Layers, Sparkles } from "lucide-react";
+import { Cloud, Cpu, Box, Code2, Layers } from "lucide-react";
 
 export function MiiHeroMascot({ className = "" }: { className?: string }) {
   const [clicked, setClicked] = useState(false);
@@ -49,14 +49,13 @@ export function MiiHeroMascot({ className = "" }: { className?: string }) {
 
     const animate = () => {
       if (!isPausedRef.current) {
-        // Smooth orbital rotation speed
+        // Smooth orbital rotation speed (~18s full orbit)
         angle += 0.007;
 
-        const isMobile = window.innerWidth < 640;
-        const radiusX = isMobile ? 105 : 124;
-        const radiusY = isMobile ? 50 : 62;
-        // Visual center offset around Mii's chest/torso
-        const centerYOffset = isMobile ? 16 : 22;
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+        const radiusX = isMobile ? 112 : 132;
+        const radiusY = isMobile ? 54 : 64;
+        const centerYOffset = isMobile ? 8 : 12;
 
         badgeRefs.current.forEach((badge, index) => {
           if (!badge) return;
@@ -71,11 +70,12 @@ export function MiiHeroMascot({ className = "" }: { className?: string }) {
           // When in top half (sin < 0), badge orbits BEHIND Mii (z-5)
           const sinVal = Math.sin(currentAngle);
           const depth = (sinVal + 1) / 2; // Range 0 to 1
-          const scale = 0.82 + depth * 0.24; // Range 0.82 to 1.06
+          const scale = 0.84 + depth * 0.22; // Range 0.84 to 1.06
           const zIndex = sinVal > 0 ? 25 : 5;
-          const opacity = 0.7 + depth * 0.3; // Range 0.7 to 1.0
+          const opacity = 0.72 + depth * 0.28; // Range 0.72 to 1.0
 
-          badge.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+          // IMPORTANT: Keep -50%, -50% center anchoring so badges orbit from their exact center!
+          badge.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) scale(${scale})`;
           badge.style.zIndex = `${zIndex}`;
           badge.style.opacity = `${opacity}`;
         });
@@ -125,8 +125,8 @@ export function MiiHeroMascot({ className = "" }: { className?: string }) {
       </div>
 
       {/* Main Orbit Stage */}
-      <div className="relative w-full max-w-[340px] h-[300px] sm:h-[330px] flex items-center justify-center overflow-visible">
-        {/* Orbiting Skill Badges */}
+      <div className="relative w-full max-w-[360px] h-[310px] sm:h-[340px] flex items-center justify-center overflow-visible">
+        {/* Orbiting Skill Badges (Centered at 50%, 50%) */}
         {floatingSkills.map((skill, idx) => {
           const Icon = skill.icon;
           return (
@@ -135,12 +135,13 @@ export function MiiHeroMascot({ className = "" }: { className?: string }) {
               ref={(el) => {
                 badgeRefs.current[idx] = el;
               }}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 will-change-transform pointer-events-auto cursor-pointer"
+              className="absolute left-1/2 top-1/2 will-change-transform pointer-events-auto cursor-pointer"
+              style={{ transform: "translate(-50%, -50%)" }}
             >
               <div
-                className={`flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-2xl bg-white/95 dark:bg-surface-darkCard border-2 border-brand-navy dark:border-surface-darkBorder shadow-solid-sm ${skill.glow} text-[10px] sm:text-[11px] font-mono font-bold text-brand-navy dark:text-gray-200 transition-all duration-200 hover:scale-110 hover:shadow-solid whitespace-nowrap`}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-white/95 dark:bg-surface-darkCard border-2 border-brand-navy dark:border-surface-darkBorder shadow-solid-sm ${skill.glow} text-[11px] font-mono font-bold text-brand-navy dark:text-gray-200 transition-all duration-200 hover:scale-110 hover:shadow-solid whitespace-nowrap`}
               >
-                <div className={`p-0.5 sm:p-1 rounded-md border ${skill.color}`}>
+                <div className={`p-1 rounded-md border ${skill.color}`}>
                   <Icon className="w-3 h-3" />
                 </div>
                 <span>{skill.name}</span>
