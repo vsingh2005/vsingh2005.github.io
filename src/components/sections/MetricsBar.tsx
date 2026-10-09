@@ -3,6 +3,7 @@
 import React from "react";
 import { Award, Zap, Users, Shield } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { MiiFlexMascot } from "@/components/graphics/MiiFlexMascot";
 
 export function MetricsBar() {
   const stats = [
@@ -39,13 +40,18 @@ export function MetricsBar() {
   return (
     <section className="py-10 border-y border-surface-lightBorder dark:border-surface-darkBorder bg-white/70 dark:bg-surface-darkCard/50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center sm:text-left mb-6">
-          <span className="text-xs font-mono uppercase tracking-widest text-brand-slate dark:text-gray-400 font-semibold">
-            Track Record &amp; Measurable Impact
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight mt-1">
-            Proven execution across hardware, cloud &amp; leadership
-          </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="text-center sm:text-left">
+            <span className="text-xs font-mono uppercase tracking-widest text-brand-slate dark:text-gray-400 font-semibold">
+              Track Record &amp; Measurable Impact
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight mt-1">
+              Proven execution across hardware, cloud &amp; leadership
+            </h2>
+          </div>
+          <div className="shrink-0 flex justify-center sm:justify-end">
+            <MiiFlexMascot />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

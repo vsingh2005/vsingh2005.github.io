@@ -117,32 +117,32 @@ export function Footer() {
             <ul className="grid grid-cols-2 gap-2 text-xs font-bold text-brand-slate dark:text-white/75">
               <li>
                 <a href="#about" className="hover:text-brand-blue transition-colors">
-                  → About
+                  About
                 </a>
               </li>
               <li>
                 <a href="#skills" className="hover:text-brand-blue transition-colors">
-                  → Skills
+                  Skills
                 </a>
               </li>
               <li>
                 <a href="#projects" className="hover:text-brand-blue transition-colors">
-                  → Projects
+                  Projects
                 </a>
               </li>
               <li>
                 <a href="#contact" className="hover:text-brand-blue transition-colors">
-                  → Contact
+                  Contact
                 </a>
               </li>
               <li>
                 <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-brand-blue transition-colors">
-                  → Resume (PDF)
+                  Resume (PDF)
                 </a>
               </li>
               <li>
                 <a href="/portfolio.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-brand-blue transition-colors">
-                  → Portfolio (PDF)
+                  Portfolio (PDF)
                 </a>
               </li>
             </ul>

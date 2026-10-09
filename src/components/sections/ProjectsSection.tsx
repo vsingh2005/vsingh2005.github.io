@@ -135,9 +135,9 @@ export function ProjectsSection() {
             </p>
           </div>
 
-          {/* Interactive Speed Runner Easter Egg */}
-          <div className="w-full lg:max-w-md">
-            <MiiRunnerMascot className="w-full" />
+          {/* Interactive Speed Runner Mascot */}
+          <div className="shrink-0 flex justify-center sm:justify-end">
+            <MiiRunnerMascot />
           </div>
         </div>
 

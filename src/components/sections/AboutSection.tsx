@@ -3,6 +3,7 @@
 import React from "react";
 import { Cpu, Cloud, BrainCircuit, HeartHandshake, Compass, BookOpen } from "lucide-react";
 import { EDUCATIONS, PERSONAL_INFO } from "@/data/portfolioData";
+import { MiiLookingUpMascot } from "@/components/graphics/MiiLookingUpMascot";
 
 export function AboutSection() {
   const philosophies = [
@@ -29,18 +30,24 @@ export function AboutSection() {
   return (
     <section id="about" className="py-16 sm:py-24 scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
-        {/* Section Header */}
-        <div className="space-y-3 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-ember/10 border border-brand-ember/30 text-xs font-mono font-bold text-brand-ember">
-            <Compass className="w-3.5 h-3.5" />
-            <span>Story &amp; Philosophy</span>
+        {/* Section Header with Looking Up Mascot */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-ember/10 border border-brand-ember/30 text-xs font-mono font-bold text-brand-ember">
+              <Compass className="w-3.5 h-3.5" />
+              <span>Story &amp; Philosophy</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
+              From embedded silicon to cloud orchestration.
+            </h2>
+            <p className="text-base text-brand-slate dark:text-gray-300 leading-relaxed font-normal">
+              A dual-perspective engineer combining the rigorous hardware discipline of Computer Engineering with the scalable systems architecture of Business Analytics.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
-            From embedded silicon to cloud orchestration.
-          </h2>
-          <p className="text-base text-brand-slate dark:text-gray-300 leading-relaxed font-normal">
-            A dual-perspective engineer combining the rigorous hardware discipline of Computer Engineering with the scalable systems architecture of Business Analytics.
-          </p>
+
+          <div className="w-full lg:max-w-md shrink-0">
+            <MiiLookingUpMascot />
+          </div>
         </div>
 
         {/* Story Narrative & Education Split */}
