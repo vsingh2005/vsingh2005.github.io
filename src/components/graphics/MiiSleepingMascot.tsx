@@ -41,8 +41,6 @@ export function MiiSleepingMascot({ className = "" }: { className?: string }) {
 
       {/* Sleeping Character lying flat on border ledge */}
       <div className="relative w-44 sm:w-56 h-20 sm:h-24 flex items-end justify-center">
-        {/* Subtle glow / shadow */}
-        <div className="absolute bottom-0 inset-x-4 h-3 bg-brand-navy/10 dark:bg-black/40 blur-xs rounded-full" />
 
         <div className="relative w-full h-full flex items-end justify-center transition-transform duration-300 hover:scale-105 cursor-pointer">
           <Image

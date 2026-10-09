@@ -2,15 +2,12 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Cloud, Cpu, BrainCircuit, Sparkles, Lightbulb, Zap, Atom } from "lucide-react";
+import { Cloud, Cpu, BrainCircuit, Sparkles, Atom } from "lucide-react";
 
 export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
   const [thoughtIndex, setThoughtIndex] = useState(0);
   const [isPondering, setIsPondering] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [shiftIndex, setShiftIndex] = useState(0);
-
-  const horizontalShifts = [0, -16, 16, -10, 12, 0];
 
   const concepts = [
     {
@@ -41,13 +38,11 @@ export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
 
   const current = concepts[thoughtIndex];
   const CurrentIcon = current.icon;
-  const currentShift = horizontalShifts[shiftIndex];
 
   const handleClick = () => {
     setIsPondering(true);
     setThoughtIndex((prev) => (prev + 1) % concepts.length);
-    setShiftIndex((prev) => (prev + 1) % horizontalShifts.length);
-    setTimeout(() => setIsPondering(false), 500);
+    setTimeout(() => setIsPondering(false), 400);
   };
 
   return (
@@ -56,7 +51,7 @@ export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
       onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      title="Click to pace and change thoughts!"
+      title="Click to cycle thoughts!"
     >
       {/* 1. What the Mii is looking up at: Floating Glowing Idea / Cloud Object */}
       <div className="relative mb-3 flex flex-col items-center z-20">
@@ -98,34 +93,21 @@ export function MiiLookingUpMascot({ className = "" }: { className?: string }) {
         </div>
       </div>
 
-      {/* 2. Large Looking Up Mii Avatar with Horizontal Shift on Click */}
+      {/* 2. Large Looking Up Mii Avatar - Stationary in Place */}
       <div className="relative w-48 h-56 sm:w-56 sm:h-64 flex items-center justify-center">
         {/* Ambient Halo Glow */}
         <div className="absolute w-44 h-44 rounded-full bg-brand-cobalt/15 dark:bg-brand-blue/15 blur-2xl -z-10 pointer-events-none" />
 
-        {/* Character Image (Paces horizontally on each click) */}
-        <div
-          className="relative z-10 w-full h-full transition-transform duration-500 ease-out"
-          style={{
-            transform: `translateX(${currentShift}px) translateY(${
-              isPondering ? -4 : hovered ? -2 : 0
-            }px) scale(${hovered ? 1.04 : 1})`,
-          }}
-        >
+        {/* Character Image (Stationary in place) */}
+        <div className="relative z-10 w-full h-full">
           <Image
             src="/images/mii-looking-up.png"
-            alt="Vansh Mii Avatar Looking Up & Pacing"
+            alt="Vansh Mii Avatar Looking Up & Contemplating Architecture"
             width={280}
             height={320}
             className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.22)] dark:drop-shadow-[0_10px_24px_rgba(0,0,0,0.65)]"
           />
         </div>
-
-        {/* Ground Shadow tracks horizontal shift */}
-        <div
-          className="absolute bottom-1 inset-x-8 h-3 bg-brand-navy/15 dark:bg-black/40 rounded-full blur-xs transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(${currentShift}px)` }}
-        />
       </div>
     </div>
   );

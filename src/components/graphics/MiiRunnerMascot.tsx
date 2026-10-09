@@ -81,9 +81,6 @@ export function MiiRunnerMascot({ className = "" }: { className?: string }) {
             className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_10px_24px_rgba(0,0,0,0.7)]"
           />
         </div>
-
-        {/* Dust Clouds at Ground level on the right */}
-        <div className="absolute bottom-2 right-6 w-10 h-3 rounded-full bg-brand-amber/30 dark:bg-white/20 blur-xs" />
       </div>
     </div>
   );

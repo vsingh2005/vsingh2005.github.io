@@ -57,9 +57,6 @@ export function MiiFlexMascot({ className = "" }: { className?: string }) {
             className="w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_8px_20px_rgba(0,0,0,0.65)]"
           />
         </div>
-
-        {/* Ground Shadow Base */}
-        <div className="absolute bottom-1 inset-x-6 h-2.5 bg-brand-navy/15 dark:bg-black/35 rounded-full blur-xs" />
       </div>
     </div>
   );

@@ -46,9 +46,6 @@ export function MiiStackMascot({ className = "" }: { className?: string }) {
             className="w-full h-full object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
           />
         </div>
-
-        {/* Shadow base */}
-        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-36 h-4 rounded-full bg-brand-navy/15 dark:bg-black/40 blur-sm -z-10" />
       </div>
     </div>
   );
