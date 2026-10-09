@@ -85,7 +85,7 @@ export const PERSONAL_INFO = {
   locations: ["Chicago, IL", "Amherst, MA"],
   resumePdf: "/resume.pdf",
   portfolioPdf: "/portfolio.pdf",
-  status: "Open to Cloud Infrastructure, Systems & Embedded Roles | May 2026 / 2027 Grad",
+  status: "Open to Cloud Infrastructure, Systems & Embedded Roles | May 2027 Grad",
   recruiterBrief: {
     targetRoles: [
       "Cloud & Infrastructure Engineer (AWS / Terraform)",
@@ -93,7 +93,7 @@ export const PERSONAL_INFO = {
       "Robotics & Mechatronics Systems Engineer",
       "Applied Data & Analytics Systems Engineer",
     ],
-    availability: "Available for Summer/Fall 2026 Internships & May 2026/2027 Full-Time",
+    availability: "Available for Spring 2027 Internships & May 2027 Full-Time",
     workAuth: "US Work Authorized (No Sponsorship Required)",
     relocation: "Chicago, IL | Boston / Amherst, MA | Open to Relocation across US & Remote",
     coreStack: [

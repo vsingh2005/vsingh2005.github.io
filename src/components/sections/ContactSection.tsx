@@ -75,7 +75,7 @@ export function ContactSection() {
                 Let&apos;s build scalable systems together.
               </h2>
               <p className="text-sm sm:text-base text-brand-slate dark:text-gray-300 leading-relaxed font-normal">
-                I am actively considering opportunities in Cloud Infrastructure, Embedded Software, and Systems Engineering for May 2026/2027 graduation and Summer/Fall 2026 internships.
+                I am actively considering opportunities in Cloud Infrastructure, Embedded Software, and Systems Engineering for Spring 2027 internships and May 2027 full-time roles.
               </p>
             </div>
 

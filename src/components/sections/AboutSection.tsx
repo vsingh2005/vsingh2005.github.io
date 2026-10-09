@@ -82,7 +82,7 @@ export function AboutSection() {
                 🎓 BS CompE &apos;26 • MSBA &apos;27
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-brand-lightLime text-brand-navy border border-brand-lime font-bold">
-                ✓ Available Summer/Fall 2026 &amp; Full-Time
+                ✓ Available Spring 2027 &amp; May 2027 Full-Time
               </span>
             </div>
           </div>
