@@ -226,7 +226,185 @@ export const EXPERIENCES: Experience[] = [
   }
 ];
 
+export const INDUSTRY_PROJECTS: ProjectCaseStudy[] = [
+  {
+    "id": "equipment-maintenance-planner",
+    "slug": "equipment-maintenance-planner",
+    "title": "Equipment Maintenance Planner",
+    "subtitle": "Manufacturing maintenance software - in development",
+    "category": "Cloud & Systems",
+    "period": "Nov 2026 - Present",
+    "featured": true,
+    "summary": "Plan equipment inspections, repairs, parts, and downtime in one workspace. The current release is a local prototype with validated equipment records; additional workflows are planned.",
+    "role": "Developer",
+    "technologies": [
+      "Python",
+      "SQLite",
+      "HTTP/JSON APIs",
+      "Pytest",
+      "GitHub Actions"
+    ],
+    "metrics": [
+      {
+        "label": "Status",
+        "value": "In development",
+        "description": "Foundation released; additional workflows are planned"
+      },
+      {
+        "label": "Storage",
+        "value": "SQLite",
+        "description": "Persistent local records and audit history"
+      },
+      {
+        "label": "Interface",
+        "value": "HTTP API",
+        "description": "Local development API with JSON responses"
+      }
+    ],
+    "problem": "Maintenance teams need a consistent record of equipment condition and repair work instead of scattered spreadsheets and notes.",
+    "architecture": {
+      "title": "Validated records and persistent storage",
+      "description": "A Python HTTP API stores equipment records in SQLite, validates incoming data, records create/update audit events, and rejects stale record versions.",
+      "points": [
+        "Required fields and allowed values are validated before storage.",
+        "Version checks reject conflicting updates.",
+        "Automated tests exercise record validation and persistence.",
+        "The prototype binds to localhost and uses synthetic demo data."
+      ]
+    },
+    "keyFeatures": [
+      "Current: persistent equipment records and JSON endpoints.",
+      "Current: input validation, audit history, and update version checks.",
+      "Planned: Inspections, work orders, spare parts, and downtime reporting."
+    ],
+    "results": [
+      "Foundation code is published and its validation tests pass.",
+      "The application is in development; hosted deployment and production use are not claimed."
+    ],
+    "links": {
+      "github": "https://github.com/vsingh2005/Equipment-Maintenance-Planner"
+    }
+  },
+  {
+    "id": "delivery-dispatch-tracking",
+    "slug": "delivery-dispatch-tracking",
+    "title": "Delivery Dispatch & Tracking",
+    "subtitle": "Logistics operations software - in development",
+    "category": "Cloud & Systems",
+    "period": "Nov 2026 - Present",
+    "featured": true,
+    "summary": "Coordinate delivery assignments, progress updates, and delivery exceptions. The current release is a local prototype with validated delivery records; additional workflows are planned.",
+    "role": "Developer",
+    "technologies": [
+      "Python",
+      "SQLite",
+      "HTTP/JSON APIs",
+      "Pytest",
+      "GitHub Actions"
+    ],
+    "metrics": [
+      {
+        "label": "Status",
+        "value": "In development",
+        "description": "Foundation released; additional workflows are planned"
+      },
+      {
+        "label": "Storage",
+        "value": "SQLite",
+        "description": "Persistent local records and audit history"
+      },
+      {
+        "label": "Interface",
+        "value": "HTTP API",
+        "description": "Local development API with JSON responses"
+      }
+    ],
+    "problem": "Dispatchers need delivery records that remain consistent as assignments, status updates, and exceptions change throughout the day.",
+    "architecture": {
+      "title": "Validated records and persistent storage",
+      "description": "A Python HTTP API stores delivery records in SQLite, validates incoming data, records create/update audit events, and rejects stale record versions.",
+      "points": [
+        "Required fields and allowed values are validated before storage.",
+        "Version checks reject conflicting updates.",
+        "Automated tests exercise record validation and persistence.",
+        "The prototype binds to localhost and uses synthetic demo data."
+      ]
+    },
+    "keyFeatures": [
+      "Current: persistent delivery records and JSON endpoints.",
+      "Current: input validation, audit history, and update version checks.",
+      "Planned: Driver assignments, delivery events, failed deliveries, and proof of delivery."
+    ],
+    "results": [
+      "Foundation code is published and its validation tests pass.",
+      "The application is in development; hosted deployment and production use are not claimed."
+    ],
+    "links": {
+      "github": "https://github.com/vsingh2005/Delivery-Dispatch-Tracking"
+    }
+  },
+  {
+    "id": "product-catalog-search",
+    "slug": "product-catalog-search",
+    "title": "Product Catalog & Search",
+    "subtitle": "Retail catalog software - in development",
+    "category": "Cloud & Systems",
+    "period": "Nov 2026 - Present",
+    "featured": true,
+    "summary": "Organize product records and build toward supplier imports and searchable catalogs. The current release is a local prototype with validated product records; additional workflows are planned.",
+    "role": "Developer",
+    "technologies": [
+      "Python",
+      "SQLite",
+      "HTTP/JSON APIs",
+      "Pytest",
+      "GitHub Actions"
+    ],
+    "metrics": [
+      {
+        "label": "Status",
+        "value": "In development",
+        "description": "Foundation released; additional workflows are planned"
+      },
+      {
+        "label": "Storage",
+        "value": "SQLite",
+        "description": "Persistent local records and audit history"
+      },
+      {
+        "label": "Interface",
+        "value": "HTTP API",
+        "description": "Local development API with JSON responses"
+      }
+    ],
+    "problem": "Retail catalogs need consistent product information before supplier imports, variants, inventory records, and search can work reliably.",
+    "architecture": {
+      "title": "Validated records and persistent storage",
+      "description": "A Python HTTP API stores product records in SQLite, validates incoming data, records create/update audit events, and rejects stale record versions.",
+      "points": [
+        "Required fields and allowed values are validated before storage.",
+        "Version checks reject conflicting updates.",
+        "Automated tests exercise record validation and persistence.",
+        "The prototype binds to localhost and uses synthetic demo data."
+      ]
+    },
+    "keyFeatures": [
+      "Current: persistent product records and JSON endpoints.",
+      "Current: input validation, audit history, and update version checks.",
+      "Planned: Supplier imports, product variants, inventory records, and text search."
+    ],
+    "results": [
+      "Foundation code is published and its validation tests pass.",
+      "The application is in development; hosted deployment and production use are not claimed."
+    ],
+    "links": {
+      "github": "https://github.com/vsingh2005/Product-Catalog-Search"
+    }
+  }
+];
+
 export const PROJECTS: ProjectCaseStudy[] = [
+  ...INDUSTRY_PROJECTS,
   {
     id: "quantum-hybrid-nn",
     slug: "quantum-hybrid-nn",

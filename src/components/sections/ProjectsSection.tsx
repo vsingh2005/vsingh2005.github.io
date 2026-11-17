@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { INDUSTRY_PROJECTS } from "@/data/portfolioData";
 import {
   Layers,
   Github,
@@ -34,6 +35,19 @@ interface StarProject {
 
 export function ProjectsSection() {
   const projects: StarProject[] = [
+    ...INDUSTRY_PROJECTS.map((project) => ({
+      id: project.id,
+      title: project.title,
+      subtitle: project.subtitle,
+      category: project.category,
+      badge: "In development",
+      situationTask: project.problem,
+      action: project.architecture.description,
+      result: project.results.join(" "),
+      metrics: project.metrics.map(({ label, value }) => ({ label, value })),
+      technologies: project.technologies,
+      githubUrl: project.links.github,
+    })),
     {
       id: "quantum-nn",
       title: "Quantum-Classical Hybrid Neural Network",
@@ -124,13 +138,13 @@ export function ProjectsSection() {
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-coral/15 border border-brand-coral/40 text-xs font-mono font-bold text-brand-coral">
               <Layers className="w-3.5 h-3.5" />
-              <span>Case Studies (STAR Framework)</span>
+              <span>Current Projects & Selected Work</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-brand-navy dark:text-white tracking-tight">
-              Featured engineering case studies
+              Industry applications & engineering projects
             </h2>
             <p className="text-base text-brand-slate dark:text-gray-300 leading-relaxed font-normal">
-              Detailed breakdowns using the Situation, Task, Action, and Result (STAR) framework with verifiable code and quantifiable outcomes.
+              Manufacturing, logistics, and retail applications in development, alongside research, cloud, and embedded projects. Each current project links to its source code and states its released scope.
             </p>
           </div>
 
@@ -197,7 +211,7 @@ export function ProjectsSection() {
                 <div className="p-3 rounded-2xl bg-brand-cream/80 dark:bg-brand-charcoal/80 border border-brand-amber/40 dark:border-brand-cobalt/30 space-y-1">
                   <span className="font-mono font-bold text-brand-navy dark:text-brand-amber uppercase tracking-wider text-[11px] block flex items-center gap-1">
                     <TrendingUp className="w-3.5 h-3.5" />
-                    <span>[Quantified Impact / Result]</span>
+                    <span>[Current Scope / Result]</span>
                   </span>
                   <p className="text-brand-navy dark:text-gray-200 font-medium">
                     {proj.result}
@@ -262,7 +276,7 @@ export function ProjectsSection() {
                   </div>
 
                   <span className="text-xs font-mono text-brand-blue font-bold flex items-center gap-1">
-                    <span>STAR Verified</span>
+                    <span>{proj.badge === "In development" ? "In development" : "Project details"}</span>
                     <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue" />
                   </span>
                 </div>

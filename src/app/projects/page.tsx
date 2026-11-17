@@ -40,7 +40,7 @@ export default function ProjectsPage() {
           <span className="text-gradient-cyan">Research Systems</span>
         </h1>
         <p className="text-text-secondary text-base sm:text-lg leading-relaxed">
-          Comprehensive case studies spanning quantum machine learning variational circuits, global robotics competitions, renewable energy simulations, and enterprise cloud IaC.
+          Current applications for manufacturing maintenance, delivery operations, and retail catalogs, alongside quantum ML, robotics, and cloud engineering work. Projects in development distinguish released features from planned work.
         </p>
       </div>
 
